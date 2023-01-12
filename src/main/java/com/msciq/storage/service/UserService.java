@@ -6,6 +6,9 @@ import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
+import com.msciq.storage.model.response.SuccessResponse;
+import com.msciq.storage.model.response.UserViewResponse;
+
 
 import java.util.List;
 
@@ -56,9 +59,8 @@ public interface UserService {
      * This method is used to fetch the list of Users from default Namespace
      *
      * @return List of Users with details
-     *
      */
-    List<User> getListofUsers();
+    List<UserViewResponse> getListofUsers();
 
     /**
      * This method is used to sign up user into

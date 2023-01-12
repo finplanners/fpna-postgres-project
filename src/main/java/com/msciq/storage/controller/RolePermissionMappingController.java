@@ -3,6 +3,7 @@ package com.msciq.storage.controller;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.model.RolePermissionMapping;
+import com.msciq.storage.model.response.RolePermissionViewResponse;
 import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.service.RolePermissionMappingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rolePermMap")
-@Validated
+//@Validated
 public class RolePermissionMappingController {
     @Autowired
     private RolePermissionMappingService rolePermissionMappingService;
@@ -57,5 +58,11 @@ public class RolePermissionMappingController {
      * @return ResponseEntity with all the rolePermissionMappings
      *
      */
+    @GetMapping("/role-permission")
+    public SuccessResponse<List<RolePermissionViewResponse>> getAllRolePermission(@RequestParam boolean status) {
+        List<RolePermissionViewResponse> rolePermissionMappingList = rolePermissionMappingService.getAllRolePermission(status);
+        return new SuccessResponse<List<RolePermissionViewResponse>>(String.format(SuccessMessage.SUCCESS, Constants.ROLE_PERMISSION)
+                , rolePermissionMappingList, null, HttpStatus.OK);
+    }
 
 }

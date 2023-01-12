@@ -48,6 +48,7 @@ public class User {
 
     @NotNull(message = "Email is mandatory")
     @Email(message = "Email is invalid")
+    @Column(unique = true)
     private String email;
 
     private String phoneNumber;
@@ -58,10 +59,8 @@ public class User {
 
     private String userType;
 
-    @JsonIgnore
     private boolean isActive;
 
-    @JsonIgnore
     private boolean isVerified;
 
     @Column(name = FieldConstants.CREATED_BY, updatable = false, nullable = false)

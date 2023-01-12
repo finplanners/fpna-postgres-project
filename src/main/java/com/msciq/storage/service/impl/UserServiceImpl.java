@@ -8,6 +8,8 @@ import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
+import com.msciq.storage.model.response.SuccessResponse;
+import com.msciq.storage.model.response.UserViewResponse;
 import com.msciq.storage.repository.RolePermissionMappingRepository;
 import com.msciq.storage.repository.UserRepository;
 import com.msciq.storage.repository.UserRoleMappingRepository;
@@ -29,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -78,8 +81,25 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<User> getListofUsers() {
-       return userRepository.findAll();
+    public List<UserViewResponse> getListofUsers()  {
+        List<User> users = userRepository.findAll();
+        List<UserViewResponse> userViewResponses = new ArrayList<>();
+        for (User user : users)
+        {
+            UserViewResponse userViewResponse =  new UserViewResponse();
+            List<UserRoleMapping> userRoleMappings = userRoleMappingRepository.getAllRoleByUserId(user.getId());
+            Set<String> userRoles =  userRoleMappings.stream().filter(v->!v.isDeleted() && v.isActive()).map(p->p.getRoleName()).collect(Collectors.toSet());
+            userViewResponse.setUserRoles(userRoles);
+            userViewResponse.setEmail(user.getEmail());
+            userViewResponse.setFirstName(user.getFirstName());
+            userViewResponse.setLastName(user.getLastName());
+            userViewResponse.setActive(user.isActive());
+            userViewResponse.setPhoneNumber(user.getPhoneNumber());
+            userViewResponse.setId(user.getId());
+            userViewResponse.setOrganizationName(user.getOrganizationName());
+            userViewResponses.add(userViewResponse);
+        }
+        return userViewResponses;
     }
     public User updateUser(User user) {
         Optional<User> userFromDb = userRepository.findById(user.getId());
@@ -143,7 +163,7 @@ public class UserServiceImpl implements UserService {
                 User userCreated =  userRepository.save(user);
 
                      userRoleMappings.add(UserRoleMapping.builder()
-                            .userId(userCreated.getId().toString())
+                            .userId(userCreated.getId())
                             .roleName(Constants.SIGN_UP_USER_DEFAULT_TYPE)
                             .build());
 
@@ -211,43 +231,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDTO inviteUsers(String orgName, List<UserDTO> users) {
-        List<UserRoleMapping> userRoleMappings = new ArrayList<>();
-        List<User> usersToBeCreated = new ArrayList<>();
         try {
             for (UserDTO user : users) {
                 User newUser = new User();
                 RestTemplate restTemplate = new RestTemplate();
                 user.setPassword("default");
-                String url = Constants.FIREBASE_BASE_URL + "signUp?key=" + Constants.FIREBASE_API_KEY;
-                User response = restTemplate.postForObject(url, user, User.class);
-                LoginDTO loginDTO = new LoginDTO();
-                loginDTO.setEmail(user.getEmail());
                 newUser.setEmail(user.getEmail());
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
-                newUser.setActive(true);
-                newUser.setVerified(true);
+                newUser.setActive(false);
+                newUser.setVerified(false);
                 newUser.setPassword(Base64.getEncoder()
                         .encodeToString(user.getPassword().getBytes()));
-                usersToBeCreated.add(newUser);
-                User userCreated = userRepository.save(newUser);
-                log.info("userid -> " + userCreated.getId() + " -- ", userCreated.getId().toString());
-                log.info("roles -> " + user.getRoles().size());
-                Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
-                for (String role: user.getRoles()) {
-                    userRoleMappings.add(UserRoleMapping.builder()
-                                    .userId(userCreated.getId().toString())
-                                    .roleName(role)
-                                    .build());
-                    Map<String, Set<Actions>>  permissionObject = rolePermissionMappingService.userClaimData(role);
-                    claimsData.put(role,permissionObject);
-                }
-                userRoleMappingRepository.saveAll(userRoleMappings);
-                userManagementService.setTokenClaims(user.getEmail(), claimsData);
+                newUser.setUserType(user.getRoles().toString());
+                newUser.setOrganizationName(orgName);
+                newUser.setCreatedBy("Admin");
 
-            }
-            for (User user: usersToBeCreated) {
-                sendMailToOrganization(user);
+                User userCreated = userRepository.save(newUser);
+
+                List<UserRoleMapping> userRoleMappings = new ArrayList<>();
+                Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                for (String role : user.getRoles()) {
+                    userRoleMappings.add(UserRoleMapping.builder()
+                            .userId(userCreated.getId())
+                            .roleName(role)
+                            .build());
+                    Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
+                    claimsData.put(role, permissionObject);
+                    userRoleMappingRepository.saveAll(userRoleMappings);
+                    sendMailToOrganization(userCreated);
+                }
             }
             return ResponseDTO.builder()
                     .message(String.format(SuccessMessage.SUCCESSFULLY_SAVED, "users"))
