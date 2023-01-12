@@ -1,6 +1,7 @@
 package com.msciq.storage.service;
 
 import com.msciq.storage.model.RolePermissionMapping;
+import com.msciq.storage.model.response.RolePermissionViewResponse;
 import com.msciq.storage.security.Actions;
 
 import java.util.List;
@@ -28,5 +29,7 @@ public interface RolePermissionMappingService {
     public List<RolePermissionMapping> getRolePermissionMappings();
 
     public Map<String, Set<Actions>>  userClaimData(String roleName);
+
+    public List<RolePermissionViewResponse> getAllRolePermission(boolean status);
 
 }

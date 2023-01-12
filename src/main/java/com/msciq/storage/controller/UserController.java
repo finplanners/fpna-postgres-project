@@ -10,6 +10,7 @@ import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
 import com.msciq.storage.model.response.SuccessResponse;
+import com.msciq.storage.model.response.UserViewResponse;
 import com.msciq.storage.service.UserService;
 import com.msciq.storage.service.impl.GCPStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/fpa")
@@ -71,7 +73,7 @@ public class UserController {
      * @return List of Users will be returned
      */
     @GetMapping("/get/user")
-    public List<User> getUser() {
+    public List<UserViewResponse> getUser() {
         return userService.getListofUsers();
     }
 

@@ -75,7 +75,7 @@ public class JwtUtil {
         User userFromDb = userRepository.findByEmail(email);
         Map<String,Map<String,Object>> claimsData = new HashMap<>();
         Map<String, Object> permissionObject = new HashMap<>();
-        List<RolePermissionMapping> rolePermissionMappings =rolePermissionMappingRepository.getAllRolePermissionMappingByRoleName(userFromDb.getUserType());
+        List<RolePermissionMapping> rolePermissionMappings =rolePermissionMappingRepository.getAllRolePermissionMappingByRoleName(userFromDb.getUserType(),true);
         for (RolePermissionMapping rolePermissionMapping: rolePermissionMappings) {
             Set<Actions> actions = new HashSet<>();
             Map<String,Object> permission = new HashMap<>();

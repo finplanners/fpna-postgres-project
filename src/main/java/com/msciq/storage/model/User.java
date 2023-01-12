@@ -56,10 +56,8 @@ public class User {
 
     private String userType;
 
-    @JsonIgnore
     private boolean isActive;
 
-    @JsonIgnore
     private boolean isVerified;
 
     @Column(name = FieldConstants.CREATED_BY, updatable = false, nullable = false)

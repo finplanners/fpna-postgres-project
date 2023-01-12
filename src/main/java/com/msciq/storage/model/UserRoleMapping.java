@@ -21,7 +21,7 @@ public class UserRoleMapping extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String userId;
+    private Long userId;
 
     private String roleName;
 }

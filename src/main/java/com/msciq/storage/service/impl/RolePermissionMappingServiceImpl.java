@@ -1,6 +1,8 @@
 package com.msciq.storage.service.impl;
 
+import com.msciq.storage.model.Role;
 import com.msciq.storage.model.RolePermissionMapping;
+import com.msciq.storage.model.response.RolePermissionViewResponse;
 import com.msciq.storage.repository.PermissionRepository;
 import com.msciq.storage.repository.RolePermissionMappingRepository;
 import com.msciq.storage.repository.RoleRepository;
@@ -39,10 +41,11 @@ public class RolePermissionMappingServiceImpl implements RolePermissionMappingSe
 
         try{
             log.info(" user claim service start "+roleName);
-            List<RolePermissionMapping> rolePermissionMappings = rolePermissionMappingRepository.getAllRolePermissionMappingByRoleName(roleName);
+            List<RolePermissionMapping> rolePermissionMappings = rolePermissionMappingRepository.getAllRolePermissionMappingByRoleName(roleName,true);
             log.info("role permission object size "+String.valueOf(rolePermissionMappings.size()));
             for (RolePermissionMapping rolePermissionMapping : rolePermissionMappings) {
                 Set<Actions> actions = new HashSet<>();
+                Map<String,Object> actionControlData = new HashMap<>();
                 if(rolePermissionMapping.isCreate())
                     actions.add(Actions.CREATE);
                 if(rolePermissionMapping.isRead())
@@ -52,6 +55,7 @@ public class RolePermissionMappingServiceImpl implements RolePermissionMappingSe
                 if(rolePermissionMapping.isDelete())
                     actions.add(Actions.DELETE);
 
+
                 permissionObject.put(rolePermissionMapping.getPermissionObject(),actions);
             }
              return permissionObject;
@@ -59,5 +63,19 @@ public class RolePermissionMappingServiceImpl implements RolePermissionMappingSe
             log.error(e.getMessage());
             return permissionObject;
         }
+    }
+    public List<RolePermissionViewResponse> getAllRolePermission(boolean status){
+        List<Role> roles = roleRepository.getAllRoles(status);
+        List<RolePermissionViewResponse> rolePermissionViewResponses = new ArrayList<>();
+        for(Role role : roles){
+            RolePermissionViewResponse rolePermissionViewResponse = new RolePermissionViewResponse();
+            List<RolePermissionMapping> rolePermissionMappings = rolePermissionMappingRepository.getAllRolePermissionMappingByRoleName(role.getName(),status);
+            rolePermissionViewResponse.setRolePermission(rolePermissionMappings);
+            rolePermissionViewResponse.setName(role.getName());
+            rolePermissionViewResponse.setDescription(role.getDescription());
+            rolePermissionViewResponses.add(rolePermissionViewResponse);
+
+        }
+        return rolePermissionViewResponses;
     }
 }
