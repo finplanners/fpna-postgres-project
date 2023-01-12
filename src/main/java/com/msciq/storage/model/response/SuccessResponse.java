@@ -19,7 +19,7 @@ public class SuccessResponse<T> extends ResponseEntity<Object> {
 
 	public SuccessResponse(String message, Object entity, List<T> entityList,
 						   HttpStatus httpStatus) {
-		super(new SuccessResponseMessage<T>(Boolean.TRUE, message, entity, entityList,
+		super(new SuccessResponseMessage<T>(message, entity,
 				Integer.valueOf(httpStatus.value())), httpStatus);
 	}
 

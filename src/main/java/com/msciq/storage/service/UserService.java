@@ -53,7 +53,7 @@ public interface UserService {
      * @return Successfull or failure message based on the result
      *
      */
-    String removeUser(Long id);
+    String removeUser(List<Long> id);
 
     /**
      * This method is used to fetch the list of Users from default Namespace

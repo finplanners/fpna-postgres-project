@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDTO createUser(User user) {
         try {
             user.setActive(true);
+            user.setStatus("Active");
             user.setVerified(true);
             User userCreated = (User) userRepository.save(user);
             return ResponseDTO.builder()
@@ -112,10 +113,11 @@ public class UserServiceImpl implements UserService {
         return (User) userRepository.save(userModified);
     }
 
-    public String removeUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        user.get().setActive(false);
-        userRepository.save(user.get());
+    public String removeUser(List<Long> ids) {
+        List<User> user = userRepository.findByIdIn(ids);
+        User userTobeDeleted = user.get(0);
+        userTobeDeleted.setDeleted(true);
+        userRepository.save(userTobeDeleted);
         return user +" is successfully deleted";
     }
 
@@ -157,6 +159,7 @@ public class UserServiceImpl implements UserService {
                 loginDTO.setPassword(user.getPassword());
                 user.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
                 user.setActive(true);
+                user.setStatus("Active");
                 user.setVerified(true);
                 user.setPassword(Base64.getEncoder()
                         .encodeToString(user.getPassword().getBytes()));
@@ -235,6 +238,7 @@ public class UserServiceImpl implements UserService {
                 userPasswordToReset.setPassword(Base64.getEncoder()
                         .encodeToString(resetPassword.getBytes()));
                 userPasswordToReset.setActive(true);
+                userPasswordToReset.setStatus("Active");
                 userPasswordToReset.setVerified(true);
                 // added user details in Postgres
                 userRepository.save(userPasswordToReset);
@@ -268,12 +272,12 @@ public class UserServiceImpl implements UserService {
                     return response;
                 } else {
                     response.setError(true);
-                    response.setMessage("Email or Password does not match");
+                    response.setMessage(ErrorMessage.INVALID_CREDENTIALS);
                     return response;
                 }
             }else{
                 response.setError(true);
-                response.setMessage("Email does not exists");
+                response.setMessage(ErrorMessage.INVALID_CREDENTIALS);
                 return response;
             }
 
@@ -290,16 +294,15 @@ public class UserServiceImpl implements UserService {
         try {
             for (UserDTO user : users) {
                 User newUser = new User();
-                //RestTemplate restTemplate = new RestTemplate();
                 newUser.setEmail(user.getEmail());
-                newUser.setPassword("DEFAULT");
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
+                newUser.setPhoneNumber(user.getPhoneNumber());
                 newUser.setActive(false);
                 newUser.setVerified(false);
                 newUser.setUserType(user.getRoles().toString());
                 newUser.setOrganizationName(orgName);
-                newUser.setCreatedBy("Admin");
+                newUser.setCreatedBy(Long.valueOf(1));
 
                 User userCreated = userRepository.save(newUser);
 

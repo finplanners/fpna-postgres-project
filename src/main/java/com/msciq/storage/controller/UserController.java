@@ -70,8 +70,13 @@ public class UserController {
      * @return List of Users will be returned
      */
     @GetMapping("/get/user")
-    public List<UserViewResponse> getUser() {
-        return userService.getListofUsers();
+    public SuccessResponse<List<UserViewResponse>> getUser() {
+        List<UserViewResponse> userViewResponses = userService.getListofUsers();
+            return new SuccessResponse<List<UserViewResponse>>
+                    (SuccessMessage.SUCCESS,
+                            userViewResponses,
+                            null,
+                            HttpStatus.OK);
     }
 
     /**
@@ -89,12 +94,12 @@ public class UserController {
     /**
      * This method is used to remove the given user
      *
-     * @param id - id of the user
+     * @param ids - ids of the users to be deleted
      * @return
      */
-    @PutMapping("/user/delete/{id}")
-    public String removeUser(@PathVariable Long id) {
-        return userService.removeUser(id);
+    @PutMapping("/user/delete")
+    public String removeUser(@RequestBody List<Long> ids) {
+        return userService.removeUser(ids);
     }
 
     /**
