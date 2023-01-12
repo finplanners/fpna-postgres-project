@@ -32,7 +32,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         if (httpServletRequest.getRequestURI().contains("/fpa/user/sign-up") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password-email") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password")
                 || httpServletRequest.getRequestURI().contains("/fpa/organization/create")
-                || httpServletRequest.getRequestURI().contains("/fpa/user/login")){
+                || httpServletRequest.getRequestURI().contains("/fpa/user/login")
+                || httpServletRequest.getRequestURI().contains("fpa/user/forgot-password-email")){
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null, null);
             SecurityContextHolder.getContext().setAuthentication(auth);
             filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -54,6 +54,8 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
+    private String status;
+
     private String userType;
 
     private boolean isActive;

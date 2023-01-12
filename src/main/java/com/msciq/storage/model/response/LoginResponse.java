@@ -14,6 +14,8 @@ public class LoginResponse {
 
     private String idToken;
 
+    @ApiModelProperty(hidden = true)
+    @JsonIgnore
     private boolean isError;
 
     @JsonIgnore

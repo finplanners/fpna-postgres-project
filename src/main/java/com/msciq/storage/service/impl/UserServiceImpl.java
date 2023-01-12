@@ -217,6 +217,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String forgotPasswordEmail(String email) {
+        ResetPassword resetPassword= new ResetPassword();
+        resetPassword.setEmail(email);
+        return resetPasswordEmail(resetPassword);
+    }
+
+    @Override
     public String resetPassword(String resetPassword, String token) {
         try{
             byte[] decodedBytes = Base64.getDecoder().decode(token);
@@ -260,11 +267,13 @@ public class UserServiceImpl implements UserService {
                     log.info(" user login end");
                     return response;
                 } else {
-                    response.setMessage(ErrorMessage.ERROR + "Email or Password does not match");
+                    response.setError(true);
+                    response.setMessage("Email or Password does not match");
                     return response;
                 }
             }else{
-                response.setMessage(ErrorMessage.ERROR + "Email does not exists");
+                response.setError(true);
+                response.setMessage("Email does not exists");
                 return response;
             }
 
@@ -283,6 +292,7 @@ public class UserServiceImpl implements UserService {
                 User newUser = new User();
                 //RestTemplate restTemplate = new RestTemplate();
                 newUser.setEmail(user.getEmail());
+                newUser.setPassword("DEFAULT");
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
                 newUser.setActive(false);
@@ -307,7 +317,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
             return ResponseDTO.builder()
-                    .message(String.format(SuccessMessage.SUCCESSFULLY_SAVED, "users"))
+                    .message(String.format(SuccessMessage.USER_INVITED_SUCCESS))
                     .isError(false)
                     .build();
         } catch (Exception e) {

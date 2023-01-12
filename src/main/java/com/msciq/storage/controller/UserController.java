@@ -3,7 +3,6 @@ package com.msciq.storage.controller;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.model.ResetPassword;
-import com.msciq.storage.model.Role;
 import com.msciq.storage.model.User;
 import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
@@ -18,14 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/fpa")
 @Slf4j
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -113,13 +111,13 @@ public class UserController {
         LoginResponse loginResponse = userService.userSignUp(user,token);
         if(loginResponse.isError()==true){
             return new SuccessResponse<LoginResponse>
-                    (String.format(SuccessMessage.USER_NOT_SAVED, Constants.USER),
+                    (String.format(loginResponse.getMessage(), Constants.USER),
                             loginResponse,
                             null,
                             HttpStatus.BAD_REQUEST);
         }else{
             return new SuccessResponse<LoginResponse>
-                    (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.USER),
+                    (String.format(loginResponse.getMessage(), Constants.USER),
                             loginResponse,
                             null,
                             HttpStatus.CREATED);
@@ -135,11 +133,24 @@ public class UserController {
      * @return ResponseDTO
      */
     @PostMapping("/{orgName}/invite-users")
-    public ResponseDTO inviteUsers(
+    public SuccessResponse<ResponseDTO> inviteUsers(
             @PathVariable String orgName,
             @RequestBody @Valid List<UserDTO> users
     ) {
-        return userService.inviteUsers(orgName, users);
+        ResponseDTO responseDTO = userService.inviteUsers(orgName, users);
+        if(responseDTO.isError()==true){
+            return new SuccessResponse<ResponseDTO>
+                    (String.format(responseDTO.getMessage(), Constants.USER),
+                            responseDTO,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<ResponseDTO>
+                    (String.format(responseDTO.getMessage(), Constants.USER),
+                            responseDTO,
+                            null,
+                            HttpStatus.CREATED);
+        }
     }
 
     /**
@@ -151,6 +162,17 @@ public class UserController {
     @PostMapping("/user/reset-password-email")
     public String resetPasswordEmail(@RequestBody ResetPassword resetPassword) {
         return userService.resetPasswordEmail(resetPassword);
+    }
+
+    /**
+     * This method is used to reset the password for the given email
+     *
+     * @return Successful or Error message will be shown
+     */
+
+    @PostMapping("/user/forgot-password-email")
+    public String forgotPasswordEmail(@RequestBody String email) {
+        return userService.forgotPasswordEmail(email);
     }
 
     /**
@@ -175,13 +197,13 @@ public class UserController {
         LoginResponse loginResponse = userService.userLogin(loginDTO);
         if(loginResponse.isError()==true){
             return new SuccessResponse<LoginResponse>
-                    (String.format(SuccessMessage.USER_NOT_SAVED, Constants.USER),
+                    (String.format(loginResponse.getMessage(), Constants.USER),
                             loginResponse,
                             null,
                             HttpStatus.BAD_REQUEST);
         }else{
             return new SuccessResponse<LoginResponse>
-                    (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.USER),
+                    (String.format(SuccessMessage.LOGIN_SUCCESS, Constants.USER),
                             loginResponse,
                             null,
                             HttpStatus.OK);

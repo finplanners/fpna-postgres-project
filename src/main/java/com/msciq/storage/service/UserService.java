@@ -86,6 +86,16 @@ public interface UserService {
      * This method is used to reset password for the given Emai
      *
      * @param resetPassword - model with reset values
+     *
+     * @return String
+     *      if reset password reste email sent successfully
+     */
+    String forgotPasswordEmail(String email);
+
+    /**
+     * This method is used to reset password for the given Emai
+     *
+     * @param resetPassword - model with reset values
      * @param token
      * @return String
      * if reset password is successful
