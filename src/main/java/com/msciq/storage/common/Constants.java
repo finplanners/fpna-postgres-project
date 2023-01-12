@@ -74,4 +74,10 @@ public class Constants {
 
     public static final String USER = "User";
 
+    public static final String SIGN_UP = "User Onboarded Successfully";
+
+    public static final String EMAIL_ALREADY_EXISTS = "Email Already Exists";
+
+    public static final String RESET_PASSWORD = "Reset Password!!";
+
 }

@@ -22,4 +22,11 @@ public class Validator {
     public static boolean checkIfTheInputIsString(String value) {
         return value.matches(STRING_PATTERN);
     }
+
+    public static boolean checkIfTheCustomRoleNameIsValid(String value) {
+        if(value.startsWith("Default"))
+            return false;
+        else
+            return true;
+    }
 }

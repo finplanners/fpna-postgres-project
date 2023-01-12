@@ -20,4 +20,7 @@ public class ResetPassword {
     @Email(message = "Email is invalid")
     private String email;
 
+    private String password;
+
+
 }

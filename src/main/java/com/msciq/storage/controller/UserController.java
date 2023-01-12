@@ -1,15 +1,20 @@
 package com.msciq.storage.controller;
 
+import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.model.ResetPassword;
+import com.msciq.storage.model.Role;
 import com.msciq.storage.model.User;
 import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
+import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.service.UserService;
 import com.msciq.storage.service.impl.GCPStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/fpa")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -114,7 +120,7 @@ public class UserController {
      * @return ResponseDTO
      */
     @PostMapping("/{orgName}/invite-users")
-    public ResponseDTO userSignUp(
+    public ResponseDTO inviteUsers(
             @PathVariable String orgName,
             @RequestBody @Valid List<UserDTO> users
     ) {
@@ -122,14 +128,25 @@ public class UserController {
     }
 
     /**
-     * This method is used to reset the password in firebase authentication platform
+     * This method is used to reset the password for the given email
+     *
+     * @return Successful or Error message will be shown
+     */
+
+    @PostMapping("/user/reset-password-email")
+    public String resetPasswordEmail(@RequestBody ResetPassword resetPassword) {
+        return userService.resetPasswordEmail(resetPassword);
+    }
+
+    /**
+     * This method is used to reset the password for the given email
      *
      * @return Successful or Error message will be shown
      */
 
     @PostMapping("/user/reset-password")
-    public String userResetPassword(@RequestBody ResetPassword resetPassword) {
-        return userService.userResetPassword(resetPassword);
+    public String resetPassword(@RequestBody @Valid ResetPassword resetPassword, @RequestParam String token) {
+        return userService.resetPassword(resetPassword, token);
     }
 
     /**

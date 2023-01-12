@@ -71,14 +71,24 @@ public interface UserService {
     LoginResponse userSignUp(User user,String token);
 
     /**
-     * This method is used to reset password for user in firebase IDP
+     * This method is used to reset password for the given Emai
      *
      * @param resetPassword - model with reset values
      *
      * @return String
-     *      if reset password was successful
+     *      if reset password reste email sent successfully
      */
-    String userResetPassword(ResetPassword resetPassword);
+    String resetPasswordEmail(ResetPassword resetPassword);
+
+    /**
+     * This method is used to reset password for the given Emai
+     *
+     * @param resetPassword - model with reset values
+     * @param token
+     * @return String
+     * if reset password is successful
+     */
+    String resetPassword(ResetPassword resetPassword, String token);
 
     /**
      *
@@ -95,4 +105,5 @@ public interface UserService {
      * @return ResponseDTO
      */
     ResponseDTO inviteUsers(String orgName, List<UserDTO> users);
+
 }

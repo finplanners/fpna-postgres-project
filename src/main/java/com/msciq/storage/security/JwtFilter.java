@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        if (httpServletRequest.getRequestURI().contains("/fpa/user/sign-up")
+        if (httpServletRequest.getRequestURI().contains("/fpa/user/sign-up") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password-email") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password")
                 || httpServletRequest.getRequestURI().contains("/fpa/organization/create")
                 || httpServletRequest.getRequestURI().contains("/fpa/user/login")){
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null, null);
@@ -108,7 +108,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                //Setting up the username for createdBy and UpdatedBy
                 UserDTO userDto = new UserDTO();
                 userDto.setEmail(email);
                 UserContextHolder.setUserDto(userDto);

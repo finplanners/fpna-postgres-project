@@ -10,4 +10,5 @@ public class SuccessMessage {
     public static final String SUCCESS = " Success";
 
     public static final String SUCCESSFULLY_SAVED = "%s saved successfully";
+    public static final String USER_NOT_SAVED = "User is not saved";
 }

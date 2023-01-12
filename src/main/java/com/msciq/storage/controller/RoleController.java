@@ -2,9 +2,11 @@ package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessMessage;
+import com.msciq.storage.model.Company;
 import com.msciq.storage.model.Role;
 import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.service.RoleService;
+import com.msciq.storage.validator.RoleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,9 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private RoleValidator roleValidator;
+
     /**
      * <p>
      * Add new role for some action privileges.
@@ -30,6 +35,7 @@ public class RoleController {
     @PostMapping
     @PreAuthorize("hasAuthority('Role_Admin:CREATE')")
     public SuccessResponse<List<Role>> addRole(@RequestBody List<Role> roles) {
+        validateRoleRequest(roles);
         return new SuccessResponse<List<Role>>
                 (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.ROLE),
                         roleService.addRole(roles),
@@ -50,5 +56,10 @@ public class RoleController {
         List<Role> roleList =  roleService.getAllRoles();
         return new SuccessResponse<List<Role>>(String.format(SuccessMessage.SUCCESS, Constants.ROLE)
                 , roleList, null, HttpStatus.OK);
+    }
+    private void validateRoleRequest(List<Role> roles) {
+        for (Role role:roles) {
+            roleValidator.checkIfRoleNameIsValid(role.getName());
+        }
     }
 }

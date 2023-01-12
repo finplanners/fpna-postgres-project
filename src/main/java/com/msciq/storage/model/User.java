@@ -37,9 +37,6 @@ public class User {
     @NotBlank(message = "Organization name is mandatory")
     private String organizationName;
 
-    @Column(unique = true)
-    private String userName;
-
     @NotNull(message = "FirstName is mandatory")
     @NotBlank(message = "FirstName is mandatory")
     private String firstName;
@@ -48,6 +45,7 @@ public class User {
 
     @NotNull(message = "Email is mandatory")
     @Email(message = "Email is invalid")
+    @Column(unique = true)
     private String email;
 
     private String phoneNumber;
