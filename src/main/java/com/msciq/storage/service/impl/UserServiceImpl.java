@@ -217,16 +217,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String resetPassword(ResetPassword resetPassword, String token) {
+    public String resetPassword(String resetPassword, String token) {
         try{
             byte[] decodedBytes = Base64.getDecoder().decode(token);
             String decodedString =  new String(decodedBytes);
             JSONObject jsonObject = new JSONObject(decodedString);
-            User userPasswordToReset = userRepository.findByEmail(resetPassword.getEmail());
+            User userPasswordToReset = userRepository.findByEmail(jsonObject.get("email").toString());
             // validate the token
-            if(null!= userPasswordToReset && userPasswordToReset.getEmail().equals(jsonObject.get("email"))) {
+            if(null!= userPasswordToReset) {
                 userPasswordToReset.setPassword(Base64.getEncoder()
-                        .encodeToString(resetPassword.getPassword().getBytes()));
+                        .encodeToString(resetPassword.getBytes()));
+                userPasswordToReset.setActive(true);
+                userPasswordToReset.setVerified(true);
                 // added user details in Postgres
                 userRepository.save(userPasswordToReset);
                 return "Password has been successfully reset";
@@ -253,7 +255,8 @@ public class UserServiceImpl implements UserService {
                     log.info(String.valueOf(loginDTO));
                     String jwtToken = jwtUtil.generateToken(loginDTO.getEmail());
                     response.setIdToken(jwtToken);
-                    response.setMessage(SuccessMessage.SUCCESS);
+                    response.setMessage(SuccessMessage.LOGIN_SUCCESS);
+                    response.setUser(userfromDB);
                     log.info(" user login end");
                     return response;
                 } else {
@@ -278,15 +281,12 @@ public class UserServiceImpl implements UserService {
         try {
             for (UserDTO user : users) {
                 User newUser = new User();
-                RestTemplate restTemplate = new RestTemplate();
-                user.setPassword("default");
+                //RestTemplate restTemplate = new RestTemplate();
                 newUser.setEmail(user.getEmail());
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
                 newUser.setActive(false);
                 newUser.setVerified(false);
-                newUser.setPassword(Base64.getEncoder()
-                        .encodeToString(user.getPassword().getBytes()));
                 newUser.setUserType(user.getRoles().toString());
                 newUser.setOrganizationName(orgName);
                 newUser.setCreatedBy("Admin");
@@ -322,6 +322,7 @@ public class UserServiceImpl implements UserService {
         EmailTemplate emailTemplate = EmailTemplate.builder()
                 .recipient(user.getEmail())
                 .recipientName(user.getFirstName())
+                .tenantName(user.getOrganizationName())
                 .subject(Constants.WELCOME_TO_MSCIQ)
                 .build();
         emailService.sendResetPasswordEmail(emailTemplate);

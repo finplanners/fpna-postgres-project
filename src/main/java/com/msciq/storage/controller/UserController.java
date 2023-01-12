@@ -26,7 +26,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/fpa")
 @Slf4j
-@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -50,7 +49,7 @@ public class UserController {
 
         } catch (Exception exception) {
             return ResponseDTO.builder()
-                    .message("Error while creating group of company - " + exception.getMessage())
+                    .message("Error while creating User- " + exception.getMessage())
                     .isError(true)
                     .build();
         }
@@ -107,11 +106,25 @@ public class UserController {
      * @return LoginResponse - model
      */
     @PostMapping("/user/sign-up")
-    public LoginResponse userSignUp(
+    public SuccessResponse<LoginResponse> userSignUp(
             @Valid @RequestBody User user,
             @RequestParam String token
     ) {
-        return userService.userSignUp(user,token);
+        LoginResponse loginResponse = userService.userSignUp(user,token);
+        if(loginResponse.isError()==true){
+            return new SuccessResponse<LoginResponse>
+                    (String.format(SuccessMessage.USER_NOT_SAVED, Constants.USER),
+                            loginResponse,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<LoginResponse>
+                    (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.USER),
+                            loginResponse,
+                            null,
+                            HttpStatus.CREATED);
+        }
+
     }
 
     /**
@@ -147,7 +160,7 @@ public class UserController {
      */
 
     @PostMapping("/user/reset-password")
-    public String resetPassword(@RequestBody @Valid ResetPassword resetPassword, @RequestParam String token) {
+    public String resetPassword(@RequestParam String resetPassword, @RequestParam String token) {
         return userService.resetPassword(resetPassword, token);
     }
 
@@ -158,8 +171,21 @@ public class UserController {
      * @return LoginResponse - model
      */
     @PostMapping("/user/login")
-    public LoginResponse userLogin(@RequestBody LoginDTO loginDTO) {
-        return userService.userLogin(loginDTO);
+    public SuccessResponse<LoginResponse> userLogin(@RequestBody LoginDTO loginDTO) {
+        LoginResponse loginResponse = userService.userLogin(loginDTO);
+        if(loginResponse.isError()==true){
+            return new SuccessResponse<LoginResponse>
+                    (String.format(SuccessMessage.USER_NOT_SAVED, Constants.USER),
+                            loginResponse,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<LoginResponse>
+                    (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.USER),
+                            loginResponse,
+                            null,
+                            HttpStatus.OK);
+        }
     }
 
 

@@ -109,7 +109,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("organizationName",emailTemplate.getRecipientName());
+            jsonObject.put("organizationName",emailTemplate.getTenantName());
             jsonObject.put("email",emailTemplate.getRecipient());
             String emailLink
                     =Constants.UI_BASE_URL+ Base64.getEncoder()

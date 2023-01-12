@@ -90,7 +90,7 @@ public interface UserService {
      * @return String
      * if reset password is successful
      */
-    String resetPassword(ResetPassword resetPassword, String token);
+    String resetPassword(String resetPassword, String token);
 
     /**
      *

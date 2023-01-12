@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleValidator {
     public void checkIfRoleNameIsValid(String roleName) {
-        if (Validator.checkIfTheCustomRoleNameIsValid(roleName)) {
+        if (!Validator.checkIfTheCustomRoleNameIsValid(roleName)) {
             throw new RoleNameStartsWithDefaultException(Constants.ROLE, roleName);
         }
     }

@@ -33,7 +33,7 @@ public class RoleController {
      * @return Role - response of adding the role
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('Role_Admin:CREATE')")
+    //@PreAuthorize("hasAuthority('Role_Admin:CREATE')")
     public SuccessResponse<List<Role>> addRole(@RequestBody List<Role> roles) {
         validateRoleRequest(roles);
         return new SuccessResponse<List<Role>>
