@@ -17,7 +17,7 @@ public interface BusinessUnitService {
      *      which has message and a isError flag
      *      if isError flag is true the message has the error message
      */
-    public ResponseDTO saveBusinessUnitInGivenNamespace(BusinessUnit businessUnit, Datastore datastore);
+    public ResponseDTO saveBusinessUnitInGivenNamespace(BusinessUnit businessUnit, Datastore datastore) throws Exception;
 
     /**
      * This method will be used to get the Business Unit entity by tenant and business unit name

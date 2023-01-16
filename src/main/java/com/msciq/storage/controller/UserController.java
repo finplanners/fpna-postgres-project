@@ -1,6 +1,7 @@
 package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.model.ResetPassword;
 import com.msciq.storage.model.User;
@@ -15,6 +16,7 @@ import com.msciq.storage.service.impl.GCPStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -87,10 +89,48 @@ public class UserController {
      * @Param companyName - name of the Company
      */
     @PutMapping("/user/update")
-    public User updateUser(@RequestBody User user) {
-        return userService.updateUser(user);
+    public SuccessResponse<User> updateUser(@RequestBody User user) {
+        try{
+            User userUpdated = userService.updateUser(user);
+            return new SuccessResponse<User>
+                    (SuccessMessage.SUCCESS,
+                            userUpdated,
+                            null,
+                            HttpStatus.OK);
+        }catch(Exception e){
+            return new SuccessResponse<User>
+                    (e.getMessage(),
+                            null,
+                            null,
+                            HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    /**
+     * This method is used to update the given User
+     *
+     * @param action - action to be performed "delete" or "lock"
+     * @param ids - list of ids to perform the action
+     * @return updated user details
+     * @Param companyName - name of the Company
+     */
+    @PutMapping("/user/lockordelete")
+    public SuccessResponse<String> lockAndDeleteUser(@RequestParam String action, @RequestParam List<Long> ids) {
+        String responseMessage = userService.lockAndDeleteUser(action, ids);
+        if(!responseMessage.equalsIgnoreCase("Users updated successfully")){
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            ids,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            ids,
+                            null,
+                            HttpStatus.OK);
+        }
+    }
     /**
      * This method is used to remove the given user
      *
@@ -98,8 +138,29 @@ public class UserController {
      * @return
      */
     @PutMapping("/user/delete")
-    public String removeUser(@RequestBody List<Long> ids) {
-        return userService.removeUser(ids);
+    public SuccessResponse<String> removeUser(@RequestBody List<Long> ids) {
+        if(ids!=null){
+            String responseMessage = userService.removeUser(ids);
+            if(responseMessage.equalsIgnoreCase("The given users are successfully deleted")){
+                return new SuccessResponse<String>
+                        (String.format(responseMessage, Constants.USER),
+                                ids,
+                                null,
+                                HttpStatus.OK);
+            }else{
+                return new SuccessResponse<String>
+                        (String.format(responseMessage, Constants.USER),
+                                ids,
+                                null,
+                                HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new SuccessResponse<String>
+                    (String.format("Ids should not be null", Constants.USER),
+                            ids,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -165,8 +226,21 @@ public class UserController {
      */
 
     @PostMapping("/user/reset-password-email")
-    public String resetPasswordEmail(@RequestBody ResetPassword resetPassword) {
-        return userService.resetPasswordEmail(resetPassword);
+    public SuccessResponse<String> resetPasswordEmail(@RequestBody ResetPassword resetPassword) {
+        String responseMessage = userService.resetPasswordEmail(resetPassword);
+        if(!responseMessage.equalsIgnoreCase("Mail sent successfully")){
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.OK);
+        }
     }
 
     /**
@@ -176,8 +250,21 @@ public class UserController {
      */
 
     @PostMapping("/user/forgot-password-email")
-    public String forgotPasswordEmail(@RequestBody String email) {
-        return userService.forgotPasswordEmail(email);
+    public  SuccessResponse<String> forgotPasswordEmail(@RequestBody ResetPassword resetPassword) {
+        String responseMessage = userService.forgotPasswordEmail(resetPassword.getEmail());
+        if(!responseMessage.equalsIgnoreCase("Mail sent successfully")){
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.OK);
+        }
     }
 
     /**
@@ -187,8 +274,21 @@ public class UserController {
      */
 
     @PostMapping("/user/reset-password")
-    public String resetPassword(@RequestParam String resetPassword, @RequestParam String token) {
-        return userService.resetPassword(resetPassword, token);
+    public  SuccessResponse<String> resetPassword(@RequestBody ResetPassword resetPassword, @RequestParam String token) {
+        String responseMessage = userService.resetPassword(resetPassword.getPassword(), token);
+        if(!responseMessage.equalsIgnoreCase("Password has been successfully reset")){
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }else{
+            return new SuccessResponse<String>
+                    (String.format(responseMessage, Constants.USER),
+                            null,
+                            null,
+                            HttpStatus.OK);
+        }
     }
 
     /**

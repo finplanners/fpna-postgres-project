@@ -24,8 +24,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
     @Autowired
     private GCPStorageService gcpStorageService;
     @Override
-    public ResponseDTO saveBusinessUnitInGivenNamespace(BusinessUnit businessUnit, Datastore datastore) {
-        try{
+    public ResponseDTO saveBusinessUnitInGivenNamespace(BusinessUnit businessUnit, Datastore datastore) throws Exception{
         Key taskKey = datastore.newKeyFactory()
                 .setKind("BusinessUnit")
                 .newKey(businessUnit.getName() + UUID.randomUUID());
@@ -48,12 +47,6 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
                 .message("BusinessUnit " + businessUnit.getName() + " created successfully")
                 .isError(false)
                 .build();
-        } catch (Exception e) {
-            return ResponseDTO.builder()
-                    .message("Error while creating businessUnit - " + e.getMessage())
-                    .isError(true)
-                    .build();
-        }
     }
 
     @Override

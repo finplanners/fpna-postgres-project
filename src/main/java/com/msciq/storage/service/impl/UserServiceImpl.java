@@ -99,26 +99,47 @@ public class UserServiceImpl implements UserService {
             userViewResponse.setPhoneNumber(user.getPhoneNumber());
             userViewResponse.setId(user.getId());
             userViewResponse.setOrganizationName(user.getOrganizationName());
+            userViewResponse.setStatus(user.getStatus());
             userViewResponses.add(userViewResponse);
+
         }
         return userViewResponses;
     }
     public User updateUser(User user) {
         Optional<User> userFromDb = userRepository.findById(user.getId());
         User userModified = userFromDb.get();
-        userModified.setEmail(user.getEmail());
-        userModified.setFirstName(user.getFirstName());
-        userModified.setLastName(user.getLastName());
-        userModified.setOrganizationName(user.getOrganizationName());
+        if(user!=null){
+            if(user.getEmail()!=null && !user.getEmail().isEmpty())
+                userModified.setEmail(user.getEmail());
+            if(user.getOrganizationName()!=null && !user.getOrganizationName().isEmpty())
+                userModified.setOrganizationName(user.getOrganizationName());
+            if(user.getFirstName()!=null && !user.getFirstName().isEmpty())
+                userModified.setFirstName(user.getFirstName());
+            if(user.getLastName()!=null && !user.getLastName().isEmpty())
+                userModified.setLastName(user.getLastName());
+            if(user.getStatus()!=null && !user.getStatus().isEmpty())
+                userModified.setStatus(user.getStatus());
+            if(user.getPhoneNumber()!=null && !user.getPhoneNumber().isEmpty())
+                userModified.setPhoneNumber(user.getPhoneNumber());
+        }
+
         return (User) userRepository.save(userModified);
     }
 
     public String removeUser(List<Long> ids) {
-        List<User> user = userRepository.findByIdIn(ids);
-        User userTobeDeleted = user.get(0);
-        userTobeDeleted.setDeleted(true);
-        userRepository.save(userTobeDeleted);
-        return user +" is successfully deleted";
+        try{
+            List<User> users = userRepository.findByIdIn(ids);
+
+            for (User user:users) {
+                user.setDeleted(true);
+                user.setStatus("Deleted");
+                userRepository.save(user);
+            }
+            return "The given users are successfully deleted";
+        }catch(Exception e){
+            return e.getMessage();
+        }
+
     }
 
     public String saveUserInGivenNamespace(User user, Datastore datastore) {
@@ -165,6 +186,7 @@ public class UserServiceImpl implements UserService {
                         .encodeToString(user.getPassword().getBytes()));
                 // added user details in Postgres
                 User userCreated =  userRepository.save(user);
+                loginResponse.setUser(userCreated);
 
                      userRoleMappings.add(UserRoleMapping.builder()
                             .userId(userCreated.getId())
@@ -210,7 +232,7 @@ public class UserServiceImpl implements UserService {
         User userFromDb = userRepository.findByEmail(resetPassword.getEmail());
         if(userFromDb!=null){
             sendMailForPasswordReset(resetPassword);
-            return "Mail send successfully";
+            return "Mail sent successfully";
         }else{
             return "User does not exist";
         }
@@ -307,16 +329,17 @@ public class UserServiceImpl implements UserService {
                 User userCreated = userRepository.save(newUser);
 
                 List<UserRoleMapping> userRoleMappings = new ArrayList<>();
-                Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                //Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                sendMailToOrganization(userCreated);
                 for (String role : user.getRoles()) {
                     userRoleMappings.add(UserRoleMapping.builder()
                             .userId(userCreated.getId())
                             .roleName(role)
                             .build());
-                    Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
-                    claimsData.put(role, permissionObject);
+                    //Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
+                    //claimsData.put(role, permissionObject);
                     userRoleMappingRepository.saveAll(userRoleMappings);
-                    sendMailToOrganization(userCreated);
+
                 }
             }
             return ResponseDTO.builder()
@@ -329,6 +352,30 @@ public class UserServiceImpl implements UserService {
                     .isError(true)
                     .build();
         }
+    }
+
+    @Override
+    public String lockAndDeleteUser(String action, List<Long> ids) {
+        try{
+            List<User> users = userRepository.findByIdIn(ids);
+            for (User user:
+                    users) {
+                if(action.equalsIgnoreCase("lock"))
+                    user.setActive(!user.isActive());
+                else if(action.equalsIgnoreCase("delete")){
+                    user.setDeleted(true);
+                    user.setActive(false);
+                }
+                else
+                    return "Invalid Action";
+                userRepository.save(user);
+            }
+            return "Users updated successfully";
+
+        }catch(Exception e){
+            return e.getMessage();
+        }
+
     }
 
     private void sendMailToOrganization(User user) {

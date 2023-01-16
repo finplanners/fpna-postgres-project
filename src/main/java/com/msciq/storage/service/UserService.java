@@ -118,4 +118,5 @@ public interface UserService {
      */
     ResponseDTO inviteUsers(String orgName, List<UserDTO> users);
 
+    String lockAndDeleteUser(String action, List<Long> ids);
 }

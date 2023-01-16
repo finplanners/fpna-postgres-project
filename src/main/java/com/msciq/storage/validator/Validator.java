@@ -24,7 +24,7 @@ public class Validator {
     }
 
     public static boolean checkIfTheCustomRoleNameIsValid(String value) {
-        if(value.startsWith("Default"))
+        if(value!=null && value.toLowerCase().startsWith("default"))
             return false;
         else
             return true;
