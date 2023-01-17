@@ -72,9 +72,19 @@ public class UserController {
      * @return List of Users will be returned
      */
     @GetMapping("/get/user")
-    public SuccessResponse<List<UserViewResponse>> getUser() {
-        List<UserViewResponse> userViewResponses = userService.getListofUsers();
+    public SuccessResponse<List<UserViewResponse>> getUser(@RequestParam boolean isDeleted, @RequestParam String status) {
+
+        if(!(status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("active") && !isDeleted)){
             return new SuccessResponse<List<UserViewResponse>>
+                    (ErrorMessage.INVALID_REQUEST,
+                            null,
+                            null,
+                            HttpStatus.BAD_REQUEST);
+        }
+
+        List<UserViewResponse> userViewResponses = userService.getListofUsers(isDeleted,status);
+
+        return new SuccessResponse<List<UserViewResponse>>
                     (SuccessMessage.SUCCESS,
                             userViewResponses,
                             null,
@@ -114,9 +124,9 @@ public class UserController {
      * @return updated user details
      * @Param companyName - name of the Company
      */
-    @PutMapping("/user/lockordelete")
-    public SuccessResponse<String> lockAndDeleteUser(@RequestParam String action, @RequestParam List<Long> ids) {
-        String responseMessage = userService.lockAndDeleteUser(action, ids);
+    @PutMapping("/user/lock-unlock")
+    public SuccessResponse<String> lockAndDeleteUser(@RequestParam String action, @RequestBody List<Long> ids) {
+        String responseMessage = userService.lockOrUnlock(action, ids);
         if(!responseMessage.equalsIgnoreCase("Users updated successfully")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
@@ -138,9 +148,9 @@ public class UserController {
      * @return
      */
     @PutMapping("/user/delete")
-    public SuccessResponse<String> removeUser(@RequestBody List<Long> ids) {
+    public SuccessResponse<String> removeUser(@RequestParam String action,@RequestBody List<Long> ids) {
         if(ids!=null){
-            String responseMessage = userService.removeUser(ids);
+            String responseMessage = userService.removeUser(action,ids);
             if(responseMessage.equalsIgnoreCase("The given users are successfully deleted")){
                 return new SuccessResponse<String>
                         (String.format(responseMessage, Constants.USER),

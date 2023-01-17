@@ -30,4 +30,6 @@ public class ErrorMessage {
 
     public static final String INVALID_CREDENTIALS="Invalid Credentials!";
 
+    public static final String INVALID_REQUEST="Invalid Request!";
+
 }
