@@ -53,14 +53,14 @@ public interface UserService {
      * @return Successfull or failure message based on the result
      *
      */
-    String removeUser(List<Long> id);
+    String removeUser(String action,List<Long> id);
 
     /**
      * This method is used to fetch the list of Users from default Namespace
      *
      * @return List of Users with details
      */
-    List<UserViewResponse> getListofUsers();
+    List<UserViewResponse> getListofUsers(boolean isDeleted,String status);
 
     /**
      * This method is used to sign up user into
@@ -118,5 +118,5 @@ public interface UserService {
      */
     ResponseDTO inviteUsers(String orgName, List<UserDTO> users);
 
-    String lockAndDeleteUser(String action, List<Long> ids);
+    String lockOrUnlock(String action, List<Long> ids);
 }

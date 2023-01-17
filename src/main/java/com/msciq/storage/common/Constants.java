@@ -17,7 +17,7 @@ public class Constants {
 
     public static final int WELCOME_EMAIL_TEMPLATE=4430212;
 
-    public static final String UI_BASE_URL="#";
+    public static final String UI_BASE_URL="http://localhost:3000";
 
     public static final int THREE=3;
     public static final int FIFTEEN=15;
@@ -79,5 +79,8 @@ public class Constants {
     public static final String EMAIL_ALREADY_EXISTS = "Email Already Exists";
 
     public static final String RESET_PASSWORD = "Reset Password!!";
+
+   public enum USER_STATUS  {Active,Pending,Deleted,Locked};
+
 
 }

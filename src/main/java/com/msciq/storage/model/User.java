@@ -53,7 +53,7 @@ public class User extends BaseEntity implements Serializable {
 
     private String password;
 
-    private String status = "Pending";
+    private String status;
 
     private String userType;
     private boolean isVerified;

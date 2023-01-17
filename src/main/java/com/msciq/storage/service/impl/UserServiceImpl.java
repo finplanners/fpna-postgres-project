@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDTO createUser(User user) {
         try {
             user.setActive(true);
-            user.setStatus("Active");
+            user.setStatus(Constants.USER_STATUS.Active.toString());
             user.setVerified(true);
             User userCreated = (User) userRepository.save(user);
             return ResponseDTO.builder()
@@ -83,8 +83,8 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<UserViewResponse> getListofUsers()  {
-        List<User> users = userRepository.findAll();
+    public List<UserViewResponse> getListofUsers(boolean isDeleted,String status)  {
+        List<User> users = userRepository.findByUserStatus(isDeleted,status);
         List<UserViewResponse> userViewResponses = new ArrayList<>();
         for (User user : users)
         {
@@ -126,14 +126,24 @@ public class UserServiceImpl implements UserService {
         return (User) userRepository.save(userModified);
     }
 
-    public String removeUser(List<Long> ids) {
+    public String removeUser(String action,List<Long> ids) {
         try{
             List<User> users = userRepository.findByIdIn(ids);
 
             for (User user:users) {
-                user.setDeleted(true);
-                user.setStatus("Deleted");
+                if(action.equalsIgnoreCase("delete")){
+                    user.setDeleted(true);
+                    user.setStatus(Constants.USER_STATUS.Deleted.toString());
+                    user.setActive(false);
+                }else if(action.equalsIgnoreCase("reactivate")){
+                    user.setDeleted(false);
+                    user.setStatus(Constants.USER_STATUS.Active.toString());
+                    user.setActive(true);
+                }else{
+                    return "Invalid Action Type";
+                }
                 userRepository.save(user);
+
             }
             return "The given users are successfully deleted";
         }catch(Exception e){
@@ -180,7 +190,7 @@ public class UserServiceImpl implements UserService {
                 loginDTO.setPassword(user.getPassword());
                 user.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
                 user.setActive(true);
-                user.setStatus("Active");
+                user.setStatus(Constants.USER_STATUS.Active.toString());
                 user.setVerified(true);
                 user.setPassword(Base64.getEncoder()
                         .encodeToString(user.getPassword().getBytes()));
@@ -260,7 +270,7 @@ public class UserServiceImpl implements UserService {
                 userPasswordToReset.setPassword(Base64.getEncoder()
                         .encodeToString(resetPassword.getBytes()));
                 userPasswordToReset.setActive(true);
-                userPasswordToReset.setStatus("Active");
+                userPasswordToReset.setStatus(Constants.USER_STATUS.Active.toString());
                 userPasswordToReset.setVerified(true);
                 // added user details in Postgres
                 userRepository.save(userPasswordToReset);
@@ -325,7 +335,7 @@ public class UserServiceImpl implements UserService {
                 newUser.setUserType(user.getRoles().toString());
                 newUser.setOrganizationName(orgName);
                 newUser.setCreatedBy(Long.valueOf(1));
-
+                newUser.setStatus(Constants.USER_STATUS.Pending.toString());
                 User userCreated = userRepository.save(newUser);
 
                 List<UserRoleMapping> userRoleMappings = new ArrayList<>();
@@ -354,20 +364,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public String lockAndDeleteUser(String action, List<Long> ids) {
+    public String lockOrUnlock(String action, List<Long> ids) {
         try{
             List<User> users = userRepository.findByIdIn(ids);
             for (User user:
                     users) {
                 if(action.equalsIgnoreCase("lock"))
-                    user.setActive(!user.isActive());
-                else if(action.equalsIgnoreCase("delete")){
-                    user.setDeleted(true);
                     user.setActive(false);
+                else if(action.equalsIgnoreCase("unlock")){
+                    user.setActive(true);
                 }
                 else
-                    return "Invalid Action";
+                    return "Invalid Action Type";
                 userRepository.save(user);
             }
             return "Users updated successfully";
