@@ -38,7 +38,7 @@ public class Company extends BaseEntity {
 	//@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.CURRENCY_ID)
-	private Currency curreny;
+	private Currency currency;
 	
 	//@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
 	@ManyToOne

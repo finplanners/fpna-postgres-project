@@ -9,12 +9,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.msciq.storage.common.ErrorConstants;
+import com.msciq.storage.model.GroupCompany;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.mdtlabs.coreplatform.common.ErrorConstants;
-import com.mdtlabs.coreplatform.common.model.entity.Country;
-import com.mdtlabs.coreplatform.common.model.entity.User;
-import com.mdtlabs.coreplatform.common.model.entity.msciq.GroupCompany;
 
 import lombok.Data;
 
@@ -32,7 +30,7 @@ public class BusinessUnitDTO {
 	private String code;
 
 	//@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
-	private GroupCompany groupCompany;
+	private GroupCompanyDTO groupCompany;
 	
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date activationDate;

@@ -107,12 +107,12 @@ public class CompanyServiceImpl implements CompanyService {
                 .id(resultEntity.getKey().getName())
                 .build();
     }
-
-    public Company updateCompany(Company company) {
-        return (Company) companyRepository.save(company);
-    }
-    public Company removeCompany(String name) {
-        return companyRepository.removeByName(name);
-    }
+//
+//    public Company updateCompany(Company company) {
+//        return (Company) companyRepository.save(company);
+//    }
+//    public Company removeCompany(String name) {
+//        return companyRepository.removeByName(name);
+//    }
 
 }

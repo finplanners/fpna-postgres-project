@@ -1,42 +1,14 @@
 package com.msciq.storage.common;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.StringJoiner;
-import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mdtlabs.coreplatform.common.Constants;
-import com.mdtlabs.coreplatform.common.contexts.UserContextHolder;
-import com.mdtlabs.coreplatform.common.exception.ServicesException;
-import com.mdtlabs.coreplatform.common.model.dto.UserDTO;
-import com.mdtlabs.coreplatform.common.model.entity.Role;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -154,7 +126,7 @@ public class CommonUtil {
             while (tokenizer.hasMoreTokens()) {
                 String value = tokenizer.nextToken();
                 if (isNumeric(value)) {
-                    listOfValues.add(new Long(value));
+                    listOfValues.add(Long.valueOf(value));
                 }
             }
         }
@@ -178,7 +150,7 @@ public class CommonUtil {
                 String value = tokenizer.nextToken();
                 value = value != null ? value.trim() : value;
                 if (isNumeric(value)) {
-                    listOfValues.add(new Integer(value));
+                    listOfValues.add(Integer.valueOf(value));
                 }
             }
         }
@@ -288,85 +260,85 @@ public class CommonUtil {
                 .parseDouble(time.replace(":30", ".5").replace(":00", ".0"));
     }
 
-    /**
-     * <p>
-     * Get the logged in employee from the spring {@code SecurityContextHolder}
-     * and construct the string with format '[employeId - employeeCompanyId]'.
-     * </p>
-     *
-     * @return String - Logged in employee as string with format '[employeId -
-     *         employeeCompanyId]'.
-     */
-    public static String getLoggedInEmployeeLog() {
-        UserDTO user = getLoggedInUser();
-        String userId = Constants.EMPTY;
-        String username = Constants.EMPTY;
-        if (null != user) {
-            userId = String.valueOf(user.getId());
-            username = user.getUsername();
-        }
-        return StringUtil.constructString(Constants.OPEN_BRACKET, userId,
-                Constants.HYPHEN, username, Constants.CLOSE_BRACKET);
-    }
-
-    /**
-     * <p>
-     * Get the logged in employee from the spring
-     * </p>
-     *
-     * @return UserDTO - Logged in employee object.
-     */
-    public static UserDTO getLoggedInUser() {
-        return new UserDTO();
-    }
-
-    /**
-     * <p>
-     * This method returns the http entity for the current user This entity is
-     * used across for calling rest services
-     * </p>
-     * 
-     * @return HttpEntity<String> - current entity
-     */
-    public static HttpEntity<String> getCurrentEntity() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION,
-                StringUtil.concatString(Constants.BEARER,
-                        UserContextHolder.getUserDto().getAuthorization()));
-        return new HttpEntity<>(headers);
-    }
-
-    /**
-     * This method is used to create pagination
-     * 
-     * @param count            - size of entity
-     * @param gridDisplayValue - grid display value
-     * @return int - pagination
-     */
-    public static int createPagination(int count, int gridDisplayValue) {
-        int totalPageNumber = count / gridDisplayValue;
-        int remainder = count % gridDisplayValue;
-        return (remainder == Constants.ZERO)
-                ? (totalPageNumber + Constants.ZERO)
-                : (totalPageNumber + Constants.ONE);
-    }
-
-    /**
-     * Validate the given string has only letters and numbers
-     * 
-     * @param values
-     * @return Boolean
-     */
-    public static boolean validatePatientSearchData(List<String> values) {
-
-        String regex = "^[0-9a-zA-Z@._-]+$";
-
-        boolean isInvalidData = values.stream()
-                .allMatch(value -> (!Objects.isNull(value) && !value.isEmpty()
-                        && !Pattern.matches(regex, value)));
-
-        return isInvalidData;
-    }
+//    /**
+//     * <p>
+//     * Get the logged in employee from the spring {@code SecurityContextHolder}
+//     * and construct the string with format '[employeId - employeeCompanyId]'.
+//     * </p>
+//     *
+//     * @return String - Logged in employee as string with format '[employeId -
+//     *         employeeCompanyId]'.
+//     */
+//    public static String getLoggedInEmployeeLog() {
+//        UserDTO user = getLoggedInUser();
+//        String userId = Constants.EMPTY;
+//        String username = Constants.EMPTY;
+//        if (null != user) {
+//            userId = String.valueOf(user.getId());
+//            username = user.getUsername();
+//        }
+//        return StringUtil.constructString(Constants.OPEN_BRACKET, userId,
+//                Constants.HYPHEN, username, Constants.CLOSE_BRACKET);
+//    }
+//
+//    /**
+//     * <p>
+//     * Get the logged in employee from the spring
+//     * </p>
+//     *
+//     * @return UserDTO - Logged in employee object.
+//     */
+//    public static UserDTO getLoggedInUser() {
+//        return new UserDTO();
+//    }
+//
+//    /**
+//     * <p>
+//     * This method returns the http entity for the current user This entity is
+//     * used across for calling rest services
+//     * </p>
+//     *
+//     * @return HttpEntity<String> - current entity
+//     */
+//    public static HttpEntity<String> getCurrentEntity() {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.AUTHORIZATION,
+//                StringUtil.concatString(Constants.BEARER,
+//                        UserContextHolder.getUserDto().getAuthorization()));
+//        return new HttpEntity<>(headers);
+//    }
+//
+//    /**
+//     * This method is used to create pagination
+//     *
+//     * @param count            - size of entity
+//     * @param gridDisplayValue - grid display value
+//     * @return int - pagination
+//     */
+//    public static int createPagination(int count, int gridDisplayValue) {
+//        int totalPageNumber = count / gridDisplayValue;
+//        int remainder = count % gridDisplayValue;
+//        return (remainder == Constants.ZERO)
+//                ? (totalPageNumber + Constants.ZERO)
+//                : (totalPageNumber + Constants.ONE);
+//    }
+//
+//    /**
+//     * Validate the given string has only letters and numbers
+//     *
+//     * @param values
+//     * @return Boolean
+//     */
+//    public static boolean validatePatientSearchData(List<String> values) {
+//
+//        String regex = "^[0-9a-zA-Z@._-]+$";
+//
+//        boolean isInvalidData = values.stream()
+//                .allMatch(value -> (!Objects.isNull(value) && !value.isEmpty()
+//                        && !Pattern.matches(regex, value)));
+//
+//        return isInvalidData;
+//    }
 
     /**
      * Validate the email
@@ -393,15 +365,15 @@ public class CommonUtil {
         Matcher matcher = pattern.matcher(phoneNo);
         return matcher.matches();
     }
-
-    /**
-     * To get the user auth token
-     * 
-     * @return String
-     */
-    public static String getAuthToken() {
-        return Constants.BEARER
-                + UserContextHolder.getUserDto().getAuthorization();
-    }
+//
+//    /**
+//     * To get the user auth token
+//     *
+//     * @return String
+//     */
+//    public static String getAuthToken() {
+//        return Constants.BEARER
+//                + UserContextHolder.getUserDto().getAuthorization();
+//    }
 
 }

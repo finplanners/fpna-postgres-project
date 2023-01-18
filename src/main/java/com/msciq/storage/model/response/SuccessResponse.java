@@ -26,14 +26,14 @@ public class SuccessResponse<T> extends ResponseEntity<Object> {
 				Integer.valueOf(httpStatus.value())), httpStatus);
 	}
 
-	public SuccessResponse(String message, List<T> entityList,
-						   HttpStatus httpStatus) {
-		super(new SuccessResponseMessage<T>(message, entityList,
-				Integer.valueOf(httpStatus.value())), httpStatus);
-	}
+//	public SuccessResponse(String message, List<T> entityList,
+//						   HttpStatus httpStatus) {
+//		super(new SuccessResponseMessage<T>(message, entityList,
+//				Integer.valueOf(httpStatus.value())), httpStatus);
+//	}
 
-	public SuccessResponse(SuccessCode successCode, Object entity, HttpStatus httpStatus, String value) {
-		super(new SuccessResponseMessage<T>(Constants.SUCCESS, entity, null,
+	public SuccessResponse(SuccessCode successCode, Object entity, HttpStatus httpStatus) {
+		super(new SuccessResponseMessage<T>(Constants.SUCCESS, entity,
 				Integer.valueOf(httpStatus.value())), httpStatus);
 	}
 

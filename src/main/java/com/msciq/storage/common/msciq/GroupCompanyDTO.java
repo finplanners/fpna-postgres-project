@@ -25,6 +25,6 @@ public class GroupCompanyDTO {
 	private String gcCode;
 
 	//@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
-	private Currency curreny;
+	private Currency currency;
 				
 }

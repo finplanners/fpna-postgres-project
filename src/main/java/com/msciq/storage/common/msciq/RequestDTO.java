@@ -1,11 +1,8 @@
 package com.msciq.storage.common.msciq;
 
-import java.util.List;
-import java.util.Map;
-
-import com.mdtlabs.coreplatform.common.model.entity.spice.PatientLabTest;
-
 import lombok.Data;
+
+import java.util.Map;
 
 @Data
 public class RequestDTO extends CommonRequestDTO {

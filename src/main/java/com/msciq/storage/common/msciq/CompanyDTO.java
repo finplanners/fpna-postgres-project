@@ -24,7 +24,7 @@ public class CompanyDTO {
 	private String code;
 
 	//@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
-	private Currency curreny;
+	private Currency currency;
 	
 	//@NotEmpty(message = ErrorConstants.FISCAL_YEAR_NOT_NULL)
 	private FiscalCalendar fiscalCalendar;
