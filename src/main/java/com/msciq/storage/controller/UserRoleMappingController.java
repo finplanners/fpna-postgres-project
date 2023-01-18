@@ -2,13 +2,11 @@ package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessMessage;
-import com.msciq.storage.model.RolePermissionMapping;
 import com.msciq.storage.model.UserRoleMapping;
 import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.service.UserRoleMappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class UserRoleMappingController {
      *
      */
     @GetMapping
-    public SuccessResponse<List<UserRoleMapping>>  getAllUsers() {
+    public SuccessResponse<List<UserRoleMapping>> getAllUsers() {
         List<UserRoleMapping> userRoleMappings = userRoleMappingService.getUserRoleMappings();
         return new SuccessResponse<List<UserRoleMapping>>(String.format(SuccessMessage.SUCCESS, Constants.USER_ROLE)
                 , userRoleMappings, null, HttpStatus.OK);
@@ -41,7 +39,7 @@ public class UserRoleMappingController {
      *
      */
     @PostMapping
-    public SuccessResponse<List<UserRoleMapping>>  saveAllUsers(@RequestBody List<UserRoleMapping> userRoleMappings) {
+    public SuccessResponse<List<UserRoleMapping>> saveAllUsers(@RequestBody List<UserRoleMapping> userRoleMappings) {
         return new SuccessResponse<List<UserRoleMapping>>
                 (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.USER_ROLE),
                         userRoleMappingService.saveAllUserRoleMappings(userRoleMappings),

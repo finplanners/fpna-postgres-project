@@ -28,4 +28,8 @@ public class ErrorMessage {
 
     public static final String ERROR_GL_ACCOUNT_INVALID="Please upload an excel file!";
 
+    public static final String INVALID_CREDENTIALS="Invalid Credentials!";
+
+    public static final String INVALID_REQUEST="Invalid Request!";
+
 }

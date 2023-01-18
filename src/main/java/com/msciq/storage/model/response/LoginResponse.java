@@ -1,5 +1,8 @@
 package com.msciq.storage.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.msciq.storage.model.User;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @ToString
@@ -11,7 +14,14 @@ public class LoginResponse {
 
     private String idToken;
 
+    @ApiModelProperty(hidden = true)
+    @JsonIgnore
     private boolean isError;
 
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private String message;
+
+    private User user;
+
 }

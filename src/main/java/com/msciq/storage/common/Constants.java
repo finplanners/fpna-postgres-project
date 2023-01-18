@@ -17,7 +17,7 @@ public class Constants {
 
     public static final int WELCOME_EMAIL_TEMPLATE=4430212;
 
-    public static final String UI_BASE_URL="#";
+    public static final String UI_BASE_URL="http://localhost:3000";
 
     public static final int THREE=3;
     public static final int FIFTEEN=15;
@@ -72,6 +72,37 @@ public class Constants {
 
     public static final String USER_ROLE = "User Role";
 
-    public static final String USER = "User";
+    public static final String FORMAT_DDMMYYYY = "dd/MM/yyyy HH:mm";
+    public static final String DATE_TIME_FORMATTER = "d/M/yyyy";
 
+    public static final int ZERO = 0;
+
+    public static final String JSON_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String SUCCESS = "SUCCESS";
+
+    public static final String NO_DATA_FOUND = "No Data Found";
+
+    public static final String ERROR = "ERROR";
+
+    public static final int ONE = 1;
+
+    public static final long SIXTY = 60;
+
+    public static final long TWENTY_FOUR = 24;
+
+    public static final String HOUR_SEPERATOR = ":";
+
+    public static final String DOT = ".";
+    public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
+
+    public static final String TIMEZONE_UTC = "UTC";
+
+    public static final String SIGN_UP = "User Onboarded Successfully";
+
+    public static final String EMAIL_ALREADY_EXISTS = "Email Already Exists";
+
+    public static final String RESET_PASSWORD = "Reset Password!!";
+
+    public enum USER_STATUS  {Active,Pending,Deleted,Locked};
 }

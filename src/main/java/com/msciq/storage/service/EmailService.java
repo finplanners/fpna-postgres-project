@@ -22,4 +22,6 @@ public interface EmailService {
     String sendEmail(EmailTemplate details) throws MailjetException;
 
     String sendResetPasswordEmail(EmailTemplate emailTemplate);
+
+    String resetPasswordEmail(EmailTemplate emailTemplate);
 }

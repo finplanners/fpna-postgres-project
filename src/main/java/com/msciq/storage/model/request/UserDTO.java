@@ -27,9 +27,4 @@ public class UserDTO {
     @NotEmpty(message = "Roles is mandatory")
     private List<String> roles;
 
-    private String status;
-
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private String password;
 }

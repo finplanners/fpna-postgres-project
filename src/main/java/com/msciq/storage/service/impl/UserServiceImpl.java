@@ -8,7 +8,6 @@ import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
-import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.model.response.UserViewResponse;
 import com.msciq.storage.repository.RolePermissionMappingRepository;
 import com.msciq.storage.repository.UserRepository;
@@ -25,6 +24,7 @@ import com.msciq.storage.common.SuccessMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDTO createUser(User user) {
         try {
             user.setActive(true);
+            user.setStatus(Constants.USER_STATUS.Active.toString());
             user.setVerified(true);
             User userCreated = (User) userRepository.save(user);
             return ResponseDTO.builder()
@@ -81,8 +82,8 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<UserViewResponse> getListofUsers()  {
-        List<User> users = userRepository.findAll();
+    public List<UserViewResponse> getListofUsers(boolean isDeleted,String status)  {
+        List<User> users = userRepository.findByUserStatus(isDeleted,status);
         List<UserViewResponse> userViewResponses = new ArrayList<>();
         for (User user : users)
         {
@@ -97,25 +98,57 @@ public class UserServiceImpl implements UserService {
             userViewResponse.setPhoneNumber(user.getPhoneNumber());
             userViewResponse.setId(user.getId());
             userViewResponse.setOrganizationName(user.getOrganizationName());
+            userViewResponse.setStatus(user.getStatus());
             userViewResponses.add(userViewResponse);
+
         }
         return userViewResponses;
     }
     public User updateUser(User user) {
         Optional<User> userFromDb = userRepository.findById(user.getId());
         User userModified = userFromDb.get();
-        userModified.setUserName(user.getUserName());
-        userModified.setFirstName(user.getFirstName());
-        userModified.setLastName(user.getLastName());
-        userModified.setOrganizationName(user.getOrganizationName());
+        if(user!=null){
+            if(user.getEmail()!=null && !user.getEmail().isEmpty())
+                userModified.setEmail(user.getEmail());
+            if(user.getOrganizationName()!=null && !user.getOrganizationName().isEmpty())
+                userModified.setOrganizationName(user.getOrganizationName());
+            if(user.getFirstName()!=null && !user.getFirstName().isEmpty())
+                userModified.setFirstName(user.getFirstName());
+            if(user.getLastName()!=null && !user.getLastName().isEmpty())
+                userModified.setLastName(user.getLastName());
+            if(user.getStatus()!=null && !user.getStatus().isEmpty())
+                userModified.setStatus(user.getStatus());
+            if(user.getPhoneNumber()!=null && !user.getPhoneNumber().isEmpty())
+                userModified.setPhoneNumber(user.getPhoneNumber());
+        }
+
         return (User) userRepository.save(userModified);
     }
 
-    public String removeUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        user.get().setActive(false);
-        userRepository.save(user.get());
-        return id +" is successfully deleted";
+    public String removeUser(String action,List<Long> ids) {
+        try{
+            List<User> users = userRepository.findByIdIn(ids);
+
+            for (User user:users) {
+                if(action.equalsIgnoreCase("delete")){
+                    user.setDeleted(true);
+                    user.setStatus(Constants.USER_STATUS.Deleted.toString());
+                    user.setActive(false);
+                }else if(action.equalsIgnoreCase("reactivate")){
+                    user.setDeleted(false);
+                    user.setStatus(Constants.USER_STATUS.Active.toString());
+                    user.setActive(true);
+                }else{
+                    return "Invalid Action Type";
+                }
+                userRepository.save(user);
+
+            }
+            return "The given users are successfully deleted";
+        }catch(Exception e){
+            return e.getMessage();
+        }
+
     }
 
     public String saveUserInGivenNamespace(User user, Datastore datastore) {
@@ -156,11 +189,13 @@ public class UserServiceImpl implements UserService {
                 loginDTO.setPassword(user.getPassword());
                 user.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
                 user.setActive(true);
+                user.setStatus(Constants.USER_STATUS.Active.toString());
                 user.setVerified(true);
                 user.setPassword(Base64.getEncoder()
                         .encodeToString(user.getPassword().getBytes()));
                 // added user details in Postgres
                 User userCreated =  userRepository.save(user);
+                loginResponse.setUser(userCreated);
 
                      userRoleMappings.add(UserRoleMapping.builder()
                             .userId(userCreated.getId())
@@ -172,17 +207,22 @@ public class UserServiceImpl implements UserService {
                  // set claims
                 String jwtToken = jwtUtil.generateToken(user.getEmail());
                 loginResponse.setIdToken(jwtToken);
+                loginResponse.setMessage(Constants.SIGN_UP);
             }else{
                 loginResponse.setError(true);
                 loginResponse.setMessage(ErrorMessage.UNAUTHORIZED);
             }
             return loginResponse;
-        }catch (Exception e){
+        } catch(DataIntegrityViolationException e){
+            loginResponse.setMessage(Constants.EMAIL_ALREADY_EXISTS);
+            loginResponse.setError(true);
+            return loginResponse;
+        } catch (Exception e){
             log.error(ErrorMessage.ERROR+e.getMessage());
             if(e.getMessage().contains("WEAK_PASSWORD")){
                 loginResponse.setMessage("Password should be at least 6 characters");
             }else if(e.getMessage().contains("EMAIL_EXISTS")){
-                loginResponse.setMessage("User email already exists");
+                loginResponse.setMessage("Email already exists");
             } else if(e.getMessage().contains("MISSING_EMAIL")){
                 loginResponse.setMessage("Email is mandatory");
             } else{
@@ -193,19 +233,52 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public String userResetPassword(ResetPassword resetPassword) {
+    @Override
+    public String resetPasswordEmail(ResetPassword resetPassword) {
         try{
         log.info(" user reset password start");
         resetPassword.setRequestType("PASSWORD_RESET");
-        RestTemplate restTemplate = new RestTemplate();
-        String url= Constants.FIREBASE_BASE_URL+"sendOobCode?key="+Constants.FIREBASE_API_KEY;
-        log.info(String.valueOf(resetPassword));
-        ResetPassword response = restTemplate.postForObject(url, resetPassword, ResetPassword.class);
-        log.info(" user sing-up response");
-        log.info(String.valueOf(response));
-        return SuccessMessage.RESET_PASSWORD_SUCCESS;
+        User userFromDb = userRepository.findByEmail(resetPassword.getEmail());
+        if(userFromDb!=null){
+            sendMailForPasswordReset(resetPassword);
+            return "Mail sent successfully";
+        }else{
+            return "User does not exist";
+        }
         }catch (Exception e){
             return ErrorMessage.RESET_PASSWORD_ERROR+e.getMessage();
+        }
+    }
+
+    @Override
+    public String forgotPasswordEmail(String email) {
+        ResetPassword resetPassword= new ResetPassword();
+        resetPassword.setEmail(email);
+        return resetPasswordEmail(resetPassword);
+    }
+
+    @Override
+    public String resetPassword(String resetPassword, String token) {
+        try{
+            byte[] decodedBytes = Base64.getDecoder().decode(token);
+            String decodedString =  new String(decodedBytes);
+            JSONObject jsonObject = new JSONObject(decodedString);
+            User userPasswordToReset = userRepository.findByEmail(jsonObject.get("email").toString());
+            // validate the token
+            if(null!= userPasswordToReset) {
+                userPasswordToReset.setPassword(Base64.getEncoder()
+                        .encodeToString(resetPassword.getBytes()));
+                userPasswordToReset.setActive(true);
+                userPasswordToReset.setStatus(Constants.USER_STATUS.Active.toString());
+                userPasswordToReset.setVerified(true);
+                // added user details in Postgres
+                userRepository.save(userPasswordToReset);
+                return "Password has been successfully reset";
+            }else{
+                return "User Does not exists";
+            }
+        }catch(Exception e){
+            return e.getMessage();
         }
     }
 
@@ -213,14 +286,32 @@ public class UserServiceImpl implements UserService {
         LoginResponse response = new LoginResponse();
 
         try{
-            log.info(" user login start");
-            loginDTO.setReturnSecureToken(true);
-            log.info(String.valueOf(loginDTO));
-            String jwtToken = jwtUtil.generateToken(loginDTO.getUserName());
-            response.setIdToken(jwtToken);
-            response.setMessage(SuccessMessage.SUCCESS);
-            log.info(" user login end");
-            return response;
+            User userfromDB = userRepository.findByEmail(loginDTO.getEmail());
+            if(null!=userfromDB) {
+                byte[] decodedBytes = Base64.getDecoder().decode(userfromDB.getPassword());
+                String decodedPassword = new String(decodedBytes);
+
+                if (decodedPassword.equals(loginDTO.getPassword())) {
+                    log.info(" user login start");
+                    loginDTO.setReturnSecureToken(true);
+                    log.info(String.valueOf(loginDTO));
+                    String jwtToken = jwtUtil.generateToken(loginDTO.getEmail());
+                    response.setIdToken(jwtToken);
+                    response.setMessage(SuccessMessage.LOGIN_SUCCESS);
+                    response.setUser(userfromDB);
+                    log.info(" user login end");
+                    return response;
+                } else {
+                    response.setError(true);
+                    response.setMessage(ErrorMessage.INVALID_CREDENTIALS);
+                    return response;
+                }
+            }else{
+                response.setError(true);
+                response.setMessage(ErrorMessage.INVALID_CREDENTIALS);
+                return response;
+            }
+
         }catch (Exception e){
             log.error(ErrorMessage.ERROR+e.getMessage());
             response.setError(true);
@@ -234,36 +325,34 @@ public class UserServiceImpl implements UserService {
         try {
             for (UserDTO user : users) {
                 User newUser = new User();
-                RestTemplate restTemplate = new RestTemplate();
-                user.setPassword("default");
                 newUser.setEmail(user.getEmail());
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
+                newUser.setPhoneNumber(user.getPhoneNumber());
                 newUser.setActive(false);
                 newUser.setVerified(false);
-                newUser.setPassword(Base64.getEncoder()
-                        .encodeToString(user.getPassword().getBytes()));
                 newUser.setUserType(user.getRoles().toString());
                 newUser.setOrganizationName(orgName);
-                newUser.setCreatedBy("Admin");
-
+                newUser.setCreatedBy(Long.valueOf(1));
+                newUser.setStatus(Constants.USER_STATUS.Pending.toString());
                 User userCreated = userRepository.save(newUser);
 
                 List<UserRoleMapping> userRoleMappings = new ArrayList<>();
-                Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                //Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                sendMailToOrganization(userCreated);
                 for (String role : user.getRoles()) {
                     userRoleMappings.add(UserRoleMapping.builder()
                             .userId(userCreated.getId())
                             .roleName(role)
                             .build());
-                    Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
-                    claimsData.put(role, permissionObject);
+                    //Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
+                    //claimsData.put(role, permissionObject);
                     userRoleMappingRepository.saveAll(userRoleMappings);
-                    sendMailToOrganization(userCreated);
+
                 }
             }
             return ResponseDTO.builder()
-                    .message(String.format(SuccessMessage.SUCCESSFULLY_SAVED, "users"))
+                    .message(String.format(SuccessMessage.USER_INVITED_SUCCESS))
                     .isError(false)
                     .build();
         } catch (Exception e) {
@@ -274,12 +363,43 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public String lockOrUnlock(String action, List<Long> ids) {
+        try{
+            List<User> users = userRepository.findByIdIn(ids);
+            for (User user:
+                    users) {
+                if(action.equalsIgnoreCase("lock"))
+                    user.setActive(false);
+                else if(action.equalsIgnoreCase("unlock")){
+                    user.setActive(true);
+                }
+                else
+                    return "Invalid Action Type";
+                userRepository.save(user);
+            }
+            return "Users updated successfully";
+
+        }catch(Exception e){
+            return e.getMessage();
+        }
+
+    }
+
     private void sendMailToOrganization(User user) {
         EmailTemplate emailTemplate = EmailTemplate.builder()
                 .recipient(user.getEmail())
                 .recipientName(user.getFirstName())
+                .tenantName(user.getOrganizationName())
                 .subject(Constants.WELCOME_TO_MSCIQ)
                 .build();
         emailService.sendResetPasswordEmail(emailTemplate);
+    }
+
+    private void sendMailForPasswordReset(ResetPassword resetPassword) {
+        EmailTemplate emailTemplate = EmailTemplate.builder()
+                .recipient(resetPassword.getEmail())
+                .subject(Constants.RESET_PASSWORD)
+                .build();
+        emailService.resetPasswordEmail(emailTemplate);
     }
 }

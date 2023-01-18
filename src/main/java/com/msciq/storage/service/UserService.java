@@ -6,7 +6,6 @@ import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
-import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.model.response.UserViewResponse;
 
 
@@ -53,14 +52,14 @@ public interface UserService {
      * @return Successfull or failure message based on the result
      *
      */
-    String removeUser(Long id);
+    String removeUser(String action,List<Long> id);
 
     /**
      * This method is used to fetch the list of Users from default Namespace
      *
      * @return List of Users with details
      */
-    List<UserViewResponse> getListofUsers();
+    List<UserViewResponse> getListofUsers(boolean isDeleted,String status);
 
     /**
      * This method is used to sign up user into
@@ -73,14 +72,34 @@ public interface UserService {
     LoginResponse userSignUp(User user,String token);
 
     /**
-     * This method is used to reset password for user in firebase IDP
+     * This method is used to reset password for the given Emai
      *
      * @param resetPassword - model with reset values
      *
      * @return String
-     *      if reset password was successful
+     *      if reset password reste email sent successfully
      */
-    String userResetPassword(ResetPassword resetPassword);
+    String resetPasswordEmail(ResetPassword resetPassword);
+
+    /**
+     * This method is used to reset password for the given Emai
+     *
+     * @param resetPassword - model with reset values
+     *
+     * @return String
+     *      if reset password reste email sent successfully
+     */
+    String forgotPasswordEmail(String email);
+
+    /**
+     * This method is used to reset password for the given Emai
+     *
+     * @param resetPassword - model with reset values
+     * @param token
+     * @return String
+     * if reset password is successful
+     */
+    String resetPassword(String resetPassword, String token);
 
     /**
      *
@@ -97,4 +116,6 @@ public interface UserService {
      * @return ResponseDTO
      */
     ResponseDTO inviteUsers(String orgName, List<UserDTO> users);
+
+    String lockOrUnlock(String action, List<Long> ids);
 }

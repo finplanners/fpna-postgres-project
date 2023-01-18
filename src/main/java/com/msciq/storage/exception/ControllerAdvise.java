@@ -1,6 +1,7 @@
 package com.msciq.storage.exception;
 
 import com.msciq.storage.common.Constants;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,6 +82,19 @@ public class ControllerAdvise extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
         return buildErrorResponse(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    @ResponseBody
+    public ResponseEntity<Object> handleDataIntegrityViolationException(
+            Exception ex, WebRequest request) {
+
+        if(ex.getMessage().equalsIgnoreCase("Access is denied")){
+            return buildErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
+        }else{
+            return buildErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
