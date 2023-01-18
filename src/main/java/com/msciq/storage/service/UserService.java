@@ -60,7 +60,7 @@ public interface UserService {
      *
      * @return List of Users with details
      */
-    List<UserViewResponse> getListofUsers(boolean isDeleted,String status);
+    List<UserViewResponse> getListofUsers(boolean isDeleted);
 
     /**
      * This method is used to sign up user into
