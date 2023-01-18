@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    public static final String GET_ALL_USER_BY_STATUS= "select u from USER_TBL as u where u.isDeleted=:isDeleted ";
+    public static final String GET_ALL_USER_BY_STATUS= "select u from USER_TBL as u where u.isDeleted=:isDeleted and u.status =:status ";
     User findByEmail(String email);
 
     Optional<User> findById(Long id);
 
     @Query(value = GET_ALL_USER_BY_STATUS)
-    List<User> findByUserStatus(@Param("isDeleted") boolean isDeleted);
+    List<User> findByUserStatus(@Param("isDeleted") boolean flag,@Param(FieldConstants.STATUS) String status);
 
     List<User> findByIdIn(List<Long> ids);
 
