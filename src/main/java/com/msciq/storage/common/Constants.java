@@ -267,7 +267,7 @@ public class Constants {
 
     // Spring Components and warning
     public static final String SERIAL = "serial";
-    public static final String ERROR_MESSAGE_PROPERTY = "classpath:error_messages.properties";
+    public static final String ERROR_MESSAGE_PROPERTY = "/error_messages.properties";
     public static final String RAWTYPES = "rawtypes";
     public static final String UNCHECKED = "unchecked";
     public static final String UNUSED = "unused";

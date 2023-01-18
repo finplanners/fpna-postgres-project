@@ -187,14 +187,21 @@ public class UserServiceImpl implements UserService {
                 LoginDTO loginDTO = new LoginDTO();
                 loginDTO.setEmail(user.getEmail());
                 loginDTO.setPassword(user.getPassword());
-                user.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
-                user.setActive(true);
-                user.setStatus(Constants.USER_STATUS.Active.toString());
-                user.setVerified(true);
-                user.setPassword(Base64.getEncoder()
+                User userToBeSaved = new User();
+                userToBeSaved.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
+                userToBeSaved.setActive(true);
+                userToBeSaved.setStatus(Constants.USER_STATUS.Active.toString());
+                userToBeSaved.setVerified(true);
+                userToBeSaved.setPassword(Base64.getEncoder()
                         .encodeToString(user.getPassword().getBytes()));
+                userToBeSaved.setOrganizationName(user.getOrganizationName());
+                userToBeSaved.setFirstName(user.getFirstName());
+                userToBeSaved.setLastName(user.getLastName());
+                userToBeSaved.setEmail(user.getEmail());
+                userToBeSaved.setPhoneNumber(user.getPhoneNumber());
+
                 // added user details in Postgres
-                User userCreated =  userRepository.save(user);
+                User userCreated =  userRepository.save(userToBeSaved);
                 loginResponse.setUser(userCreated);
 
                      userRoleMappings.add(UserRoleMapping.builder()

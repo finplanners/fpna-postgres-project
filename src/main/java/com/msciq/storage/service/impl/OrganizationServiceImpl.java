@@ -34,10 +34,10 @@ public class OrganizationServiceImpl implements OrganizationService {
              * So we are adding a prefix to make sure the bucket name starts with a letter and converting the input
              * tenant name to lower case and replaced all the spaces with `_`
              */
-            String bucketName = Constants.ORGANIZATION_PREFIX + organization.getOrganizationName().toLowerCase().replaceAll("\\s", "_");
+            //String bucketName = Constants.ORGANIZATION_PREFIX + organization.getOrganizationName().toLowerCase().replaceAll("\\s", "_");
 
             /* Creating bucket in google cloud */
-            gcpStorageService.createBucket(bucketName);
+            //gcpStorageService.createBucket(bucketName);
 
             /* Create a namespace in google data store */
             //Datastore tenantDataStore = gcpStorageService.createOrGetNamespace(bucketName);

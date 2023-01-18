@@ -104,7 +104,7 @@ public final class ErrorConstants {
 		//public static final String COUNTRY_NOT_NULL = "Country should not be empty";
 	 public static final String CURRENCY_NOT_NULL = "Currency should not be empty";
 	 public static final String GC_CODE_NOT_NULL = "Group company code should not be empty";
-	 public static final String GC_NAME_NOT_NULL = "Group compnay name should not be empty";
+	 public static final String GC_NAME_NOT_NULL = "Group company name should not be empty";
 	 public static final String FISCAL_YEAR_NOT_NULL = "Fiscal year should not be empty";
 	 
 	 public static final String COMPNAY_CODE_NOT_NULL = "Company code should not be empty";
