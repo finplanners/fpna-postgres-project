@@ -103,17 +103,17 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .id(resultEntity.getKey().getName())
                 .build();
     }
-
-    public Department getDepartment(String departmentCode, Datastore datastore) {
-        return departmentRepository.findByCode(departmentCode);
-    }
-
-    public Department updateDepartment(Department department) {
-        return (Department) departmentRepository.save(department);
-    }
-
-    public Department removeDepartment(String code) {
-        return departmentRepository.removeByCode(code);
-    }
+//
+//    public Department getDepartment(String departmentCode, Datastore datastore) {
+//        return departmentRepository.findByCode(departmentCode);
+//    }
+//
+//    public Department updateDepartment(Department department) {
+//        return (Department) departmentRepository.save(department);
+//    }
+//
+//    public Department removeDepartment(String code) {
+//        return departmentRepository.removeByCode(code);
+//    }
 
 }

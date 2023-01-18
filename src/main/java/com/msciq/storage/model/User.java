@@ -29,11 +29,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class User extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = FieldConstants.ID)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @NotNull(message = "Organization name is mandatory")
     @NotBlank(message = "Organization name is mandatory")
     private String organizationName;

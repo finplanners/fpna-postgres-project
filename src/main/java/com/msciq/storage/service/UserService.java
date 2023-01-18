@@ -6,7 +6,6 @@ import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
-import com.msciq.storage.model.response.SuccessResponse;
 import com.msciq.storage.model.response.UserViewResponse;
 
 

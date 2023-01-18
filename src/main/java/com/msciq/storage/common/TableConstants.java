@@ -10,4 +10,16 @@ public class TableConstants {
 
     public static final String TABLE_ROLE = "role";
 
+    public static final String TABLE_CURRENCY = "currency";
+
+    public static final String TABLE_DEPARTMENT = "department";
+
+    public static final String TABLE_FISCAL_CALENDAR = "fiscal_calendar";
+
+    public static final String TABLE_GC = "group_company";
+
+    public static final String TABLE_COMPANY= "company";
+
+    public static final String TABLE_BU= "business_unit";
+
 }
