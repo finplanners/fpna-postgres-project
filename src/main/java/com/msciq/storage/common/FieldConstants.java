@@ -58,6 +58,36 @@ public class FieldConstants {
     public static final String ROLE_NAME = "role_name";
     public static final String PERMISSION_OBJECT = "permission";
 
+    public static final String GC_NAME = "gc_name";
+    public static final String GC_CODE = "gc_code";
+    public static final String CURRENCY_ID = "currency_id";
+    public static final String GC_ID = "gc_id";
+    public static final String CURRENCY = "currency";
 
+    public static final String DEPARTMENT_CODE = "depart_code";
+    public static final String ACTIVATION_DATE = "activation_date";
+    public static final String DEPART_HEAD_NAME = "dept_head_name";
+    public static final String REPORT_OWNER = "report_owner";
+
+    public static final String BU_OWNER = "bu_owner";
+    public static final String BU_OWNER_EMAIL = "bu_owner_email";
+    public static final String UTC = "UTC";
+
+    public static final String NAME = "name";
+
+    public static final String CODE = "code";
+
+    public static final String END_DATE = "end_date";
+
+    public static final String DESCRIPTION = "description";
+
+    public static final String KEY = "key";
+
+    public static final String FC_ID = "fc_id";
+    public static final String START_MONTH = "start_month";
+    public static final String START_DAY = "start_day";
+    public static final String START_WEEK_DAY = "start_week_day";
+    public static final String START_PERIOD_OF_YEAR = "start_period_of_year";
+    public static final String SEVENTH_YR_EXTRA_WEEK = "seventh_yr_extra_week";
 
 }

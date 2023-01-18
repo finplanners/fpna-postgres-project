@@ -8,10 +8,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -23,6 +20,10 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseEntity {
 
+	@Id
+	@Column(name = FieldConstants.ID)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@Column(name = FieldConstants.CREATED_BY, updatable = false, nullable = false)
 	@ApiModelProperty(hidden = true)

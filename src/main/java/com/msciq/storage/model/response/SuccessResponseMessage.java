@@ -18,6 +18,7 @@ public class SuccessResponseMessage<T> {
 	private String message;
 	private Object data;
 	private Integer responseCode;
+	private String entityValue;
 
 	/**
 	 * <h1>Success message.</h1>
@@ -31,5 +32,6 @@ public class SuccessResponseMessage<T> {
 		this.setMessage(message);
 		this.setData(entity);
 		this.setResponseCode(responseCode);
+		this.setEntityValue(entityValue);
 	}
 }
