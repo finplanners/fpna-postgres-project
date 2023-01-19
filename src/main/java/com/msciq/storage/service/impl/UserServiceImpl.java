@@ -82,8 +82,8 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<UserViewResponse> getListofUsers(boolean isDeleted,String status)  {
-        List<User> users = userRepository.findByUserStatus(isDeleted,status);
+    public List<UserViewResponse> getListofUsers(boolean isDeleted)  {
+        List<User> users = userRepository.findByUserStatus(isDeleted);
         List<UserViewResponse> userViewResponses = new ArrayList<>();
         for (User user : users)
         {
@@ -128,7 +128,9 @@ public class UserServiceImpl implements UserService {
     public String removeUser(String action,List<Long> ids) {
         try{
             List<User> users = userRepository.findByIdIn(ids);
-
+            if(users.size() == 0){
+                return "Invalid user";
+            }
             for (User user:users) {
                 if(action.equalsIgnoreCase("delete")){
                     user.setDeleted(true);
@@ -373,12 +375,18 @@ public class UserServiceImpl implements UserService {
     public String lockOrUnlock(String action, List<Long> ids) {
         try{
             List<User> users = userRepository.findByIdIn(ids);
+            if(users.size() == 0){
+                return "Invalid user";
+            }
             for (User user:
                     users) {
-                if(action.equalsIgnoreCase("lock"))
+                if(action.equalsIgnoreCase("lock")) {
                     user.setActive(false);
+                    user.setStatus(Constants.USER_STATUS.Locked.toString());
+                }
                 else if(action.equalsIgnoreCase("unlock")){
                     user.setActive(true);
+                    user.setStatus(Constants.USER_STATUS.Active.toString());
                 }
                 else
                     return "Invalid Action Type";

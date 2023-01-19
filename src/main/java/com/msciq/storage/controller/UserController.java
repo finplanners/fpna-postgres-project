@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping("/get/user")
     public SuccessResponse<List<UserViewResponse>> getUser(@RequestParam boolean isDeleted, @RequestParam String status) {
 
-        if(!(status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("active") && !isDeleted)){
+        if(!(status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("all") && !isDeleted)){
             return new SuccessResponse<List<UserViewResponse>>
                     (ErrorMessage.INVALID_REQUEST,
                             null,
@@ -82,7 +82,7 @@ public class UserController {
                             HttpStatus.BAD_REQUEST);
         }
 
-        List<UserViewResponse> userViewResponses = userService.getListofUsers(isDeleted,status);
+        List<UserViewResponse> userViewResponses = userService.getListofUsers(isDeleted);
 
         return new SuccessResponse<List<UserViewResponse>>
                     (SuccessMessage.SUCCESS,
