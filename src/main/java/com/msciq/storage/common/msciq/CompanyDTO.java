@@ -3,7 +3,7 @@ package com.msciq.storage.common.msciq;
 import com.msciq.storage.common.ErrorConstants;
 import com.msciq.storage.common.entity.Currency;
 import com.msciq.storage.common.entity.FiscalCalendar;
-import com.msciq.storage.model.GroupCompany;
+import com.msciq.storage.common.entity.GroupCompany;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -39,5 +39,7 @@ public class CompanyDTO {
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date endDate;
+
+	private boolean status;
 	
 }

@@ -70,7 +70,6 @@ public final class ErrorConstants {
     public static final String COUNTRY_NAME_NOT_NULL = "Country name should not be empty";
     public static final String COUNTRYCODE_NOT_NULL = "Country code should not be empty";
     public static final String UNIT_MEASUREMENT_NOT_NULL = "Unit measurement should not be empty";
-    public static final String COUNTY_NAME_NOT_NULL = "County name should not be empty";
     public static final String IS_ACTIVE_NOT_NULL = "IsActive should not be null";
     public static final String SUB_COUNTY_NAME_NOT_NULL = "Sub county name should not be null";
     public static final String CLASSIFICATION_NAME_NOT_NULL = "Classification name should not be empty";

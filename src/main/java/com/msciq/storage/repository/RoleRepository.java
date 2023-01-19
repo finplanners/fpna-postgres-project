@@ -39,6 +39,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	@Query(value = GET_ALL_ROLES)
 	public List<Role> getAllRoles(@Param(FieldConstants.STATUS) boolean status);
 
+	public Role findByName(String roleName);
+
 //	@Query(value = GET_ROLE_BY_ID)
 //	public Role getRoleById(@Param(FieldConstants.ROLE_ID) Long roleId);
 

@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "USER_TBL")
 @ToString
@@ -49,6 +50,10 @@ public class User extends BaseEntity implements Serializable {
     private String password;
 
     private String status;
+
+//    @ManyToOne
+//    @JoinColumn(name = "user_role_id")
+//    private List<Role> userRolesId;
 
     private String userType;
     private boolean isVerified;

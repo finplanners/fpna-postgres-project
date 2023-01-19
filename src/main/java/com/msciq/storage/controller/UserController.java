@@ -3,6 +3,7 @@ package com.msciq.storage.controller;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
+import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.ResetPassword;
 import com.msciq.storage.model.User;
 import com.msciq.storage.model.request.LoginDTO;
@@ -94,26 +95,19 @@ public class UserController {
     /**
      * This method is used to update the given User
      *
-     * @param user - model
+     * @param users - list of users to be updated
      * @return updated user details
      * @Param companyName - name of the Company
      */
     @PutMapping("/user/update")
-    public SuccessResponse<User> updateUser(@RequestBody User user) {
-        try{
-            User userUpdated = userService.updateUser(user);
-            return new SuccessResponse<User>
+    public SuccessResponse<List<User>> updateUser(@RequestBody List<UserDTO> users) {
+        List<User> userUpdated= userService.updateUser(users);
+            return new SuccessResponse<List<User>>
                     (SuccessMessage.SUCCESS,
                             userUpdated,
                             null,
                             HttpStatus.OK);
-        }catch(Exception e){
-            return new SuccessResponse<User>
-                    (e.getMessage(),
-                            null,
-                            null,
-                            HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     /**
@@ -125,18 +119,18 @@ public class UserController {
      * @Param companyName - name of the Company
      */
     @PutMapping("/user/lock-unlock")
-    public SuccessResponse<String> lockAndDeleteUser(@RequestParam String action, @RequestBody List<Long> ids) {
-        String responseMessage = userService.lockOrUnlock(action, ids);
+    public SuccessResponse<String> lockAndDeleteUser(@RequestBody LockDeleteDTO lockDeleteDTO) {
+        String responseMessage = userService.lockOrUnlock(lockDeleteDTO);
         if(!responseMessage.equalsIgnoreCase("Users updated successfully")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
-                            ids,
+                            null,
                             null,
                             HttpStatus.BAD_REQUEST);
         }else{
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
-                            ids,
+                            lockDeleteDTO,
                             null,
                             HttpStatus.OK);
         }
@@ -148,26 +142,26 @@ public class UserController {
      * @return
      */
     @PutMapping("/user/delete")
-    public SuccessResponse<String> removeUser(@RequestParam String action,@RequestBody List<Long> ids) {
-        if(ids!=null){
-            String responseMessage = userService.removeUser(action,ids);
+    public SuccessResponse<String> removeUser(@RequestBody LockDeleteDTO lockDeleteDTO) {
+        if(lockDeleteDTO.getIds()!=null){
+            String responseMessage = userService.removeUser(lockDeleteDTO);
             if(responseMessage.equalsIgnoreCase("The given users are successfully deleted")){
                 return new SuccessResponse<String>
                         (String.format(responseMessage, Constants.USER),
-                                ids,
+                                lockDeleteDTO,
                                 null,
                                 HttpStatus.OK);
             }else{
                 return new SuccessResponse<String>
                         (String.format(responseMessage, Constants.USER),
-                                ids,
+                                null,
                                 null,
                                 HttpStatus.BAD_REQUEST);
             }
         }else{
             return new SuccessResponse<String>
                     (String.format("Ids should not be null", Constants.USER),
-                            ids,
+                            null,
                             null,
                             HttpStatus.BAD_REQUEST);
         }
@@ -259,7 +253,7 @@ public class UserController {
      * @return Successful or Error message will be shown
      */
 
-    @PostMapping("/user/forgot-password-email")
+    @PostMapping("/user/forgot-password")
     public  SuccessResponse<String> forgotPasswordEmail(@RequestBody ResetPassword resetPassword) {
         String responseMessage = userService.forgotPasswordEmail(resetPassword.getEmail());
         if(!responseMessage.equalsIgnoreCase("Mail sent successfully")){

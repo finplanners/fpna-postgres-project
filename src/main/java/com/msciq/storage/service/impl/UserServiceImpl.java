@@ -3,6 +3,7 @@ package com.msciq.storage.service.impl;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.*;
 import com.msciq.storage.model.request.LoginDTO;
 import com.msciq.storage.model.request.UserDTO;
@@ -10,9 +11,9 @@ import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
 import com.msciq.storage.model.response.UserViewResponse;
 import com.msciq.storage.repository.RolePermissionMappingRepository;
+import com.msciq.storage.repository.RoleRepository;
 import com.msciq.storage.repository.UserRepository;
 import com.msciq.storage.repository.UserRoleMappingRepository;
-import com.msciq.storage.security.Actions;
 import com.msciq.storage.security.JwtUtil;
 import com.msciq.storage.service.EmailService;
 import com.msciq.storage.service.RolePermissionMappingService;
@@ -26,7 +27,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -36,6 +36,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private RoleRepository roleRepository;
     @Autowired
     private RolePermissionMappingRepository rolePermissionMappingRepository;
 
@@ -104,39 +106,47 @@ public class UserServiceImpl implements UserService {
         }
         return userViewResponses;
     }
-    public User updateUser(User user) {
-        Optional<User> userFromDb = userRepository.findById(user.getId());
-        User userModified = userFromDb.get();
-        if(user!=null){
-            if(user.getEmail()!=null && !user.getEmail().isEmpty())
-                userModified.setEmail(user.getEmail());
-            if(user.getOrganizationName()!=null && !user.getOrganizationName().isEmpty())
-                userModified.setOrganizationName(user.getOrganizationName());
-            if(user.getFirstName()!=null && !user.getFirstName().isEmpty())
-                userModified.setFirstName(user.getFirstName());
-            if(user.getLastName()!=null && !user.getLastName().isEmpty())
-                userModified.setLastName(user.getLastName());
-            if(user.getStatus()!=null && !user.getStatus().isEmpty())
-                userModified.setStatus(user.getStatus());
-            if(user.getPhoneNumber()!=null && !user.getPhoneNumber().isEmpty())
-                userModified.setPhoneNumber(user.getPhoneNumber());
-        }
+    public List<User> updateUser(List<UserDTO> users) {
 
-        return (User) userRepository.save(userModified);
+        List<User> userList = new ArrayList();
+        List<User> invalidUserList = new ArrayList();
+        for (UserDTO user:users) {
+            Optional<User> userFromDb = userRepository.findById(user.getId());
+            User userModified = userFromDb.get();
+            if (userModified != null) {
+                if (user.getEmail() != null && !user.getEmail().isEmpty())
+                    userModified.setEmail(user.getEmail());
+                if (user.getFirstName() != null && !user.getFirstName().isEmpty())
+                    userModified.setFirstName(user.getFirstName());
+                if (user.getLastName() != null && !user.getLastName().isEmpty())
+                    userModified.setLastName(user.getLastName());
+                if (user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty())
+                    userModified.setPhoneNumber(user.getPhoneNumber());
+                userList.add(userModified);
+            }else{
+                //Users does not exist in DB
+                userModified = new User();
+                userModified.setEmail(user.getEmail());
+                invalidUserList.add(userModified);
+            }
+        }
+        userRepository.saveAll(userList);
+
+        return userList;
     }
 
-    public String removeUser(String action,List<Long> ids) {
+    public String removeUser(LockDeleteDTO lockDeleteDTO) {
         try{
-            List<User> users = userRepository.findByIdIn(ids);
+            List<User> users = userRepository.findByIdIn(lockDeleteDTO.getIds());
             if(users.size() == 0){
                 return "Invalid user";
             }
             for (User user:users) {
-                if(action.equalsIgnoreCase("delete")){
+                if(lockDeleteDTO.isDeleted()){
                     user.setDeleted(true);
                     user.setStatus(Constants.USER_STATUS.Deleted.toString());
                     user.setActive(false);
-                }else if(action.equalsIgnoreCase("reactivate")){
+                }else if(!lockDeleteDTO.isDeleted()){
                     user.setDeleted(false);
                     user.setStatus(Constants.USER_STATUS.Active.toString());
                     user.setActive(true);
@@ -191,6 +201,7 @@ public class UserServiceImpl implements UserService {
                 loginDTO.setPassword(user.getPassword());
                 User userToBeSaved = new User();
                 userToBeSaved.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
+                //userToBeSaved.setUserRolesId(Arrays.asList(roleRepository.findByName(Constants.SIGN_UP_USER_DEFAULT_TYPE)));
                 userToBeSaved.setActive(true);
                 userToBeSaved.setStatus(Constants.USER_STATUS.Active.toString());
                 userToBeSaved.setVerified(true);
@@ -340,7 +351,7 @@ public class UserServiceImpl implements UserService {
                 newUser.setPhoneNumber(user.getPhoneNumber());
                 newUser.setActive(false);
                 newUser.setVerified(false);
-                newUser.setUserType(user.getRoles().toString());
+                newUser.setUserType(user.getUserRoles().toString());
                 newUser.setOrganizationName(orgName);
                 newUser.setCreatedBy(Long.valueOf(1));
                 newUser.setStatus(Constants.USER_STATUS.Pending.toString());
@@ -349,7 +360,7 @@ public class UserServiceImpl implements UserService {
                 List<UserRoleMapping> userRoleMappings = new ArrayList<>();
                 //Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
                 sendMailToOrganization(userCreated);
-                for (String role : user.getRoles()) {
+                for (String role : user.getUserRoles()) {
                     userRoleMappings.add(UserRoleMapping.builder()
                             .userId(userCreated.getId())
                             .roleName(role)
@@ -372,19 +383,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public String lockOrUnlock(String action, List<Long> ids) {
+    public String lockOrUnlock(LockDeleteDTO lockDeleteDTO) {
         try{
-            List<User> users = userRepository.findByIdIn(ids);
+            List<User> users = userRepository.findByIdIn(lockDeleteDTO.getIds());
             if(users.size() == 0){
                 return "Invalid user";
             }
             for (User user:
                     users) {
-                if(action.equalsIgnoreCase("lock")) {
+                if(!lockDeleteDTO.isActive()) {
                     user.setActive(false);
                     user.setStatus(Constants.USER_STATUS.Locked.toString());
                 }
-                else if(action.equalsIgnoreCase("unlock")){
+                else if(lockDeleteDTO.isActive()){
                     user.setActive(true);
                     user.setStatus(Constants.USER_STATUS.Active.toString());
                 }

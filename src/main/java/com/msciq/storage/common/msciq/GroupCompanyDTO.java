@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.msciq.storage.common.ErrorConstants;
+import com.msciq.storage.common.entity.Country;
 import com.msciq.storage.common.entity.Currency;
 import lombok.Data;
 
@@ -28,5 +29,8 @@ public class GroupCompanyDTO {
 	//@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
 	@NotNull(message = "Currency Must Not be Null")
 	private Currency currency;
+
+	@NotNull(message = "Country Must Not be Null")
+	private Country country;
 				
 }

@@ -21,13 +21,6 @@ import java.io.Serializable;
 public class Role extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 2254198222527717773L;
-
-	@Id
-	@Column(name = FieldConstants.ID)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	// @Column(name = FieldConstants.DESCRIPTION)
-	// private String description;
 	@Column(unique=true)
 	private String name;
 

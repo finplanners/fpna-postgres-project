@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,8 +44,68 @@ public class DataServiceImpl implements DataService {
 	@Autowired
 	BusinessUnitRepository businessUnitRepository;
 
+	@Autowired
+	CountryRepository countryRepository;
+
 	ModelMapper modelMapper = new ModelMapper();
 
+	@Override
+	public Country addCountry(CountryDTO countryDTO) {
+		if (Objects.isNull(countryDTO)) {
+			throw new BadRequestException(19011);
+		}
+		Country existingCountry = countryRepository.findByCountryCodeAndName(countryDTO.getCountryCode(),
+				countryDTO.getName());
+		if (!Objects.isNull(existingCountry)) {
+			throw new DataConflictException(19010);
+		}
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Country country = modelMapper.map(countryDTO, Country.class);
+		return countryRepository.save(country);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Country updateCountry(Country country) {
+		if (Objects.isNull(country)) {
+			throw new BadRequestException(19011);
+		} else {
+			if (Objects.isNull(countryRepository.findByIdAndIsDeleted(country.getId(), false))) {
+				throw new DataNotFoundException(19012);
+			}
+			boolean isExists = countryRepository.isCountryExists(country.getId(), country.getName(),
+					country.getCountryCode());
+			if (isExists) {
+				throw new DataConflictException(19010);
+			}
+			return countryRepository.save(country);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Country findCountryById(Long countryId) {
+		Country country = countryRepository.findByIdAndIsDeleted(countryId, false);
+		if (Objects.isNull(country)) {
+			throw new DataNotFoundException(19012);
+		}
+		return country;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<CountryDTO> getAllCountries(Boolean isActive) {
+		List<Country> countries = countryRepository.findByIsActive(isActive);
+		List<CountryDTO> countryList = modelMapper.map(countries, new TypeToken<List<CountryDTO>>() {
+		}.getType());
+		return countryList;
+	}
 	/**
 	 * {@inheritDoc}
 	 */
@@ -288,16 +349,24 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Company addCompany(@Valid CompanyDTO companyDTO) {
-		if (Objects.isNull(companyDTO)) {
-			throw new BadRequestException(19011);
+	public List<Company> addCompany(@Valid List<CompanyDTO> companyDTOS) {
+
+		List<Company> companyList = new ArrayList<>();
+		for (CompanyDTO companyDTO:
+			 companyDTOS) {
+			if (Objects.isNull(companyDTO)) {
+				throw new BadRequestException(19011);
+			}
+			Company existingCompany = companyRepository.findByCode(companyDTO.getCode());
+			if (!Objects.isNull(existingCompany)) {
+				throw new DataConflictException(19054);
+			}
+			Company company = modelMapper.map(companyDTO, Company.class);
+			companyList.add(company);
+
 		}
-		Company existingCompany = companyRepository.findByCode(companyDTO.getCode());
-		if (!Objects.isNull(existingCompany)) {
-			throw new DataConflictException(19054);
-		}
-		Company company = modelMapper.map(companyDTO, Company.class);
-		return companyRepository.save(company);
+		return companyRepository.saveAll(companyList);
+
 	}
 
 	/**

@@ -20,6 +20,8 @@ public class TableConstants {
 
     public static final String TABLE_COMPANY= "company";
 
+    public static final String TABLE_COUNTRY= "country";
+
     public static final String TABLE_BU= "business_unit";
 
 }
