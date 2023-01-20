@@ -32,4 +32,6 @@ public class ErrorMessage {
 
     public static final String INVALID_REQUEST="Invalid Request!";
 
+    public static final String INVALID_ACTION="Invalid Action!";
+
 }

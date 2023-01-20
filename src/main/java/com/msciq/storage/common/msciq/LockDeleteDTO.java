@@ -8,7 +8,7 @@ import java.util.List;
 public class LockDeleteDTO {
     private List<Long> ids;
 
-    private boolean isActive;
+    private Boolean isActive;
 
-    private boolean isDeleted;
+    private Boolean isDeleted;
 }

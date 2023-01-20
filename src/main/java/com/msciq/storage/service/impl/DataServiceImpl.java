@@ -293,7 +293,7 @@ public class DataServiceImpl implements DataService {
 		if (Objects.isNull(groupCompanyDTO)) {
 			throw new BadRequestException(19011);
 		}
-		GroupCompany existingGroupCompany = groupCompanyRepository.findByGcCode(groupCompanyDTO.getGcCode());
+		GroupCompany existingGroupCompany = groupCompanyRepository.findByGcCodeAndGcName(groupCompanyDTO.getGcCode(), groupCompanyDTO.getGcName());
 		if (!Objects.isNull(existingGroupCompany)) {
 			throw new DataConflictException(19044);
 		}
@@ -357,7 +357,7 @@ public class DataServiceImpl implements DataService {
 			if (Objects.isNull(companyDTO)) {
 				throw new BadRequestException(19011);
 			}
-			Company existingCompany = companyRepository.findByCode(companyDTO.getCode());
+			Company existingCompany = companyRepository.findByCodeAndName(companyDTO.getCode(), companyDTO.getName());
 			if (!Objects.isNull(existingCompany)) {
 				throw new DataConflictException(19054);
 			}

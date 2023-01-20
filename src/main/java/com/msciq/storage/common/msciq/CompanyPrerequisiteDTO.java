@@ -11,6 +11,8 @@ public class CompanyPrerequisiteDTO {
 
 	private List<FiscalCalendarDTO> fiscalCalendarDTOS;
 
-	private List<CompanyDTO> companyDTOS;
+	private List<GroupCompanyDTO> groupCompanyDTOS;
+
+	private List<CountryDTO> countryDTOS;
 	
 }

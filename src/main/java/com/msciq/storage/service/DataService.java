@@ -16,7 +16,7 @@ public interface DataService {
 	/**
 	 * This method is used to add a new Country.
 	 *
-	 * @param country
+	 * @param countryDTO
 	 * @return Country Entity
 	 */
 	Country addCountry(CountryDTO countryDTO);
@@ -176,7 +176,7 @@ public interface DataService {
 	/**
 	 * This method is used to add a new company
 	 * 
-	 * @param companyDTO - company details
+	 * @param companyDTOS - company details
 	 * @return Company Entity
 	 */
 	List<Company> addCompany(List<CompanyDTO> companyDTOS);
@@ -236,5 +236,12 @@ public interface DataService {
 	 * @return business unit entity
 	 */
 	BusinessUnit findBUById(Long buId);
-
+//
+//	Location addLocation(LocationDTO locationDTO);
+//
+//	Location updateLocation(Location location);
+//
+//	Location findLocationById(long locationId);
+//
+//	List<LocationDTO> getAllLocations(boolean b);
 }

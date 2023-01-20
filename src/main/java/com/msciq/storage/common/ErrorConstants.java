@@ -68,7 +68,10 @@ public final class ErrorConstants {
     public static final String DOSAGE_FREQUENCY_NAME_NOT_NULL = "Dosage frequency name should not be empty";
     public static final String DOSAGE_FORM_NAME_NOT_NULL = "Dosage form name should not be empty";
     public static final String COUNTRY_NAME_NOT_NULL = "Country name should not be empty";
-    public static final String COUNTRYCODE_NOT_NULL = "Country code should not be empty";
+    public static final String COUNTRY_CODE_NOT_NULL = "Country code should not be empty";
+
+    public static final String LOCATION_NAME_NOT_NULL = "Location name should not be empty";
+    public static final String LOCATION_CODE_NOT_NULL = "Location code should not be empty";
     public static final String UNIT_MEASUREMENT_NOT_NULL = "Unit measurement should not be empty";
     public static final String IS_ACTIVE_NOT_NULL = "IsActive should not be null";
     public static final String SUB_COUNTY_NAME_NOT_NULL = "Sub county name should not be null";
@@ -87,7 +90,7 @@ public final class ErrorConstants {
 	public static final String INFO_USER_NOT_EXIST = "Username does not exist : ";
 	public static final String INFO_USER_PASSWORD_NOT_MATCH = "Password doesn't match for the user : ";
 	public static final String EXCEPTION_TOKEN_UTILS = "Exception occured while loading token utills";
-	public static final String INVALID_USER_ERROR = "{ \"error\": \"Invalid User\"}";
+	public static final String INVALID_USER_ERROR = "Invalid User";
 	public static final String LOGIN_ERROR = "Login Error ";
 	public static final String ERROR_JWE_TOKEN = "Error while creating jwe token ";
 	public static final String TOKEN_EXPIRED = "Token expired";

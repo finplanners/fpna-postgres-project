@@ -6,11 +6,15 @@ public class SuccessMessage {
             = "You will receive the email notification to reset the password if your account exists in our system";
 
     public static final String USER_INVITED_SUCCESS
+            = "Invite has been sent for the given user, Kindly proceed to reset password using the link given in the email";
+
+    public static final String USERS_INVITED_SUCCESS
             = "Invite has been sent for the given users, Kindly proceed to reset password using the link given in the email";
     public static final String LOGIN_SUCCESS = "You are successfully logged in";
 
     public static final String SUCCESS = " Success";
-
     public static final String SUCCESSFULLY_SAVED = "%s saved successfully";
     public static final String USER_NOT_SAVED = "User is not saved";
+    public static final String USERS_ACTIVE = "The given users are activated";
+    public static final String USERS_LOCKED = "The given users are locked";
 }

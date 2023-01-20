@@ -61,6 +61,7 @@ public class FieldConstants {
     public static final String GC_NAME = "gc_name";
     public static final String GC_CODE = "gc_code";
     public static final String CURRENCY_ID = "currency_id";
+    public static final String COMPANY_ID = "company_id";
     public static final String GC_ID = "gc_id";
     public static final String CURRENCY = "currency";
 

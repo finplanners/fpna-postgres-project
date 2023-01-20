@@ -17,4 +17,5 @@ public interface UserRoleMappingRepository extends JpaRepository<UserRoleMapping
     @Query(countQuery = GET_USER_ROLES)
     public List<UserRoleMapping> getAllRoleByUserId(@Param("userId") Long id);
 
+    UserRoleMapping findByUserIdAndRoleName(Long id, String role);
 }

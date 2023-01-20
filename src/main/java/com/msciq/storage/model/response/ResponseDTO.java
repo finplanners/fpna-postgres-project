@@ -14,8 +14,6 @@ import javax.enterprise.inject.Model;
 @Getter
 public class ResponseDTO {
 
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
     private String message;
     private boolean isError;
 }

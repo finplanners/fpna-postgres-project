@@ -3,6 +3,7 @@ package com.msciq.storage.service.impl;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.msciq.storage.common.ErrorConstants;
 import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.*;
 import com.msciq.storage.model.request.LoginDTO;
@@ -122,6 +123,21 @@ public class UserServiceImpl implements UserService {
                     userModified.setLastName(user.getLastName());
                 if (user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty())
                     userModified.setPhoneNumber(user.getPhoneNumber());
+
+                if(user.getUserRoles()!=null){
+                    List<UserRoleMapping> userRoleMappings = new ArrayList<>();
+                    for (String role : user.getUserRoles()) {
+                        userRoleMappings.add(UserRoleMapping.builder()
+                                .userId(userModified.getId())
+                                .roleName(role)
+                                .build());
+                        UserRoleMapping urm = userRoleMappingRepository.findByUserIdAndRoleName(userModified.getId(), role);
+                        if(urm!=null){
+                            userRoleMappingRepository.save(urm);
+                        }
+                    }
+                }
+
                 userList.add(userModified);
             }else{
                 //Users does not exist in DB
@@ -142,11 +158,11 @@ public class UserServiceImpl implements UserService {
                 return "Invalid user";
             }
             for (User user:users) {
-                if(lockDeleteDTO.isDeleted()){
+                if(lockDeleteDTO.getIsDeleted()){
                     user.setDeleted(true);
                     user.setStatus(Constants.USER_STATUS.Deleted.toString());
                     user.setActive(false);
-                }else if(!lockDeleteDTO.isDeleted()){
+                }else if(!lockDeleteDTO.getIsDeleted()){
                     user.setDeleted(false);
                     user.setStatus(Constants.USER_STATUS.Active.toString());
                     user.setActive(true);
@@ -186,7 +202,6 @@ public class UserServiceImpl implements UserService {
 
     public LoginResponse userSignUp(User user,String token) {
         LoginResponse loginResponse=new LoginResponse();
-        List<UserRoleMapping> userRoleMappings = new ArrayList<>();
 
         try{
             log.info(" user sign-up start");
@@ -217,13 +232,13 @@ public class UserServiceImpl implements UserService {
                 User userCreated =  userRepository.save(userToBeSaved);
                 loginResponse.setUser(userCreated);
 
-                     userRoleMappings.add(UserRoleMapping.builder()
-                            .userId(userCreated.getId())
-                            .roleName(Constants.SIGN_UP_USER_DEFAULT_TYPE)
-                            .build());
+                UserRoleMapping userRoleMapping = UserRoleMapping.builder()
+                        .userId(userCreated.getId())
+                        .roleName(Constants.SIGN_UP_USER_DEFAULT_TYPE)
+                        .build();
 
                 // map user and roles in user role mapping table
-                 userRoleMappingRepository.saveAll(userRoleMappings);
+                 userRoleMappingRepository.save(userRoleMapping);
                  // set claims
                 String jwtToken = jwtUtil.generateToken(user.getEmail());
                 loginResponse.setIdToken(jwtToken);
@@ -306,7 +321,7 @@ public class UserServiceImpl implements UserService {
         LoginResponse response = new LoginResponse();
 
         try{
-            User userfromDB = userRepository.findByEmail(loginDTO.getEmail());
+            User userfromDB = userRepository.findByEmailAndStatus(loginDTO.getEmail(),"Active");
             if(null!=userfromDB) {
                 byte[] decodedBytes = Base64.getDecoder().decode(userfromDB.getPassword());
                 String decodedPassword = new String(decodedBytes);
@@ -351,7 +366,7 @@ public class UserServiceImpl implements UserService {
                 newUser.setPhoneNumber(user.getPhoneNumber());
                 newUser.setActive(false);
                 newUser.setVerified(false);
-                newUser.setUserType(user.getUserRoles().toString());
+                //newUser.setUserType(user.getUserRoles().toString());
                 newUser.setOrganizationName(orgName);
                 newUser.setCreatedBy(Long.valueOf(1));
                 newUser.setStatus(Constants.USER_STATUS.Pending.toString());
@@ -367,14 +382,20 @@ public class UserServiceImpl implements UserService {
                             .build());
                     //Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
                     //claimsData.put(role, permissionObject);
-                    userRoleMappingRepository.saveAll(userRoleMappings);
-
                 }
+                userRoleMappingRepository.saveAll(userRoleMappings);
             }
-            return ResponseDTO.builder()
-                    .message(String.format(SuccessMessage.USER_INVITED_SUCCESS))
-                    .isError(false)
-                    .build();
+            if(users.size()>1){
+                return ResponseDTO.builder()
+                        .message(String.format(SuccessMessage.USERS_INVITED_SUCCESS))
+                        .isError(false)
+                        .build();
+            }else{
+                return ResponseDTO.builder()
+                        .message(String.format(SuccessMessage.USER_INVITED_SUCCESS))
+                        .isError(false)
+                        .build();
+            }
         } catch (Exception e) {
             return ResponseDTO.builder()
                     .message(e.getMessage())
@@ -384,26 +405,29 @@ public class UserServiceImpl implements UserService {
     }
 
     public String lockOrUnlock(LockDeleteDTO lockDeleteDTO) {
+        String message= "";
         try{
             List<User> users = userRepository.findByIdIn(lockDeleteDTO.getIds());
-            if(users.size() == 0){
-                return "Invalid user";
+            if(users!=null && users.size() == 0){
+                message= ErrorConstants.INVALID_USER_ERROR;
             }
             for (User user:
                     users) {
-                if(!lockDeleteDTO.isActive()) {
+                if(!lockDeleteDTO.getIsActive()) {
                     user.setActive(false);
                     user.setStatus(Constants.USER_STATUS.Locked.toString());
+                    message=SuccessMessage.USERS_LOCKED;
                 }
-                else if(lockDeleteDTO.isActive()){
+                else if(lockDeleteDTO.getIsActive()){
                     user.setActive(true);
                     user.setStatus(Constants.USER_STATUS.Active.toString());
+                    message=SuccessMessage.USERS_ACTIVE;
                 }
                 else
-                    return "Invalid Action Type";
+                    message=ErrorMessage.INVALID_ACTION;
                 userRepository.save(user);
             }
-            return "Users updated successfully";
+            return message;
 
         }catch(Exception e){
             return e.getMessage();
