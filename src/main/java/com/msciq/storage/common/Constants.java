@@ -497,4 +497,10 @@ public class Constants {
 
     public static final String FORMAT_ddMMMyyyyHHmm = "dd MMM yyyy HH:mm:ss";
 
+    public static final String PROFIT_CENTER = "Profit center";
+
+    public static final String PRODUCT_GROUP = "Product group";
+
+    public static final String PROJECT = "Project";
+
 }

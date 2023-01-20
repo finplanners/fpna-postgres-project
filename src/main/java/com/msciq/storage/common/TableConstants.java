@@ -26,4 +26,9 @@ public class TableConstants {
 
     public static final String TABLE_BU= "business_unit";
 
+    public static final String PROFIT_CENTER = "profit_center";
+
+    public static final String PRODUCT_GROUP = "product_group";
+
+    public static final String PROJECT = "project";
 }
