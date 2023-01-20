@@ -46,6 +46,8 @@ public class DataServiceImpl implements DataService {
 
 	@Autowired
 	CountryRepository countryRepository;
+	@Autowired
+	LocationRepository locationRepository;
 
 	ModelMapper modelMapper = new ModelMapper();
 
@@ -349,7 +351,7 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Company> addCompany(@Valid List<CompanyDTO> companyDTOS) {
+	public List<Company> addCompany(List<CompanyDTO> companyDTOS) {
 
 		List<Company> companyList = new ArrayList<>();
 		for (CompanyDTO companyDTO:
@@ -467,6 +469,51 @@ public class DataServiceImpl implements DataService {
 			throw new DataNotFoundException(19065);
 		}
 		return businessUnit;
+	}
+
+	@Override
+	public List<Location> addLocations(List<LocationDTO> locationDTOS) {
+		List<Location> locations = new ArrayList<>();
+		for (LocationDTO locationDTO:
+				locationDTOS) {
+			if (Objects.isNull(locationDTOS)) {
+				throw new BadRequestException(19011);
+			}
+			Location existingLocation = locationRepository.findByCode(locationDTO.getCode());
+			if (!Objects.isNull(existingLocation)) {
+				throw new DataConflictException(19064);
+			}
+			Location location = modelMapper.map(locationDTO, Location.class);
+			locations.add(location);
+		}
+		return locationRepository.saveAllAndFlush(locations);
+	}
+
+	@Override
+	public List<Location> updateLocation(List<Location> locations) {
+		List<Location> locationList = new ArrayList<>();
+		if (Objects.isNull(locations)) {
+			throw new BadRequestException(19011);
+		} else {
+			for (Location location:
+				 locations) {
+				if (Objects.isNull(locationRepository.findByIdAndIsDeleted(location.getId(), false))) {
+					throw new DataNotFoundException(19055);
+				}
+				locationList.add(location);
+			}
+			return locationRepository.saveAllAndFlush(locationList);
+		}
+	}
+
+	@Override
+	public Location findLocationById(long locationId) {
+		return null;
+	}
+
+	@Override
+	public List<Location> getAllLocations(boolean b) {
+		return locationRepository.findByIsActive(b);
 	}
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.msciq.storage.common.ErrorConstants;
 import com.msciq.storage.model.Company;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
@@ -23,10 +24,10 @@ public class LocationDTO {
 
 	private boolean isActive;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date activeFrom;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date inActive;
 
 

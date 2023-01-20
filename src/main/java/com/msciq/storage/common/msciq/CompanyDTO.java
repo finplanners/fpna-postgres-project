@@ -7,8 +7,10 @@ import com.msciq.storage.common.entity.Currency;
 import com.msciq.storage.common.entity.FiscalCalendar;
 import com.msciq.storage.common.entity.GroupCompany;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -24,26 +26,28 @@ public class CompanyDTO {
 	@NotEmpty(message = ErrorConstants.COMPANY_CODE_NOT_NULL)
 	//@Pattern(regexp = "{A-Za-z0-9}*")
 	private String code;
-	@NotEmpty(message = ErrorConstants.COUNTRY_NOT_NULL)
+	@NotNull(message = ErrorConstants.COUNTRY_NOT_NULL)
 	private Country country;
 
-	@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
+	@NotNull(message = ErrorConstants.CURRENCY_NOT_NULL)
 	private Currency currency;
 	
-	@NotEmpty(message = ErrorConstants.FISCAL_YEAR_NOT_NULL)
+	@NotNull(message = ErrorConstants.FISCAL_YEAR_NOT_NULL)
 	private FiscalCalendar fiscalCalendar;
 	
-	@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
+	@NotNull(message = ErrorConstants.GC_NAME_NOT_NULL)
 	private GroupCompany groupCompany;
 	
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	//@DateTimeFormat(pattern = "dd/mm/yyyy")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date activationDate;
 	
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	//@DateTimeFormat(pattern = "dd/mm/yyyy")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date endDate;
 
 	private boolean status;

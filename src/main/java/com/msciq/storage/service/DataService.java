@@ -236,12 +236,12 @@ public interface DataService {
 	 * @return business unit entity
 	 */
 	BusinessUnit findBUById(Long buId);
-//
-//	Location addLocation(LocationDTO locationDTO);
-//
-//	Location updateLocation(Location location);
-//
-//	Location findLocationById(long locationId);
-//
-//	List<LocationDTO> getAllLocations(boolean b);
+
+	List<Location> addLocations(List<LocationDTO> locationDTO);
+
+	List<Location> updateLocation(List<Location> location);
+
+	Location findLocationById(long locationId);
+
+	List<Location> getAllLocations(boolean b);
 }

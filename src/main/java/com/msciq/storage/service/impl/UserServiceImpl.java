@@ -390,7 +390,7 @@ public class UserServiceImpl implements UserService {
                     userRoleMappingRepository.saveAllAndFlush(userRoleMappingList);
                 }
                 return ResponseDTO.builder()
-                        .message(String.format(SuccessMessage.USERS_INVITED_SUCCESS,users.size()))
+                        .message(SuccessMessage.USERS_INVITED_SUCCESS)
                         .isError(false)
                         .build();
             }else{

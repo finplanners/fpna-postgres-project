@@ -33,54 +33,54 @@ public class DataController {
 	private DataService dataService;
 
 	ModelMapper modelMapper = new ModelMapper();
-//
-//	/**
-//	 * Add a new country with details like location name, code.
-//	 *
-//	 * @param locationDTO
-//	 * @return Country Entity
-//	 */
-//	@RequestMapping(method = RequestMethod.POST, value = "/location")
-//	public SuccessResponse<Location> addLocation(@Valid @RequestBody LocationDTO locationDTO) {
-//		Location location = dataService.addLocation(locationDTO);
-//		return new SuccessResponse<>(SuccessCode.COUNTRY_SAVE, location, HttpStatus.CREATED);
-//	}
-//
-//	/**
-//	 * Update a country detail like name, etc.,
-//	 *
-//	 * @param location
-//	 * @return country Entity
-//	 * @author Rajkumar
-//	 */
-//	@RequestMapping(method = RequestMethod.PUT, value = "/location")
-//	public SuccessResponse<Location> updateLocation(@Valid @RequestBody Location location) {
-//		location = dataService.updateLocation(location);
-//		return new SuccessResponse<>(SuccessCode.COUNTRY_UPDATE, location, HttpStatus.OK);
-//	}
-//
-//	/**
-//	 * Get country detail by country Id.
-//	 *
-//	 * @param locationId - location Id
-//	 * @return Country entity
-//	 */
-//	@GetMapping(value = "/country/{id}")
-//	public SuccessResponse<Location> getLocation(@PathVariable(value = "id") long locationId) {
-//		Location location = dataService.findLocationById(locationId);
-//		return new SuccessResponse<>(SuccessCode.GET_COUNTRY_SUCCESS, location, HttpStatus.OK);
-//	}
-//
-//	/**
-//	 * Get all active country details
-//	 *
-//	 * @return List - list of Country entity
-//	 */
-//	@RequestMapping(value = "/countries", method = RequestMethod.GET)
-//	public SuccessResponse<List<LocationDTO>> getLocations() {
-//		List<LocationDTO> locations = dataService.getAllLocations(true);
-//		return new SuccessResponse<List<LocationDTO>>(SuccessCode.GET_COUNTRIES_SUCCESS, locations, HttpStatus.OK);
-//	}
+
+	/**
+	 * Add a new country with details like location name, code.
+	 *
+	 * @param locationDTOS
+	 * @return Country Entity
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/location")
+	public SuccessResponse<List<Location>> addLocation(@Valid @RequestBody List<LocationDTO> locationDTOS) {
+		List<Location> locations = dataService.addLocations(locationDTOS);
+		return new SuccessResponse<>(SuccessCode.LOCATION_SAVE, locations, HttpStatus.CREATED);
+	}
+
+	/**
+	 * Update a country detail like name, etc.,
+	 *
+	 * @param locations
+	 * @return country Entity
+	 * @author Rajkumar
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/location")
+	public SuccessResponse<List<Location>> updateLocation(@Valid @RequestBody List<Location> locations) {
+		locations = dataService.updateLocation(locations);
+		return new SuccessResponse<>(SuccessCode.LOCATION_UPDATE, locations, HttpStatus.OK);
+	}
+
+	/**
+	 * Get country detail by country Id.
+	 *
+	 * @param locationId - location Id
+	 * @return Country entity
+	 */
+	@GetMapping(value = "/location/{id}")
+	public SuccessResponse<Location> getLocation(@PathVariable(value = "id") long locationId) {
+		Location location = dataService.findLocationById(locationId);
+		return new SuccessResponse<>(SuccessCode.GET_LOCATION_SUCCESS, location, HttpStatus.OK);
+	}
+
+	/**
+	 * Get all active country details
+	 *
+	 * @return List - list of Country entity
+	 */
+	@RequestMapping(value = "/locations", method = RequestMethod.GET)
+	public SuccessResponse<List<LocationDTO>> getLocations() {
+		List<Location> locations = dataService.getAllLocations(true);
+		return new SuccessResponse<List<LocationDTO>>(SuccessCode.GET_LOCATIONS_SUCCESS, locations, HttpStatus.OK);
+	}
 
 	/**
 	 * Add a new country with details like country name, code.

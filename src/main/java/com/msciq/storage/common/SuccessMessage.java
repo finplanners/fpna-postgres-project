@@ -11,7 +11,7 @@ public class SuccessMessage {
             = "User invited successfully";
 
     public static final String USERS_INVITED_SUCCESS
-            = "%d Users invited successfully";
+            = "User(s) invited successfully";
     public static final String LOGIN_SUCCESS = "Logged in successfully";
 
     public static final String SUCCESS = " Success";
