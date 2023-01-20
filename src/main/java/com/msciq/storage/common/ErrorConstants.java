@@ -90,7 +90,7 @@ public final class ErrorConstants {
 	public static final String INFO_USER_NOT_EXIST = "Username does not exist : ";
 	public static final String INFO_USER_PASSWORD_NOT_MATCH = "Password doesn't match for the user : ";
 	public static final String EXCEPTION_TOKEN_UTILS = "Exception occured while loading token utills";
-	public static final String INVALID_USER_ERROR = "Invalid User";
+	public static final String INVALID_USERS_ERROR = "Invalid Users";
 	public static final String LOGIN_ERROR = "Login Error ";
 	public static final String ERROR_JWE_TOKEN = "Error while creating jwe token ";
 	public static final String TOKEN_EXPIRED = "Token expired";
@@ -109,8 +109,8 @@ public final class ErrorConstants {
 	 public static final String GC_NAME_NOT_NULL = "Group company name should not be empty";
 	 public static final String FISCAL_YEAR_NOT_NULL = "Fiscal year should not be empty";
 	 
-	 public static final String COMPNAY_CODE_NOT_NULL = "Company code should not be empty";
-	 public static final String COMPNAY_NAME_NOT_NULL = "Company name should not be empty";
+	 public static final String COMPANY_CODE_NOT_NULL = "Company code should not be empty";
+	 public static final String COMPANY_NAME_NOT_NULL = "Company name should not be empty";
 	 
 	 public static final String BU_CODE_NOT_NULL = "BU code should not be empty";
 	 public static final String BU_NAME_NOT_NULL = "BU name should not be empty";

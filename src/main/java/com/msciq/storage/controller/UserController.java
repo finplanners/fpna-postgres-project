@@ -101,10 +101,10 @@ public class UserController {
      */
     @PutMapping("/user/update")
     public SuccessResponse<List<User>> updateUser(@RequestBody List<UserDTO> users) {
-        List<User> userUpdated= userService.updateUser(users);
+        List<User> usersUpdated= userService.updateUser(users);
             return new SuccessResponse<List<User>>
-                    (SuccessMessage.SUCCESS,
-                            userUpdated,
+                    (SuccessMessage.USERS_UPDATE_SUCCESS,
+                            usersUpdated,
                             null,
                             HttpStatus.OK);
 
@@ -113,8 +113,7 @@ public class UserController {
     /**
      * This method is used to update the given User
      *
-     * @param action - action to be performed "delete" or "lock"
-     * @param ids - list of ids to perform the action
+     * @param lockDeleteDTO - lockDeleteDTO
      * @return updated user details
      * @Param companyName - name of the Company
      */
@@ -138,7 +137,7 @@ public class UserController {
     /**
      * This method is used to remove the given user
      *
-     * @param ids - ids of the users to be deleted
+     * @param lockDeleteDTO - lockDeleteDTO
      * @return
      */
     @PutMapping("/user/delete")

@@ -27,11 +27,11 @@ public class Company extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message = ErrorConstants.COMPNAY_NAME_NOT_NULL)
+	@NotEmpty(message = ErrorConstants.COMPANY_NAME_NOT_NULL)
 	@Column(name = FieldConstants.NAME)
 	private String name;
 
-	@NotEmpty(message = ErrorConstants.COMPNAY_CODE_NOT_NULL)
+	@NotEmpty(message = ErrorConstants.COMPANY_CODE_NOT_NULL)
 	@Column(name = FieldConstants.CODE)
 	private String code;
 	

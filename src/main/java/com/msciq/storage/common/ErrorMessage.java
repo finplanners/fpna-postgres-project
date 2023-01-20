@@ -34,4 +34,8 @@ public class ErrorMessage {
 
     public static final String INVALID_ACTION="Invalid Action!";
 
+    public static final String USER_NOT_EXIST = "User does not exist";
+
+    public static final String IS_EMPTY = "The given list is Empty";
+
 }
