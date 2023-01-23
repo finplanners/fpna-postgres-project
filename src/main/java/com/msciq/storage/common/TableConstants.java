@@ -31,4 +31,6 @@ public class TableConstants {
     public static final String PRODUCT_GROUP = "product_group";
 
     public static final String PROJECT = "project";
+    public static final String BUDGET_CATEGRORY = "budget_category";
+    public static final String TEMPLATE_TYPE = "template_type";
 }

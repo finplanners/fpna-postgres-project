@@ -105,6 +105,8 @@ public class Constants {
     public static final String EMAIL_ALREADY_EXISTS = "Email already exists";
 
     public static final String RESET_PASSWORD = "Reset Password!!";
+    public static final String BUDGET_CATEGORY = "Budget category";
+    public static final String TEMPLATE_TYPE = "Template type";
 
     public enum USER_STATUS  {Active,Pending,Deleted,Locked};
 

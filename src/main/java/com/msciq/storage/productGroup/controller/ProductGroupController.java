@@ -26,7 +26,7 @@ public class ProductGroupController {
     ProductGroupService productGroupService;
 
     /**
-     * Gets all forecasting templates.
+     * Gets all product groups.
      *
      * @return List of productGroup entity
      * @author Sivaranjani DS
@@ -38,7 +38,7 @@ public class ProductGroupController {
     }
 
     /**
-     * This method is used to add a new Template.
+     * This method is used to create new Product groups.
      *
      * @param productGroups
      * @return List of productGroup

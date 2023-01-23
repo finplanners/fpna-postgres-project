@@ -32,7 +32,7 @@ public class ForecastingTemplate extends BaseEntity {
     @Column(name = FieldConstants.TEMPLATE_NAME)
     private String templateName;
 
-    @Column(name = FieldConstants.TEMPLATE_TYPE)
+    @Column(name = FieldConstants.TYPE)
     private String type;
 
     @Column(name = FieldConstants.VERSION)

@@ -4,7 +4,7 @@ public class FieldConstants {
 
     public static final String TEMPLATE_CODE = "template_code";
     public static final String TEMPLATE_NAME = "template_name";
-    public static final String TEMPLATE_TYPE = "type";
+    public static final String TYPE = "type";
     public static final String VERSION = "version";
     public static final String TEMPLATE_VALUE = "template_value";
 
@@ -102,4 +102,6 @@ public class FieldConstants {
     public static final String PROFIT_CENTER_ID = "profit_center_id";
     public static final String PROJECT_OWNER_EMAIL = "project_owner_email";
     public static final String PROJECT_OWNER_NAME = "project_owner_name";
+    public static final String BUDGET_CATEGORY = "budget_category";
+    public static final String TEMPLATE_TYPE = "template_type";
 }
