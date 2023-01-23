@@ -16,12 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Organization {
-
-    @Id
-    @Column(name = FieldConstants.ID)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Organization extends BaseEntity{
 
     @NotNull(message = "Organization name is mandatory")
     @NotBlank(message = "Organization name is mandatory")
@@ -38,20 +33,5 @@ public class Organization {
     @NotNull(message = "Last Name is mandatory")
     @NotBlank(message = "Last Name is mandatory")
     private String lastName;
-
-    @JsonIgnore
-    private String createdBy;
-
-    @JsonIgnore
-    private LocalDateTime createdDt;
-
-    @JsonIgnore
-    private String lastUpdatedBy;
-
-    @JsonIgnore
-    private LocalDateTime lastUpdatedDt;
-
-    @JsonIgnore
-    private boolean isActive;
 
 }

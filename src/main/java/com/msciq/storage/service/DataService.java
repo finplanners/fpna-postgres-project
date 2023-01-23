@@ -14,6 +14,38 @@ import java.util.List;
 public interface DataService {
 
 	/**
+	 * This method is used to add a new Country.
+	 *
+	 * @param countryDTO
+	 * @return Country Entity
+	 */
+	Country addCountry(CountryDTO countryDTO);
+
+	/**
+	 * This method is used to update a country details like name, code.
+	 *
+	 * @param country
+	 * @return country Entity
+	 */
+	Country updateCountry(Country country);
+
+	/**
+	 * Get all active countries using status active.
+	 *
+	 * @param isActive - active status
+	 * @return List of country entities.
+	 */
+	List<CountryDTO> getAllCountries(Boolean isActive);
+
+	/**
+	 * Get country detail by Id.
+	 *
+	 * @param countryId - country Id
+	 * @return Country entity
+	 */
+	Country findCountryById(Long countryId);
+
+	/**
 	 * This method is used to add a new Currency.
 	 *
 	 * @param currencyDTO - currency details
@@ -144,10 +176,10 @@ public interface DataService {
 	/**
 	 * This method is used to add a new company
 	 * 
-	 * @param companyDTO - company details
+	 * @param companyDTOS - company details
 	 * @return Company Entity
 	 */
-	Company addCompany(CompanyDTO companyDTO);
+	List<Company> addCompany(List<CompanyDTO> companyDTOS);
 
 	/**
 	 * This method is used to update a company details.
@@ -205,4 +237,11 @@ public interface DataService {
 	 */
 	BusinessUnit findBUById(Long buId);
 
+	List<Location> addLocations(List<LocationDTO> locationDTO);
+
+	List<Location> updateLocation(List<Location> location);
+
+	Location findLocationById(long locationId);
+
+	List<Location> getAllLocations(boolean b);
 }

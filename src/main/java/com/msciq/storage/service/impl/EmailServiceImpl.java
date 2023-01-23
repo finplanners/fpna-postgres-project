@@ -47,7 +47,7 @@ public class EmailServiceImpl implements EmailService {
             String htmlMsg = "<html>\n" +
                     "<head></head>\n" +
                     "<body>\n" +
-                    "    <p>Dear " + details.getRecipientName() +",</p>\n" +
+                    "    <p>Dear " + details.getFirstName() +",</p>\n" +
                     "    <p>Welcome to MSCIQ.  Here is the invite link for you to register your Global Admin account:</b></p>\n" +
                     "<div style=margin-left: 25%;\n><a href=\""+emailLink+"\" style=\"display:inline-block;background:#41B8FF;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:10px;\" target=\"_blank\"><span style=\"font-size:14px;\">Click here to activate</span></a></div>"+
                     "    <p> Once your account is activated, you can begin the process of inviting users and configuring the system.</b></p>\n" +
@@ -119,7 +119,7 @@ public class EmailServiceImpl implements EmailService {
             String htmlMsg = "<html>\n" +
                     "<head></head>\n" +
                     "<body>\n" +
-                    "    <p>Dear " + emailTemplate.getRecipientName() +",</p>\n" +
+                    "    <p>Dear " + emailTemplate.getFirstName() +",</p>\n" +
                     "    <p>Welcome to MSCIQ. You have been successfully registered to the system\nPlease click the below link to reset your password" +
                     "<div style=margin-left: 25%;\n><a href=\""+emailLink+"\" style=\"display:inline-block;background:#41B8FF;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:10px;\" target=\"_blank\"><span style=\"font-size:14px;\">Click here to reset your password</span></a></div>"+
                     "    <p style=\"font-weight: bold;\">Thanks</p>\n" +

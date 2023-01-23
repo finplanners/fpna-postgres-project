@@ -1,6 +1,5 @@
-package com.msciq.storage.Forecast.service;
+package com.msciq.storage.forecast.service;
 
-import com.msciq.storage.model.ForecastingTemplate;
 import com.msciq.storage.model.GLAccount;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +20,7 @@ public interface GLAccountService {
     /**
      * This method adds a symptom
      *
-     * @param MultipartFile
+     * @param file
      * @return List of GL Account Entity
      * @author mkseenu
      */

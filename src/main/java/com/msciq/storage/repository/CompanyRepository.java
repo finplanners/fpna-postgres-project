@@ -51,4 +51,12 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	 */
 	public List<Company> findByIsActive(Boolean isActive);
 
+	/**
+	 * To find all active group companies
+	 *
+	 * @param name - name
+	 *             code - code
+	 * @return List of company Entities
+	 */
+	Company findByCodeAndName(String code, String name);
 }

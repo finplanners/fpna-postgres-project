@@ -34,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (httpServletRequest.getRequestURI().contains("/fpa/user/sign-up") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password-email") || httpServletRequest.getRequestURI().contains("/fpa/user/reset-password")
                 || httpServletRequest.getRequestURI().contains("/fpa/organization/create")
                 || httpServletRequest.getRequestURI().contains("/fpa/user/login")
-                || httpServletRequest.getRequestURI().contains("fpa/user/forgot-password-email")){
+                || httpServletRequest.getRequestURI().contains("fpa/user/forgot-password")){
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null, null);
             SecurityContextHolder.getContext().setAuthentication(auth);
             filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -61,38 +61,38 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 for (String roleName : userRolesClaims.keySet())
                 {
-                    System.out.println("Role: " + roleName);
+                   // System.out.println("Role: " + roleName);
                     tempClaim = roleName+":";
                     // using values() for iteration over values
                     for (Map<String, Map<String,Object>> permissionObjects : userRolesClaims.values()){
                         System.out.println("PermissionObjects: " + permissionObjects.keySet());
                         for (Map.Entry<String, Map<String, Object>> po : permissionObjects.entrySet()) //using map.entrySet() for iteration
                         {
-                            System.out.println("PO name: " + po.getKey());
+                            //System.out.println("PO name: " + po.getKey());
                             tempClaim=tempClaim+po.getKey()+":";
-                            System.out.println("Value: " +  po.getValue());
+                           // System.out.println("Value: " +  po.getValue());
                             if(po.getKey().equalsIgnoreCase("Role_Admin")){
                                 //Give CRUD permission for /role api
                             }
                             for (Map.Entry<String, Object> entry : po.getValue().entrySet()){
-                                System.out.println("Key1: " + entry.getKey());
+                                //System.out.println("Key1: " + entry.getKey());
                                 if(entry.getKey().equalsIgnoreCase("action")){
                                     ArrayList<String> actt = (ArrayList<String>) entry.getValue();
                                     for (String actions:
                                             actt) {
-                                        System.out.println(actions);
+                                        //System.out.println(actions);
                                         tempClaim=tempClaim+actions+":";
                                     }
                                 }else{
                                     Map<String,String> controlData = (Map<String, String>) entry.getValue();
                                     for (Map.Entry<String, String> cd : controlData.entrySet()){
                                         if(cd.getKey().equalsIgnoreCase("bu")){
-                                            System.out.println("bu" + cd.getValue());
+                                            //System.out.println("bu" + cd.getValue());
                                             tempClaim=tempClaim+cd.getValue()+":";
                                         }
 
                                         if(cd.getKey().equalsIgnoreCase("location")){
-                                            System.out.println("location" +cd.getValue());
+                                            //System.out.println("location" +cd.getValue());
                                             tempClaim=tempClaim+cd.getValue()+":";
                                         }
 

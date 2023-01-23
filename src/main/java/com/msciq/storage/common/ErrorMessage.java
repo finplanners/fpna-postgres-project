@@ -32,4 +32,16 @@ public class ErrorMessage {
 
     public static final String INVALID_REQUEST="Invalid Request!";
 
+    public static final String INVALID_ACTION="Invalid Action!";
+    public static final String NOT_ALPHANUMERIC = " should be alpha numeric";
+    public static final String NOT_ALPHABET = " should contain only letters";
+    public static final String MIN_LENGTH_15_ERROR = " length should be between 1 to 15";
+    public static final String MIN_LENGTH_25_ERROR = " length should be between 1 to 25";
+    public static final String MIN_LENGTH_50_ERROR = " length should be between 1 to 50";
+    public static final String LENGTH_100_ERROR = " length should be between 1 to 100";
+
+    public static final String USER_NOT_EXIST = "User does not exist";
+
+    public static final String IS_EMPTY = "The given list is Empty";
+
 }

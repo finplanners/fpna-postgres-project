@@ -11,6 +11,8 @@ import java.util.List;
 
 @Data
 public class UserDTO {
+
+    private Long id;
     @NotNull(message = "Email is mandatory")
     @NotBlank(message = "Email is mandatory")
     private String email;
@@ -25,6 +27,6 @@ public class UserDTO {
     private String phoneNumber;
 
     @NotEmpty(message = "Roles is mandatory")
-    private List<String> roles;
+    private List<String> userRoles;
 
 }

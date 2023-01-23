@@ -1,10 +1,9 @@
 package com.msciq.storage.common.msciq;
 
-import javax.validation.constraints.NotEmpty;
-
-import com.mdtlabs.coreplatform.common.ErrorConstants;
-
+import com.msciq.storage.common.ErrorConstants;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class CurrencyDTO {

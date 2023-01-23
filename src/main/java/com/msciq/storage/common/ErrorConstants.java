@@ -68,9 +68,11 @@ public final class ErrorConstants {
     public static final String DOSAGE_FREQUENCY_NAME_NOT_NULL = "Dosage frequency name should not be empty";
     public static final String DOSAGE_FORM_NAME_NOT_NULL = "Dosage form name should not be empty";
     public static final String COUNTRY_NAME_NOT_NULL = "Country name should not be empty";
-    public static final String COUNTRYCODE_NOT_NULL = "Country code should not be empty";
+    public static final String COUNTRY_CODE_NOT_NULL = "Country code should not be empty";
+
+    public static final String LOCATION_NAME_NOT_NULL = "Location name should not be empty";
+    public static final String LOCATION_CODE_NOT_NULL = "Location code should not be empty";
     public static final String UNIT_MEASUREMENT_NOT_NULL = "Unit measurement should not be empty";
-    public static final String COUNTY_NAME_NOT_NULL = "County name should not be empty";
     public static final String IS_ACTIVE_NOT_NULL = "IsActive should not be null";
     public static final String SUB_COUNTY_NAME_NOT_NULL = "Sub county name should not be null";
     public static final String CLASSIFICATION_NAME_NOT_NULL = "Classification name should not be empty";
@@ -88,7 +90,7 @@ public final class ErrorConstants {
 	public static final String INFO_USER_NOT_EXIST = "Username does not exist : ";
 	public static final String INFO_USER_PASSWORD_NOT_MATCH = "Password doesn't match for the user : ";
 	public static final String EXCEPTION_TOKEN_UTILS = "Exception occured while loading token utills";
-	public static final String INVALID_USER_ERROR = "{ \"error\": \"Invalid User\"}";
+	public static final String INVALID_USERS_ERROR = "Invalid Users";
 	public static final String LOGIN_ERROR = "Login Error ";
 	public static final String ERROR_JWE_TOKEN = "Error while creating jwe token ";
 	public static final String TOKEN_EXPIRED = "Token expired";
@@ -104,11 +106,11 @@ public final class ErrorConstants {
 		//public static final String COUNTRY_NOT_NULL = "Country should not be empty";
 	 public static final String CURRENCY_NOT_NULL = "Currency should not be empty";
 	 public static final String GC_CODE_NOT_NULL = "Group company code should not be empty";
-	 public static final String GC_NAME_NOT_NULL = "Group compnay name should not be empty";
+	 public static final String GC_NAME_NOT_NULL = "Group company name should not be empty";
 	 public static final String FISCAL_YEAR_NOT_NULL = "Fiscal year should not be empty";
 	 
-	 public static final String COMPNAY_CODE_NOT_NULL = "Company code should not be empty";
-	 public static final String COMPNAY_NAME_NOT_NULL = "Company name should not be empty";
+	 public static final String COMPANY_CODE_NOT_NULL = "Company code should not be empty";
+	 public static final String COMPANY_NAME_NOT_NULL = "Company name should not be empty";
 	 
 	 public static final String BU_CODE_NOT_NULL = "BU code should not be empty";
 	 public static final String BU_NAME_NOT_NULL = "BU name should not be empty";

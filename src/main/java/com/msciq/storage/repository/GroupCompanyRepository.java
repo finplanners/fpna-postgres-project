@@ -50,4 +50,12 @@ public interface GroupCompanyRepository extends JpaRepository<GroupCompany, Long
 	 * @return List of group company Entities
 	 */
 	public List<GroupCompany> findByIsActive(Boolean isActive);
+
+	/**
+	 * To find all active group companies
+	 *
+	 * @param gcName,gcCode - gcName group company Name and code
+	 * @return List of group company Entities
+	 */
+	GroupCompany findByGcCodeAndGcName(String gcCode, String gcName);
 }

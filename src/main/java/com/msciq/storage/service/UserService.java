@@ -1,5 +1,6 @@
 package com.msciq.storage.service;
 
+import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.ResetPassword;
 import com.msciq.storage.model.User;
 import com.msciq.storage.model.request.LoginDTO;
@@ -42,7 +43,7 @@ public interface UserService {
      * @return User model with updated values
      *
      */
-    User updateUser(User user);
+    List<User> updateUser(List<UserDTO> users);
 
     /**
      * This method is used to remove an user from default Namespace(soft delete)
@@ -52,14 +53,14 @@ public interface UserService {
      * @return Successfull or failure message based on the result
      *
      */
-    String removeUser(String action,List<Long> id);
+    String removeUser(LockDeleteDTO lockDeleteDTO);
 
     /**
      * This method is used to fetch the list of Users from default Namespace
      *
      * @return List of Users with details
      */
-    List<UserViewResponse> getListofUsers(boolean isDeleted,String status);
+    List<UserViewResponse> getListofUsers(boolean isDeleted);
 
     /**
      * This method is used to sign up user into
@@ -117,5 +118,5 @@ public interface UserService {
      */
     ResponseDTO inviteUsers(String orgName, List<UserDTO> users);
 
-    String lockOrUnlock(String action, List<Long> ids);
+    String lockOrUnlock(LockDeleteDTO lockDeleteDTO);
 }

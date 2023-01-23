@@ -66,7 +66,7 @@ public class MessageValidator {
 			configProp.load(in);
 
 		} catch (IOException ioe) {
-			Logger.logError(ioe.getMessage(), ioe);
+			//Logger.logError(ioe.getMessage(), ioe);
 		}
 		return configProp.getProperty(messageKey);
 	}
@@ -88,7 +88,7 @@ public class MessageValidator {
 			configProp.load(in);
 			arguments = MessageFormat.format(configProp.getProperty(messageKey), arg);
 		} catch (IOException ioe) {
-			Logger.logError(ioe.getMessage(), ioe);
+			//Logger.logError(ioe.getMessage(), ioe);
 		}
 		return arguments;
 	}
@@ -111,7 +111,7 @@ public class MessageValidator {
 			configProp.load(in);
 			arguments = MessageFormat.format(configProp.getProperty(messageKey), stringArg);
 		} catch (IOException ioe) {
-			Logger.logError(ioe.getMessage(), ioe);
+			//Logger.logError(ioe.getMessage(), ioe);
 		}
 		return arguments;
 	}
@@ -133,7 +133,7 @@ public class MessageValidator {
 			configProp.load(in);
 			arguments = MessageFormat.format(configProp.getProperty(messageKey), arg);
 		} catch (IOException ioe) {
-			Logger.logError(ioe.getMessage(), ioe);
+			//Logger.logError(ioe.getMessage(), ioe);
 		}
 		return arguments;
 	}

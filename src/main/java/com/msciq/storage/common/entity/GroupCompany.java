@@ -38,6 +38,6 @@ public class GroupCompany extends BaseEntity {
 //	@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.CURRENCY_ID)
-	private Currency curreny;
+	private Currency currency;
 
 }

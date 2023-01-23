@@ -1,18 +1,10 @@
 package com.msciq.storage.common.msciq;
 
-import java.util.Date;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mdtlabs.coreplatform.common.ErrorConstants;
-
+import com.msciq.storage.common.ErrorConstants;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Data
 public class DepartmentDTO {

@@ -1,25 +1,13 @@
 package com.msciq.storage.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.msciq.storage.common.Constants;
-import com.msciq.storage.common.FieldConstants;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(name = "USER_TBL")
 @ToString
@@ -28,11 +16,6 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class User extends BaseEntity implements Serializable {
-
-    @Id
-    @Column(name = FieldConstants.ID)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @NotNull(message = "Organization name is mandatory")
     @NotBlank(message = "Organization name is mandatory")
@@ -52,9 +35,7 @@ public class User extends BaseEntity implements Serializable {
     private String phoneNumber;
 
     private String password;
-
     private String status;
-
     private String userType;
     private boolean isVerified;
 

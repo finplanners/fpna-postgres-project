@@ -4,7 +4,7 @@ public class FieldConstants {
 
     public static final String TEMPLATE_CODE = "template_code";
     public static final String TEMPLATE_NAME = "template_name";
-    public static final String TEMPLATE_TYPE = "type";
+    public static final String TYPE = "type";
     public static final String VERSION = "version";
     public static final String TEMPLATE_VALUE = "template_value";
 
@@ -61,6 +61,7 @@ public class FieldConstants {
     public static final String GC_NAME = "gc_name";
     public static final String GC_CODE = "gc_code";
     public static final String CURRENCY_ID = "currency_id";
+    public static final String COMPANY_ID = "company_id";
     public static final String GC_ID = "gc_id";
     public static final String CURRENCY = "currency";
 
@@ -78,6 +79,7 @@ public class FieldConstants {
     public static final String CODE = "code";
 
     public static final String END_DATE = "end_date";
+    public static final String START_DATE = "start_date";
 
     public static final String DESCRIPTION = "description";
 
@@ -89,5 +91,17 @@ public class FieldConstants {
     public static final String START_WEEK_DAY = "start_week_day";
     public static final String START_PERIOD_OF_YEAR = "start_period_of_year";
     public static final String SEVENTH_YR_EXTRA_WEEK = "seventh_yr_extra_week";
+    public static final String COMPANY_CODE = "company_code";
+    public static final String PARENT_PROFIT_CENTER = "parent_profit_center";
+    public static final String PROFIT_CENTER_OWNER = "profit_center_owner";
+    public static final String EMAIL = "email";
 
+    public static final String BU_ID ="bu_id";
+
+    public static final String PRODUCT_GROUP_ID = "product_group_id";
+    public static final String PROFIT_CENTER_ID = "profit_center_id";
+    public static final String PROJECT_OWNER_EMAIL = "project_owner_email";
+    public static final String PROJECT_OWNER_NAME = "project_owner_name";
+    public static final String BUDGET_CATEGORY = "budget_category";
+    public static final String TEMPLATE_TYPE = "template_type";
 }
