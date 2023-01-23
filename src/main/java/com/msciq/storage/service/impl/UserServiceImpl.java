@@ -176,7 +176,11 @@ public class UserServiceImpl implements UserService {
                     return ErrorMessage.INVALID_ACTION;
                 }
                 userRepository.saveAllAndFlush(usersModified);
-                return SuccessMessage.USERS_DELETE_SUCCESS;
+                if(lockDeleteDTO.getIsDeleted()) {
+                    return SuccessMessage.USERS_DELETE_SUCCESS;
+                }else{
+                    return SuccessMessage.USERS_ACTIVE;
+                }
             }
         }catch(Exception e){
             return e.getMessage();
@@ -253,6 +257,8 @@ public class UserServiceImpl implements UserService {
             }
             return loginResponse;
         } catch(DataIntegrityViolationException e){
+            log.info("Exception user ");
+            log.info(e.getMessage());
             loginResponse.setMessage(Constants.EMAIL_ALREADY_EXISTS);
             loginResponse.setError(true);
             return loginResponse;
@@ -347,7 +353,7 @@ public class UserServiceImpl implements UserService {
                 }
             }else{
                 response.setError(true);
-                response.setMessage(ErrorMessage.INVALID_CREDENTIALS);
+                response.setMessage(ErrorMessage.USER_LOCKED_ADMIN);
                 return response;
             }
 
@@ -447,6 +453,7 @@ public class UserServiceImpl implements UserService {
         EmailTemplate emailTemplate = EmailTemplate.builder()
                 .recipient(user.getEmail())
                 .recipientName(user.getFirstName())
+                .firstName(user.getFirstName())
                 .tenantName(user.getOrganizationName())
                 .subject(Constants.WELCOME_TO_MSCIQ)
                 .build();
