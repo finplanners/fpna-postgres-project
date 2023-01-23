@@ -6,8 +6,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -29,6 +29,6 @@ public class BudgetCategory extends BaseEntity {
     @JoinTable(name = "budget_categories_template_types",
             joinColumns = { @JoinColumn(name = FieldConstants.BUDGET_CATEGORY) },
             inverseJoinColumns = { @JoinColumn(name = FieldConstants.TEMPLATE_TYPE) })
-    private List<TemplateType> templateTypes = new ArrayList<>();
+    private Set<TemplateType> templateTypes = new HashSet<TemplateType>();
 
 }

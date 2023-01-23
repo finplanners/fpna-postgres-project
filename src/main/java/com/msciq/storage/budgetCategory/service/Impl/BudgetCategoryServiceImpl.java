@@ -9,9 +9,7 @@ import com.msciq.storage.templateType.repository.TemplateTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BudgetCategoryServiceImpl implements BudgetCategoryService {
@@ -42,7 +40,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
     public BudgetCategory mapTemplateTypesToBudgetCategory(BudgetCategoryTemplateTypeMappingDTO budgetCategoryTemplateTypeMapping) {
         Optional<BudgetCategory> budgetCategory = budgetCategoryRepository.findById(budgetCategoryTemplateTypeMapping.getBudgetCategoryId());
         if (budgetCategory.isPresent()) {
-            List<TemplateType> templateTypes = new ArrayList<>();
+            Set<TemplateType> templateTypes = new HashSet<>();
             budgetCategoryTemplateTypeMapping.getTemplateTypes().stream().forEach(budgetCategoryTemplateType -> {
                 templateTypes.add(templateTypeRepository.findById(budgetCategoryTemplateType.getId()).get());
             });
