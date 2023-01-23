@@ -1,6 +1,6 @@
-package com.msciq.storage.Forecast.controller;
+package com.msciq.storage.forecast.controller;
 
-import com.msciq.storage.Forecast.service.GLAccountService;
+import com.msciq.storage.forecast.service.GLAccountService;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
@@ -33,7 +33,7 @@ public class GLAccountController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     //@PreAuthorize("hasAuthority('Fun_Master_Data:READ')")
-    public SuccessResponse<List<GLAccount>> getAllForecastingTemplates() {
+    public SuccessResponse<List<GLAccount>> getAllGLAccounts() {
         List<GLAccount> glAccounts = glAccountService.getAllGLAccountData();
         return new SuccessResponse<List<GLAccount>>(String.format(SuccessMessage.SUCCESS, Constants.TEMPLATE)
                 , null, Collections.singletonList(glAccounts), HttpStatus.OK);

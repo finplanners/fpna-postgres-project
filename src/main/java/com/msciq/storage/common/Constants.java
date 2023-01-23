@@ -105,6 +105,8 @@ public class Constants {
     public static final String EMAIL_ALREADY_EXISTS = "Email already exists";
 
     public static final String RESET_PASSWORD = "Reset Password!!";
+    public static final String BUDGET_CATEGORY = "Budget category";
+    public static final String TEMPLATE_TYPE = "Template type";
 
     public enum USER_STATUS  {Active,Pending,Deleted,Locked};
 
@@ -496,5 +498,11 @@ public class Constants {
     public static final String FORMAT_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
 
     public static final String FORMAT_ddMMMyyyyHHmm = "dd MMM yyyy HH:mm:ss";
+
+    public static final String PROFIT_CENTER = "Profit center";
+
+    public static final String PRODUCT_GROUP = "Product group";
+
+    public static final String PROJECT = "Project";
 
 }
