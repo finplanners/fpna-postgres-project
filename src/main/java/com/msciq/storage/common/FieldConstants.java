@@ -104,4 +104,6 @@ public class FieldConstants {
     public static final String PROJECT_OWNER_NAME = "project_owner_name";
     public static final String BUDGET_CATEGORY = "budget_category";
     public static final String TEMPLATE_TYPE = "template_type";
+    public static final String TEMPLATE_SOURCE = "source";
+
 }

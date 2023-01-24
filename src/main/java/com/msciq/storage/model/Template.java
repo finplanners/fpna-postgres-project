@@ -1,5 +1,7 @@
 package com.msciq.storage.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.FieldConstants;
 import com.msciq.storage.common.TableConstants;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -8,17 +10,20 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import com.msciq.storage.common.entity.Department;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@Table(name = TableConstants.FORECASTING_TEMPLATE)
+@Table(name = TableConstants.TEMPLATE)
 @Entity
 @EqualsAndHashCode
 @TypeDefs({
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
-public class ForecastingTemplate extends BaseEntity {
+public class Template extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,8 +43,20 @@ public class ForecastingTemplate extends BaseEntity {
     @Column(name = FieldConstants.VERSION)
     private String version;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = FieldConstants.TEMPLATE_SOURCE)
+    private Constants.TEMPLATE_SOURCE source;
+
     @Column(name = FieldConstants.TEMPLATE_VALUE, columnDefinition = "jsonb")
     @Type(type = "jsonb")
     private String templateValue;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JsonIgnore
+    private Set<Department> department = new HashSet<>();
 
 }

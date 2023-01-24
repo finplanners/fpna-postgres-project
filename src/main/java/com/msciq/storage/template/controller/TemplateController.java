@@ -2,9 +2,9 @@ package com.msciq.storage.template.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessMessage;
-import com.msciq.storage.model.ForecastingTemplate;
+import com.msciq.storage.model.Template;
 import com.msciq.storage.model.response.SuccessResponse;
-import com.msciq.storage.template.service.ForecastingTemplateService;
+import com.msciq.storage.template.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +18,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/template")
 @Validated
-public class ForecastingTemplateController {
+public class TemplateController {
 
     @Autowired
-    ForecastingTemplateService forecastingTemplateService;
+    TemplateService templateService;
 
     /**
      * Gets all forecasting templates.
@@ -31,9 +31,9 @@ public class ForecastingTemplateController {
      */
     @RequestMapping(method = RequestMethod.GET)
    // @PreAuthorize("hasAuthority('Fun_Forecast_Template:READ') or hasAuthority('Key_Forecast_Template:READ')")
-    public SuccessResponse<List<ForecastingTemplate>> getAllForecastingTemplates() {
-        List<ForecastingTemplate> forecastingTemplates = forecastingTemplateService.getAllForecastingTemplates();
-        return new SuccessResponse<List<ForecastingTemplate>>(String.format(SuccessMessage.SUCCESS, Constants.TEMPLATE)
+    public SuccessResponse<List<Template>> getAllForecastingTemplates() {
+        List<Template> forecastingTemplates = templateService.getAllForecastingTemplates();
+        return new SuccessResponse<List<Template>>(String.format(SuccessMessage.SUCCESS, Constants.TEMPLATE)
                 , forecastingTemplates, null, HttpStatus.OK);
     }
 
@@ -46,10 +46,10 @@ public class ForecastingTemplateController {
      */
     @RequestMapping(method = RequestMethod.POST)
     //@PreAuthorize("hasAuthority('Fun_Forecast_Template:CREATE') or hasAuthority('Key_Forecast_Template:CREATE')")
-    public SuccessResponse<List<ForecastingTemplate>> addForecastingTemplates(@RequestBody List<ForecastingTemplate> templates) {
-        return new SuccessResponse<List<ForecastingTemplate>>
+    public SuccessResponse<List<Template>> addForecastingTemplates(@RequestBody Template templates) {
+        return new SuccessResponse<List<Template>>
                 (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.TEMPLATE),
-                        forecastingTemplateService.addForecastingTemplate(templates),
+                        templateService.addForecastingTemplate(templates),
                         null,
                         HttpStatus.CREATED);
     }

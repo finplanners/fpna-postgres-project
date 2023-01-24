@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface GLAccountRepository extends JpaRepository<GLAccount, Long> {
 
-    public static final String GET_ALL_FORECASTING_TEMPLATES = " select templates from ForecastingTemplate templates";
+    public static final String GET_ALL_FORECASTING_TEMPLATES = " select templates from Template templates";
 
     @Query(value = GET_ALL_FORECASTING_TEMPLATES)
     List<GLAccount> getAllForecastingTemplates();
