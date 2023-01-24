@@ -120,7 +120,7 @@ public class UserController {
     @PutMapping("/user/lock-unlock")
     public SuccessResponse<String> lockAndDeleteUser(@RequestBody LockDeleteDTO lockDeleteDTO) {
         String responseMessage = userService.lockOrUnlock(lockDeleteDTO);
-        if(!responseMessage.equalsIgnoreCase("Users updated successfully")){
+        if(!responseMessage.equalsIgnoreCase("Users locked successfully") && !responseMessage.equalsIgnoreCase("Users activated successfully")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
                             null,
@@ -144,7 +144,7 @@ public class UserController {
     public SuccessResponse<String> removeUser(@RequestBody LockDeleteDTO lockDeleteDTO) {
         if(lockDeleteDTO.getIds()!=null){
             String responseMessage = userService.removeUser(lockDeleteDTO);
-            if(responseMessage.equalsIgnoreCase("The given users are successfully deleted")){
+            if(responseMessage.equalsIgnoreCase("Users deleted successfully") || responseMessage.equalsIgnoreCase("Users activated successfully") ){
                 return new SuccessResponse<String>
                         (String.format(responseMessage, Constants.USER),
                                 lockDeleteDTO,
@@ -231,7 +231,7 @@ public class UserController {
     @PostMapping("/user/reset-password-email")
     public SuccessResponse<String> resetPasswordEmail(@RequestBody ResetPassword resetPassword) {
         String responseMessage = userService.resetPasswordEmail(resetPassword);
-        if(!responseMessage.equalsIgnoreCase("Mail sent successfully")){
+        if(!responseMessage.equalsIgnoreCase("Password reset notification sent to your email")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
                             null,
@@ -255,7 +255,7 @@ public class UserController {
     @PostMapping("/user/forgot-password")
     public  SuccessResponse<String> forgotPasswordEmail(@RequestBody ResetPassword resetPassword) {
         String responseMessage = userService.forgotPasswordEmail(resetPassword.getEmail());
-        if(!responseMessage.equalsIgnoreCase("Mail sent successfully")){
+        if(!responseMessage.equalsIgnoreCase("Password reset notification sent to your email")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
                             null,
@@ -279,7 +279,7 @@ public class UserController {
     @PostMapping("/user/reset-password")
     public  SuccessResponse<String> resetPassword(@RequestBody ResetPassword resetPassword, @RequestParam String token) {
         String responseMessage = userService.resetPassword(resetPassword.getPassword(), token);
-        if(!responseMessage.equalsIgnoreCase("Password has been successfully reset")){
+        if(!responseMessage.equalsIgnoreCase("Your account password has been updated successfully")){
             return new SuccessResponse<String>
                     (String.format(responseMessage, Constants.USER),
                             null,

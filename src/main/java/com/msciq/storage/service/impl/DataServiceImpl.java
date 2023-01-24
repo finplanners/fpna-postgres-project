@@ -179,6 +179,7 @@ public class DataServiceImpl implements DataService {
 		if (!Objects.isNull(existingDepartment)) {
 			throw new DataConflictException(19024);
 		}
+
 		Department department = modelMapper.map(departmentDTO, Department.class);
 		return departmentRepository.save(department);
 	}

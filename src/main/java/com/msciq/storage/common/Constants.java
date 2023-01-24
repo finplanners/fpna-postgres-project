@@ -505,4 +505,8 @@ public class Constants {
 
     public static final String PROJECT = "Project";
 
+    public enum TEMPLATE_SOURCE  {MSCIQ,CUSTOM};
+
+    public static final String DEPARTMENT_TEMPLATE="Department Template Mapping";
+
 }

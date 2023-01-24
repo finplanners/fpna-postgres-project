@@ -1,6 +1,7 @@
 package com.msciq.storage.common.msciq;
 
 import com.msciq.storage.common.ErrorConstants;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -28,7 +29,8 @@ public class DepartmentDTO {
 	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	//@JsonFormat(pattern = "dd/MM/yyyy")
 	//@NotNull(message = ErrorConstants.ACTIVATION_DATE_FORMAT)
-	
+
+//	@Builder.Default
 	private Date activationDate;
 
 	// @DateTimeFormat(pattern = "dd/MM/yyyy")

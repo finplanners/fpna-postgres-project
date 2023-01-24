@@ -44,4 +44,6 @@ public class ErrorMessage {
 
     public static final String IS_EMPTY = "The given list is Empty";
 
+    public static final String USER_LOCKED_ADMIN = "User is locked, Please contact system administrator";
+
 }

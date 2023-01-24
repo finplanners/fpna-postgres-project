@@ -1,14 +1,15 @@
 package com.msciq.storage.common.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import com.msciq.storage.common.*;
 import com.msciq.storage.model.BaseEntity;
+import com.msciq.storage.model.Template;
 import lombok.Data;
 
 /**
@@ -69,4 +70,14 @@ public class Department extends BaseEntity {
 		System.out.println("before= end date==="+convertedDate);
 		return convertedDate;
 	}
+
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			})
+	@JoinTable(name = "department_template",
+			joinColumns = { @JoinColumn(name = "dept_id") },
+			inverseJoinColumns = { @JoinColumn(name = "temp_id") })
+	private Set<Template> templates = new HashSet<>();
 }

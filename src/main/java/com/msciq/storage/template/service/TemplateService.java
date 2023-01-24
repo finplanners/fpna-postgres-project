@@ -1,10 +1,10 @@
 package com.msciq.storage.template.service;
 
-import com.msciq.storage.model.ForecastingTemplate;
+import com.msciq.storage.model.Template;
 
 import java.util.List;
 
-public interface ForecastingTemplateService {
+public interface TemplateService {
 
     /**
      * This method returns list of all forecasting templates
@@ -12,7 +12,7 @@ public interface ForecastingTemplateService {
      * @return List of ForecastingTemplate Entity
      * @author Sivaranjani DS
      */
-    public List<ForecastingTemplate> getAllForecastingTemplates();
+    public List<Template> getAllForecastingTemplates();
 
     /**
      * This method adds list of template
@@ -21,6 +21,6 @@ public interface ForecastingTemplateService {
      * @return ForecastingTemplate Entity
      * @author Sivaranjani DS
      */
-    public List<ForecastingTemplate> addForecastingTemplate(List<ForecastingTemplate> templates);
+    public Template addForecastingTemplate(Template templates);
 
 }
