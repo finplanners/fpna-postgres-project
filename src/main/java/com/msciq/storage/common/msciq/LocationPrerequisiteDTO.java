@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class GroupCompanyPrerequisiteDTO {
+public class LocationPrerequisiteDTO {
 
-	private List<CurrencyDTO> currencies;
+	private List<CompanyDTO> companies;
 
 	private List<CountryDTO> countries;
 

@@ -6,7 +6,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +29,10 @@ public class Country extends BaseEntity {
 	private String countryCode;
 
 	private String description;
+
+	@OneToMany(targetEntity=State.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "cs_fk_id", referencedColumnName = "id")
+	private List<State> states = new ArrayList<>();
 
 
 }

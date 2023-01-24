@@ -2,6 +2,8 @@ package com.msciq.storage.common.msciq;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CountryDTO {
 
@@ -10,4 +12,6 @@ public class CountryDTO {
 
     private String countryCode;
     private String description;
+
+    private List<StateDTO> states;
 }

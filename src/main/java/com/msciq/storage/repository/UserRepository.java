@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(value = GET_ALL_USER_BY_STATUS)
     List<User> findByUserStatus(@Param("isDeleted") boolean isDeleted);
 
+    List<User> findByStatus(String status);
+
     List<User> findByIdIn(List<Long> ids);
 
     User findByEmailAndStatus(String email, String active);

@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * This class is responsible for performing business operations on Country, Currency, GC, Company and etc entities.
@@ -48,6 +49,8 @@ public class DataServiceImpl implements DataService {
 	CountryRepository countryRepository;
 	@Autowired
 	LocationRepository locationRepository;
+	@Autowired
+	StateRepository stateRepository;
 
 	ModelMapper modelMapper = new ModelMapper();
 
@@ -56,8 +59,8 @@ public class DataServiceImpl implements DataService {
 		if (Objects.isNull(countryDTO)) {
 			throw new BadRequestException(19011);
 		}
-		Country existingCountry = countryRepository.findByCountryCodeAndName(countryDTO.getCountryCode(),
-				countryDTO.getName());
+		Country existingCountry = countryRepository.findByCountryCodeAndNameAndStates_NameIn(countryDTO.getCountryCode(),
+				countryDTO.getName(),countryDTO.getStates().stream().map(s-> s.getName()).collect(Collectors.toList()));
 		if (!Objects.isNull(existingCountry)) {
 			throw new DataConflictException(19010);
 		}
@@ -482,9 +485,10 @@ public class DataServiceImpl implements DataService {
 			}
 			Location existingLocation = locationRepository.findByCode(locationDTO.getCode());
 			if (!Objects.isNull(existingLocation)) {
-				throw new DataConflictException(19064);
+				throw new DataConflictException(19068);
 			}
 			Location location = modelMapper.map(locationDTO, Location.class);
+			location.setState(modelMapper.map(locationDTO.getCountry().getStates().get(0), State.class));
 			locations.add(location);
 		}
 		return locationRepository.saveAllAndFlush(locations);
@@ -513,8 +517,30 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public List<Location> getAllLocations(boolean b) {
-		return locationRepository.findByIsActive(b);
+	public List<Location> getAllLocations(boolean b, long companyId) {
+		return locationRepository.findByIsActiveAndCompany_id(b, companyId);
+	}
+
+	@Override
+	public State addState(StateDTO stateDTO) {
+		if (Objects.isNull(stateDTO)) {
+			throw new BadRequestException(19011);
+		}
+		State existingState = stateRepository.findByName(stateDTO.getName());
+		if (!Objects.isNull(existingState)) {
+			throw new DataConflictException(19066);
+		}
+		State state = modelMapper.map(stateDTO, State.class);
+		return stateRepository.save(state);
+	}
+
+	@Override
+	public List<Company> findCompanyByGroupCompanyId(long groupCompanyId) {
+		List<Company> companies = companyRepository.findByGroupCompany_IdAndIsDeleted(groupCompanyId, false);
+		if (Objects.isNull(companies)) {
+			throw new DataNotFoundException(19065);
+		}
+		return companies;
 	}
 
 }

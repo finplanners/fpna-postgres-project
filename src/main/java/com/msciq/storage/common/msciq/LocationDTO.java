@@ -14,13 +14,15 @@ public class LocationDTO {
 
 	private Long id;
 
-	private Company company;
+	private CompanyDTO company;
 
 	private String code;
 
 	private String name;
 
 	private String address;
+
+	private CountryDTO country;
 
 	private boolean isActive;
 

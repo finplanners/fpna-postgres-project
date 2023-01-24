@@ -155,4 +155,5 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 	 */
 	int countByIsDeletedFalse();
 
+	Country findByCountryCodeAndNameAndStates_NameIn(String countryCode, String name, List<String> statesName);
 }

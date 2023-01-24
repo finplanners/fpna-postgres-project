@@ -15,4 +15,6 @@ public interface LocationRepository extends JpaRepository<Location, String> {
     Location findByIdAndIsDeleted(Long id, boolean b);
 
     List<Location> findByIsActive(boolean isActive);
+
+    List<Location> findByIsActiveAndCompany_id(boolean b, long companyId);
 }

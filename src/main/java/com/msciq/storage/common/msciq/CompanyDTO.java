@@ -27,16 +27,16 @@ public class CompanyDTO {
 	//@Pattern(regexp = "{A-Za-z0-9}*")
 	private String code;
 	@NotNull(message = ErrorConstants.COUNTRY_NOT_NULL)
-	private Country country;
+	private CountryDTO country;
 
 	@NotNull(message = ErrorConstants.CURRENCY_NOT_NULL)
-	private Currency currency;
+	private CurrencyDTO currency;
 	
 	@NotNull(message = ErrorConstants.FISCAL_YEAR_NOT_NULL)
-	private FiscalCalendar fiscalCalendar;
+	private FiscalCalendarDTO fiscalCalendar;
 	
 	@NotNull(message = ErrorConstants.GC_NAME_NOT_NULL)
-	private GroupCompany groupCompany;
+	private GroupCompanyDTO groupCompany;
 	
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")

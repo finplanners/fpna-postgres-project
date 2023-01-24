@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table(name = TableConstants.TABLE_COUNTRY)
+@Table(name = TableConstants.TABLE_LOCATION)
 public class Location extends BaseEntity {
 
 	@NotEmpty(message = ErrorConstants.LOCATION_NAME_NOT_NULL)
@@ -33,6 +33,14 @@ public class Location extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.COMPANY_ID)
 	private Company company;
+
+	@ManyToOne
+	@JoinColumn(name = FieldConstants.COUNTRY_ID)
+	private Country country;
+
+	@ManyToOne
+	@JoinColumn(name = FieldConstants.STATE_ID)
+	private State state;
 
 	private String address;
 

@@ -59,4 +59,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	 * @return List of company Entities
 	 */
 	Company findByCodeAndName(String code, String name);
+
+	List<Company> findByGroupCompany_IdAndIsDeleted(long groupCompanyId, boolean b);
 }

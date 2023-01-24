@@ -22,6 +22,8 @@ public class TableConstants {
 
     public static final String TABLE_COUNTRY= "country";
 
+    public static final String TABLE_STATE= "state";
+
     public static final String TABLE_LOCATION= "location";
 
     public static final String TABLE_BU= "business_unit";

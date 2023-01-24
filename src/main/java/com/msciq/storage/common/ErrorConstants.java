@@ -70,6 +70,7 @@ public final class ErrorConstants {
     public static final String COUNTRY_NAME_NOT_NULL = "Country name should not be empty";
     public static final String COUNTRY_CODE_NOT_NULL = "Country code should not be empty";
 
+    public static final String STATE_NAME_NOT_NULL = "Country name should not be empty";
     public static final String LOCATION_NAME_NOT_NULL = "Location name should not be empty";
     public static final String LOCATION_CODE_NOT_NULL = "Location code should not be empty";
     public static final String UNIT_MEASUREMENT_NOT_NULL = "Unit measurement should not be empty";

@@ -7,12 +7,12 @@ import java.util.List;
 @Data
 public class CompanyPrerequisiteDTO {
 
-	private List<CurrencyDTO> currencyDTOS;
+	private List<CurrencyDTO> currencies;
 
-	private List<FiscalCalendarDTO> fiscalCalendarDTOS;
+	private List<FiscalCalendarDTO> fiscalCalendars;
 
-	private List<GroupCompanyDTO> groupCompanyDTOS;
+	private List<GroupCompanyDTO> groupCompanies;
 
-	private List<CountryDTO> countryDTOS;
+	private List<CountryDTO> countries;
 	
 }

@@ -5,6 +5,8 @@ import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.common.msciq.*;
 import com.msciq.storage.model.response.SuccessResponse;
+import com.msciq.storage.repository.CompanyRepository;
+import com.msciq.storage.repository.UserRepository;
 import com.msciq.storage.service.DataService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,10 @@ public class DataController {
 	private DataService dataService;
 
 	ModelMapper modelMapper = new ModelMapper();
+	@Autowired
+	private CompanyRepository companyRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	/**
 	 * Add a new country with details like location name, code.
@@ -77,9 +83,25 @@ public class DataController {
 	 * @return List - list of Country entity
 	 */
 	@RequestMapping(value = "/locations", method = RequestMethod.GET)
-	public SuccessResponse<List<LocationDTO>> getLocations() {
-		List<Location> locations = dataService.getAllLocations(true);
+	public SuccessResponse<List<LocationDTO>> getLocations(@RequestParam long companyId) {
+		List<Location> locations = dataService.getAllLocations(true, companyId);
 		return new SuccessResponse<List<LocationDTO>>(SuccessCode.GET_LOCATIONS_SUCCESS, locations, HttpStatus.OK);
+	}
+
+	/**
+	 * Get all active country details
+	 *
+	 * @return List - list of Country entity
+	 */
+	@RequestMapping(value = "/locations/prerequisites", method = RequestMethod.GET)
+	public SuccessResponse<LocationPrerequisiteDTO> getLocationPrerequisites() {
+		LocationPrerequisiteDTO locationPrerequisiteDTO = new LocationPrerequisiteDTO();
+		dataService.getAllCompany(true);
+		List<CountryDTO> countries = dataService.getAllCountries(true);
+		List<CompanyDTO> companies = dataService.getAllCompany(true);
+		locationPrerequisiteDTO.setCompanies(companies);
+		locationPrerequisiteDTO.setCountries(countries);
+		return new SuccessResponse<LocationPrerequisiteDTO>(SuccessCode.GET_LOCATIONS_SUCCESS, locationPrerequisiteDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -92,6 +114,18 @@ public class DataController {
 	public SuccessResponse<Country> addCountry(@Valid @RequestBody CountryDTO countryDTO) {
 		Country country = dataService.addCountry(countryDTO);
 		return new SuccessResponse<>(SuccessCode.COUNTRY_SAVE, country, HttpStatus.CREATED);
+	}
+
+	/**
+	 * Add a new country with details like country name, code.
+	 *
+	 * @param stateDTO
+	 * @return Country Entity
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/state")
+	public SuccessResponse<State> addCountry(@Valid @RequestBody StateDTO stateDTO) {
+		State state = dataService.addState(stateDTO);
+		return new SuccessResponse<>(SuccessCode.COUNTRY_SAVE, state, HttpStatus.CREATED);
 	}
 
 	/**
@@ -282,11 +316,11 @@ public class DataController {
 	@RequestMapping(value = "/groupCompany/prerequisites", method = RequestMethod.GET)
 	public SuccessResponse<GroupCompanyPrerequisiteDTO> getPrerequisiteGroupCompanies() {
 		List<CurrencyDTO> currencies = dataService.getAllCurrencies(true);
-		List<CountryDTO> countryDTOS = dataService.getAllCountries(true);
+		List<CountryDTO> countries = dataService.getAllCountries(true);
 
 		GroupCompanyPrerequisiteDTO groupCompanyPrerequisiteDTO = new GroupCompanyPrerequisiteDTO();
-		groupCompanyPrerequisiteDTO.setCurrencyDTOS(currencies);
-		groupCompanyPrerequisiteDTO.setCountryDTOS(countryDTOS);
+		groupCompanyPrerequisiteDTO.setCurrencies(currencies);
+		groupCompanyPrerequisiteDTO.setCountries(countries);
 
 		return new SuccessResponse<GroupCompanyPrerequisiteDTO>(SuccessCode.GET_COMPANY_LIST_SUCCESS, groupCompanyPrerequisiteDTO,
 				HttpStatus.OK);
@@ -342,12 +376,12 @@ public class DataController {
 	/**
 	 * Add a new company with company name, code, etc.
 	 *
-	 * @param companyDTOS - company details
+	 * @param companies - company details
 	 * @return company Entity
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/company")
-	public SuccessResponse<List<Company>> addCompany(@Valid @RequestBody List<CompanyDTO> companyDTOS) {
-		List<Company> companyList = dataService.addCompany(companyDTOS);
+	public SuccessResponse<List<Company>> addCompany(@Valid @RequestBody List<CompanyDTO> companies) {
+		List<Company> companyList = dataService.addCompany(companies);
 		return new SuccessResponse<>(SuccessCode.COMPANY_SAVE, companyList, HttpStatus.CREATED);
 	}
 
@@ -376,14 +410,26 @@ public class DataController {
 	}
 
 	/**
+	 * Get company detail by company Id.
+	 *
+	 * @param groupCompanyId - groupCompanyId id
+	 * @return Company - company entity
+	 */
+	@GetMapping(value = "/company")
+	public SuccessResponse<List<Company>> getCompanyByGroupCompanyId(@RequestParam long groupCompanyId) {
+		List<Company> companies = dataService.findCompanyByGroupCompanyId(groupCompanyId);
+		return new SuccessResponse<>(SuccessCode.GET_COMPANY_SUCCESS, companies, HttpStatus.OK);
+	}
+
+	/**
 	 * Get all active company details
 	 *
 	 * @return List - list of company entity
 	 */
 	@RequestMapping(value = "/companies", method = RequestMethod.GET)
 	public SuccessResponse<List<CompanyDTO>> getAllCompany() {
-		List<CompanyDTO> GroupCompanys = dataService.getAllCompany(true);
-		return new SuccessResponse<List<CompanyDTO>>(SuccessCode.GET_COMPANY_LIST_SUCCESS, GroupCompanys,
+		List<CompanyDTO> companies = dataService.getAllCompany(true);
+		return new SuccessResponse<List<CompanyDTO>>(SuccessCode.GET_COMPANY_LIST_SUCCESS, companies,
 				HttpStatus.OK);
 	}
 
@@ -396,14 +442,14 @@ public class DataController {
 	public SuccessResponse<CompanyPrerequisiteDTO> getPrerequisiteCompanies() {
 		List<CurrencyDTO> currencies = dataService.getAllCurrencies(true);
 		List<FiscalCalendarDTO> fiscalCalendars = dataService.getAllFiscalCalendar(true);
-		List<GroupCompanyDTO> groupCompanyDTOS = dataService.getAllGroupCompany(true);
-		List<CountryDTO> countryDTOS = dataService.getAllCountries(true);
+		List<GroupCompanyDTO> groupCompanies = dataService.getAllGroupCompany(true);
+		List<CountryDTO> countries = dataService.getAllCountries(true);
 
 		CompanyPrerequisiteDTO companyPrerequisiteDTO = new CompanyPrerequisiteDTO();
-		companyPrerequisiteDTO.setGroupCompanyDTOS(groupCompanyDTOS);
-		companyPrerequisiteDTO.setCurrencyDTOS(currencies);
-		companyPrerequisiteDTO.setFiscalCalendarDTOS(fiscalCalendars);
-		companyPrerequisiteDTO.setCountryDTOS(countryDTOS);
+		companyPrerequisiteDTO.setGroupCompanies(groupCompanies);
+		companyPrerequisiteDTO.setCurrencies(currencies);
+		companyPrerequisiteDTO.setFiscalCalendars(fiscalCalendars);
+		companyPrerequisiteDTO.setCountries(countries);
 
 		return new SuccessResponse<CompanyPrerequisiteDTO>(SuccessCode.GET_COMPANY_LIST_SUCCESS, companyPrerequisiteDTO,
 				HttpStatus.OK);
@@ -467,6 +513,20 @@ public class DataController {
 	public SuccessResponse<List<BusinessUnitDTO>> getAllBU() {
 		List<BusinessUnitDTO> businessUnits = dataService.getAllBU(true);
 		return new SuccessResponse<List<BusinessUnitDTO>>(SuccessCode.GET_BU_LIST_SUCCESS, businessUnits,
+				HttpStatus.OK);
+	}
+
+	/**
+	 * Get all active business unit details
+	 *
+	 * @return List - list of business unit entity
+	 */
+	@RequestMapping(value = "/businessUnit/prerequisites", method = RequestMethod.GET)
+	public SuccessResponse<BusinessUnitPrerequisiteDTO> getAllBUPrerequisites() {
+		BusinessUnitPrerequisiteDTO businessUnitPrerequisiteDTO = new BusinessUnitPrerequisiteDTO();
+		businessUnitPrerequisiteDTO.setGroupCompanies(dataService.getAllGroupCompany(true));
+		businessUnitPrerequisiteDTO.setUsers(userRepository.findByStatus("Active"));
+		return new SuccessResponse<BusinessUnitPrerequisiteDTO>(SuccessCode.GET_BU_LIST_SUCCESS, businessUnitPrerequisiteDTO,
 				HttpStatus.OK);
 	}
 }
