@@ -1,10 +1,12 @@
 package com.msciq.storage.forecast.controller;
 
-import com.msciq.storage.forecast.service.GLAccountService;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
+import com.msciq.storage.exception.BadRequestException;
+import com.msciq.storage.forecast.service.GLAccountService;
 import com.msciq.storage.model.GLAccount;
+import com.msciq.storage.model.request.BudgetCategoryGLAccountMappingDTO;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/glaccount")
@@ -60,6 +63,24 @@ public class GLAccountController {
                         HttpStatus.CREATED);
     }
 
-
+    /**
+     * This method is used to map BudgetCategory to GLAccount.
+     *
+     * @param budgetCategoryGLAccountMapping
+     * @return List of GLAccount
+     * @author Sivaranjani DS
+     */
+    @RequestMapping(value = "/assign-budgetCategory", method = RequestMethod.PUT)
+    public SuccessResponse<List<GLAccount>> mapBudgetCategoryToGLAccount(@RequestBody List<BudgetCategoryGLAccountMappingDTO> budgetCategoryGLAccountMapping) {
+        if (Objects.isNull(budgetCategoryGLAccountMapping)) {
+            throw new BadRequestException(19011);
+        }
+        List<GLAccount> savedGLAccounts = glAccountService.mapBudgetCategoryToGLAccount(budgetCategoryGLAccountMapping);
+        return new SuccessResponse<List<GLAccount>>
+                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.BUDGET_CATEGORY),
+                        savedGLAccounts,
+                        null,
+                        HttpStatus.OK);
+    }
 
 }
