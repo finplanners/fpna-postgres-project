@@ -2,12 +2,12 @@ package com.msciq.storage.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "USER_TBL")
 @ToString
@@ -38,5 +38,11 @@ public class User extends BaseEntity implements Serializable {
     private String status;
     private String userType;
     private boolean isVerified;
+
+    @ManyToMany(targetEntity= Role.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role_table",
+            joinColumns = { @JoinColumn(name = "user_id",referencedColumnName="id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id",referencedColumnName="id") })
+    private List<Role> roles;
 
 }

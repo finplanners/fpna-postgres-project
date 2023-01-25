@@ -40,4 +40,8 @@ public class GroupCompany extends BaseEntity {
 	@JoinColumn(name = FieldConstants.CURRENCY_ID)
 	private Currency currency;
 
+	@ManyToOne
+	@JoinColumn(name = FieldConstants.COUNTRY_ID)
+	private Country country;
+
 }

@@ -38,7 +38,7 @@ public interface UserService {
     /**
      * This method is used to update an user in default Namespace
      *
-     * @param user - model with user values
+     * @param users - model with users values
      *
      * @return User model with updated values
      *
@@ -48,7 +48,7 @@ public interface UserService {
     /**
      * This method is used to remove an user from default Namespace(soft delete)
      *
-     * @param id - id of the user to be removed
+     * @param lockDeleteDTO - lockDeleteDTO of the user to be removed
      *
      * @return Successfull or failure message based on the result
      *
@@ -60,7 +60,7 @@ public interface UserService {
      *
      * @return List of Users with details
      */
-    List<UserViewResponse> getListofUsers(boolean isDeleted);
+    List<User> getListofUsers(boolean isDeleted);
 
     /**
      * This method is used to sign up user into
@@ -85,7 +85,7 @@ public interface UserService {
     /**
      * This method is used to reset password for the given Emai
      *
-     * @param resetPassword - model with reset values
+     * @param email - email with values
      *
      * @return String
      *      if reset password reste email sent successfully

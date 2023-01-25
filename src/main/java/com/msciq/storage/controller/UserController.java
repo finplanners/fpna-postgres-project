@@ -73,19 +73,19 @@ public class UserController {
      * @return List of Users will be returned
      */
     @GetMapping("/get/user")
-    public SuccessResponse<List<UserViewResponse>> getUser(@RequestParam boolean isDeleted, @RequestParam String status) {
+    public SuccessResponse<List<User>> getUser(@RequestParam boolean isDeleted, @RequestParam String status) {
 
-        if(!(status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("all") && !isDeleted)){
-            return new SuccessResponse<List<UserViewResponse>>
+        if((status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("all") && !isDeleted)){
+            return new SuccessResponse<List<User>>
                     (ErrorMessage.INVALID_REQUEST,
                             null,
                             null,
                             HttpStatus.BAD_REQUEST);
         }
 
-        List<UserViewResponse> userViewResponses = userService.getListofUsers(isDeleted);
+        List<User> userViewResponses = userService.getListofUsers(isDeleted);
 
-        return new SuccessResponse<List<UserViewResponse>>
+        return new SuccessResponse<List<User>>
                     (SuccessMessage.SUCCESS,
                             userViewResponses,
                             null,

@@ -85,27 +85,27 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<UserViewResponse> getListofUsers(boolean isDeleted)  {
-        List<User> users = userRepository.findByUserStatus(isDeleted);
-        List<UserViewResponse> userViewResponses = new ArrayList<>();
-        for (User user : users)
-        {
-            UserViewResponse userViewResponse =  new UserViewResponse();
-            List<UserRoleMapping> userRoleMappings = userRoleMappingRepository.getAllRoleByUserId(user.getId());
-            Set<String> userRoles =  userRoleMappings.stream().filter(v->!v.isDeleted() && v.isActive()).map(p->p.getRoleName()).collect(Collectors.toSet());
-            userViewResponse.setUserRoles(userRoles);
-            userViewResponse.setEmail(user.getEmail());
-            userViewResponse.setFirstName(user.getFirstName());
-            userViewResponse.setLastName(user.getLastName());
-            userViewResponse.setActive(user.isActive());
-            userViewResponse.setPhoneNumber(user.getPhoneNumber());
-            userViewResponse.setId(user.getId());
-            userViewResponse.setOrganizationName(user.getOrganizationName());
-            userViewResponse.setStatus(user.getStatus());
-            userViewResponses.add(userViewResponse);
-
-        }
-        return userViewResponses;
+    public List<User> getListofUsers(boolean isDeleted)  {
+        return userRepository.findByUserStatus(isDeleted);
+//        List<UserViewResponse> userViewResponses = new ArrayList<>();
+//        for (User user : users)
+//        {
+//            UserViewResponse userViewResponse =  new UserViewResponse();
+//            List<UserRoleMapping> userRoleMappings = userRoleMappingRepository.getAllRoleByUserId(user.getId());
+//            Set<String> userRoles =  userRoleMappings.stream().filter(v->!v.isDeleted() && v.isActive()).map(p->p.getRoleName()).collect(Collectors.toSet());
+//            userViewResponse.setUserRoles(userRoles);
+//            userViewResponse.setEmail(user.getEmail());
+//            userViewResponse.setFirstName(user.getFirstName());
+//            userViewResponse.setLastName(user.getLastName());
+//            userViewResponse.setActive(user.isActive());
+//            userViewResponse.setPhoneNumber(user.getPhoneNumber());
+//            userViewResponse.setId(user.getId());
+//            userViewResponse.setOrganizationName(user.getOrganizationName());
+//            userViewResponse.setStatus(user.getStatus());
+//            userViewResponse.setRoles(user.getRoles());
+//            userViewResponses.add(userViewResponse);
+//        }
+//        return userViewResponses;
     }
     public List<User> updateUser(List<UserDTO> users) {
 
@@ -224,7 +224,7 @@ public class UserServiceImpl implements UserService {
                 loginDTO.setPassword(user.getPassword());
                 User userToBeSaved = new User();
                 userToBeSaved.setUserType(Constants.SIGN_UP_USER_DEFAULT_TYPE);
-                //userToBeSaved.setUserRolesId(Arrays.asList(roleRepository.findByName(Constants.SIGN_UP_USER_DEFAULT_TYPE)));
+                userToBeSaved.setRoles(Arrays.asList(roleRepository.findByName(Constants.SIGN_UP_USER_DEFAULT_TYPE)));
                 userToBeSaved.setActive(true);
                 userToBeSaved.setStatus(Constants.USER_STATUS.Active.toString());
                 userToBeSaved.setVerified(true);
@@ -382,17 +382,24 @@ public class UserServiceImpl implements UserService {
                     newUser.setOrganizationName(orgName);
                     newUser.setCreatedBy(Long.valueOf(1));
                     newUser.setStatus(Constants.USER_STATUS.Pending.toString());
-                    User userCreated = userRepository.save(newUser);
-                    //Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
-                    sendMailToOrganization(userCreated);
+                    //newUser.setRoles(roleRepository.findByName(user.getUserRoles().stream().map(ne->nee.)forEach(toString()));
+                    List<Role> roleList = new ArrayList<>();
                     for (String role : user.getUserRoles()) {
-                        userRoleMappingList.add(UserRoleMapping.builder()
-                                .userId(userCreated.getId())
-                                .roleName(role)
-                                .build());
+//                        userRoleMappingList.add(UserRoleMapping.builder()
+//                                .userId(userCreated.getId())
+//                                .roleName(role)
+//                                .build());
+                        roleList.add(roleRepository.findByName(role));
+                        //TODO: IF ROLE NOT EXIST, THROW AN ERROR STATING ROLE DOES NOT EXIST, PLEASE CREATE THE ROLE FIRST
                         //Map<String, Set<Actions>> permissionObject = rolePermissionMappingService.userClaimData(role);
                         //claimsData.put(role, permissionObject);
                     }
+                    newUser.setRoles(user.getRoles());
+                    User userCreated = userRepository.save(newUser);
+
+                    //Map<String,Map<String, Set<Actions>>> claimsData = new HashMap<>();
+                    sendMailToOrganization(userCreated);
+
                     userRoleMappingRepository.saveAllAndFlush(userRoleMappingList);
                 }
                 return ResponseDTO.builder()

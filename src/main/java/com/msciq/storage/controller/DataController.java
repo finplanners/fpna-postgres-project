@@ -15,8 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This controller class helps to perform actions on Country, Currency and meta
@@ -371,6 +373,37 @@ public class DataController {
 	public SuccessResponse<List<GroupCompanyDTO>> getAllGroupCompany() {
 		List<GroupCompanyDTO> GroupCompanys = dataService.getAllGroupCompany(true);
 		return new SuccessResponse<List<GroupCompanyDTO>>(SuccessCode.GET_GC_LIST_SUCCESS, GroupCompanys, HttpStatus.OK);
+	}
+
+	/**
+	 * Get group company and company details by gc Id.
+	 *
+	 * @return GroupCompany - group company entity
+	 */
+	@GetMapping(value = "/sideBar")
+	public SuccessResponse<List<SideBarDTO>> getGroupCompany() {
+		List<SideBarDTO> sideBars = new ArrayList<>();
+
+		List<GroupCompanyDTO>  groupCompanyDTOS = dataService.getAllGroupCompany(true);
+		for (GroupCompanyDTO groupCompanyDTO:
+		groupCompanyDTOS) {
+			List<Company> companies = dataService.findCompanyByGroupCompanyId(groupCompanyDTO.getId());
+			for (Company company:
+			companies) {
+				List<Location> locations = dataService.getAllLocations(true,company.getId());
+				SideBarDTO sideBarDTO = new SideBarDTO();
+				sideBarDTO.setLocations(locations);
+				sideBarDTO.setCompanies(companies);
+				sideBarDTO.setGroupCompany(groupCompanyDTO);
+				sideBars.add(sideBarDTO);
+			}
+
+
+			//sideBarDTO.setGroupCompanyName(groupCompanyDTO.getGcName());
+			//sideBarDTO.setCompaniesName(companies.stream().map(s->s.getName()).collect(Collectors.toList()));
+
+		}
+		return new SuccessResponse<>(SuccessCode.GET_GC_SUCCESS, sideBars, HttpStatus.OK);
 	}
 
 	/**

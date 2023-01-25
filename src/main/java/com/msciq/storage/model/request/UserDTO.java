@@ -1,7 +1,6 @@
 package com.msciq.storage.model.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
+import com.msciq.storage.model.Role;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -28,5 +27,7 @@ public class UserDTO {
 
     @NotEmpty(message = "Roles is mandatory")
     private List<String> userRoles;
+
+    private List<Role> roles;
 
 }
