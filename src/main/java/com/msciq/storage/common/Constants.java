@@ -107,6 +107,7 @@ public class Constants {
     public static final String RESET_PASSWORD = "Reset Password!!";
     public static final String BUDGET_CATEGORY = "Budget category";
     public static final String TEMPLATE_TYPE = "Template type";
+    public static final String BUDGET_CATEGORY_CODE = "budget_category_code";
 
     public enum USER_STATUS  {Active,Pending,Deleted,Locked};
 

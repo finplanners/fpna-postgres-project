@@ -109,4 +109,13 @@ public class FieldConstants {
     public static final String TEMPLATE_TYPE = "template_type";
     public static final String TEMPLATE_SOURCE = "source";
 
+    public static final String TERMINATION_DATE = "termination_date";
+    public static final String STATE = "state";
+    public static final String COUNTRY = "country";
+    public static final String COST_CENTER = "cost_center";
+    public static final String DEPARTMENT = "department";
+    public static final String EMPLOYEE_ID = "employee_id";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String TITLE = "title";
 }

@@ -1,8 +1,11 @@
 package com.msciq.storage.forecast.service.Impl;
 
+import com.msciq.storage.budgetCategory.repository.BudgetCategoryRepository;
 import com.msciq.storage.forecast.repository.GLAccountRepository;
 import com.msciq.storage.forecast.service.GLAccountService;
+import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.GLAccount;
+import com.msciq.storage.model.request.BudgetCategoryGLAccountMappingDTO;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,6 +29,9 @@ public class GLAccountServiceImpl implements GLAccountService {
 
     @Autowired
     private GLAccountRepository glAccountRepository;
+
+    @Autowired
+    private BudgetCategoryRepository budgetCategoryRepository;
 
     /**
      * {@inheritDoc}
@@ -101,6 +107,19 @@ public class GLAccountServiceImpl implements GLAccountService {
         glAccountRepository.saveAll(glAccounts);
             workbook.close();
         return glAccounts;
+    }
+
+    @Override
+    public List<GLAccount> mapBudgetCategoryToGLAccount(List<BudgetCategoryGLAccountMappingDTO> budgetCategoryGLAccountMappingDTOS) {
+        List<GLAccount> glAccounts = new ArrayList<>();
+
+        budgetCategoryGLAccountMappingDTOS.stream().forEach(budgetCategoryGLAccountMappingDTO -> {
+            GLAccount glAccount = glAccountRepository.findById(budgetCategoryGLAccountMappingDTO.getGlAccountId()).get();
+            BudgetCategory budgetCategory = budgetCategoryRepository.findById(budgetCategoryGLAccountMappingDTO.getBudgetCategoryId()).get();
+            glAccount.setBudgetCategory(budgetCategory);
+            glAccounts.add(glAccount);
+        });
+        return glAccountRepository.saveAll(glAccounts);
     }
 
 }
