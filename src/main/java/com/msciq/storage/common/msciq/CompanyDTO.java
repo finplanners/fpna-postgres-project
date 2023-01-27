@@ -26,8 +26,6 @@ public class CompanyDTO {
 	@NotEmpty(message = ErrorConstants.COMPANY_CODE_NOT_NULL)
 	//@Pattern(regexp = "{A-Za-z0-9}*")
 	private String code;
-	@NotNull(message = ErrorConstants.COUNTRY_NOT_NULL)
-	private CountryDTO country;
 
 	@NotNull(message = ErrorConstants.CURRENCY_NOT_NULL)
 	private CurrencyDTO currency;

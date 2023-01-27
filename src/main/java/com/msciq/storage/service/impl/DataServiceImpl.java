@@ -488,7 +488,7 @@ public class DataServiceImpl implements DataService {
 				throw new DataConflictException(19068);
 			}
 			Location location = modelMapper.map(locationDTO, Location.class);
-			location.setState(modelMapper.map(locationDTO.getCountry().getStates().get(0), State.class));
+			//location.setState(modelMapper.map(locationDTO.getCountry().getStates().get(0), State.class));
 			locations.add(location);
 		}
 		return locationRepository.saveAllAndFlush(locations);

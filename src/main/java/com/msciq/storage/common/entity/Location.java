@@ -34,13 +34,9 @@ public class Location extends BaseEntity {
 	@JoinColumn(name = FieldConstants.COMPANY_ID)
 	private Company company;
 
-	@ManyToOne
-	@JoinColumn(name = FieldConstants.COUNTRY_ID)
-	private Country country;
+	private String country;
 
-	@ManyToOne
-	@JoinColumn(name = FieldConstants.STATE_ID)
-	private State state;
+	private String state;
 
 	private String address;
 

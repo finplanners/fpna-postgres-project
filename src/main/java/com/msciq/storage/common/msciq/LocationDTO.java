@@ -1,12 +1,8 @@
 package com.msciq.storage.common.msciq;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.msciq.storage.common.ErrorConstants;
-import com.msciq.storage.model.Company;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
@@ -22,7 +18,9 @@ public class LocationDTO {
 
 	private String address;
 
-	private CountryDTO country;
+	private String country;
+
+	private String state;
 
 	private boolean isActive;
 
