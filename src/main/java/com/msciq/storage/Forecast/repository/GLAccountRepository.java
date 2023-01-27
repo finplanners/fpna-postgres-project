@@ -15,4 +15,5 @@ public interface GLAccountRepository extends JpaRepository<GLAccount, Long> {
     @Query(value = GET_ALL_FORECASTING_TEMPLATES)
     List<GLAccount> getAllForecastingTemplates();
 
+    List<GLAccount> findByBudgetCategoryIn(List<Long> budgetCategoryIds);
 }

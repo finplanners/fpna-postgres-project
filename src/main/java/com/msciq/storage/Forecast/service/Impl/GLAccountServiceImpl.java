@@ -1,17 +1,20 @@
-package com.msciq.storage.forecast.service.Impl;
+package com.msciq.storage.forecast.service.impl;
 
 import com.msciq.storage.budgetCategory.repository.BudgetCategoryRepository;
+import com.msciq.storage.common.Constants;
 import com.msciq.storage.forecast.repository.GLAccountRepository;
 import com.msciq.storage.forecast.service.GLAccountService;
 import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.GLAccount;
 import com.msciq.storage.model.request.BudgetCategoryGLAccountMappingDTO;
+import com.msciq.storage.model.response.SuccessResponse;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +24,10 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GLAccountServiceImpl implements GLAccountService {
@@ -120,6 +125,16 @@ public class GLAccountServiceImpl implements GLAccountService {
             glAccounts.add(glAccount);
         });
         return glAccountRepository.saveAll(glAccounts);
+    }
+
+    @Override
+    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(Long templateTypeId) {
+        List<BudgetCategory> budgetCategories = budgetCategoryRepository.findByTemplateTypesIn(Arrays.asList(templateTypeId));
+        List<Long> budgetCategoryIds = budgetCategories.stream().map(budgetCategory -> {
+            return budgetCategory.getId();
+        }).collect(Collectors.toList());
+        List<GLAccount> glAccounts = glAccountRepository.findByBudgetCategoryIn(budgetCategoryIds);
+        return new SuccessResponse<List<GLAccount>>(Constants.SUCCESS, glAccounts, null, HttpStatus.OK);
     }
 
 }

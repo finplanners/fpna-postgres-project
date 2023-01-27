@@ -34,4 +34,8 @@ public class DepartmentTemplateServiceImpl implements DepartmentTemplateService 
 
         return null;
     }
+
+    public List<Department> getAllDepartmentsByTemplateId(Long templateId) {
+        return departmentRepository.findByTemplateId(templateId);
+    }
 }

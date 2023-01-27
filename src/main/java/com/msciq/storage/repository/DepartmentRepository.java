@@ -16,6 +16,9 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
 	public static final String IS_DEPARTMENT_EXISTS = "select case when count(department) > 0 then true else false end from Department as department where department.id<>:id and (department.departName=:departName or department.departmentCode=:departmentCode) and department.isDeleted=false";
 
+	public static final String DEPARTMENT_BY_TEMPLATE_ID = "select * from department_template as dt, department d where dt.dept_id = d.id and dt.temp_id=:templateId and d.is_active=true";
+
+
 	/**
 	 * Retrieves an department based on its Id and IsDeleted fields.
 	 * 
@@ -54,4 +57,8 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	public List<Department> findByIsActive(Boolean isActive);
 
 	public Department findByDepartmentCode(String departmentCode);
+
+	@Query(value = DEPARTMENT_BY_TEMPLATE_ID,
+	nativeQuery = true)
+	List<Department> findByTemplateId(Long templateId);
 }

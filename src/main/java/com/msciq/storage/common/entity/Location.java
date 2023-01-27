@@ -26,6 +26,7 @@ public class Location extends BaseEntity {
 	@NotEmpty(message = ErrorConstants.LOCATION_NAME_NOT_NULL)
 	@Column(name = FieldConstants.NAME)
 	private String name;
+
 	@NotEmpty(message = ErrorConstants.LOCATION_CODE_NOT_NULL)
 	@Column(name = FieldConstants.CODE)
 	private String code;
