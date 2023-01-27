@@ -354,7 +354,7 @@ public class DataController {
 
 	/**
 	 * Get group company detail by gc Id.
-	 * 
+	 *
 	 * @param gcId - group company id
 	 * @return GroupCompany - group company entity
 	 */
@@ -366,7 +366,7 @@ public class DataController {
 
 	/**
 	 * Get all active group company details
-	 * 
+	 *
 	 * @return List - list of group company entity
 	 */
 	@RequestMapping(value = "/groupCompanies", method = RequestMethod.GET)
@@ -387,16 +387,21 @@ public class DataController {
 		List<GroupCompanyDTO>  groupCompanyDTOS = dataService.getAllGroupCompany(true);
 		for (GroupCompanyDTO groupCompanyDTO:
 		groupCompanyDTOS) {
+			SideBarDTO sideBarDTO = new SideBarDTO();
+			sideBarDTO.setGroupCompany(groupCompanyDTO);
 			List<Company> companies = dataService.findCompanyByGroupCompanyId(groupCompanyDTO.getId());
-			for (Company company:
-			companies) {
-				List<Location> locations = dataService.getAllLocations(true,company.getId());
-				SideBarDTO sideBarDTO = new SideBarDTO();
-				sideBarDTO.setLocations(locations);
-				sideBarDTO.setCompanies(companies);
-				sideBarDTO.setGroupCompany(groupCompanyDTO);
+			if(companies.size()>0){
+				for (Company company:
+						companies) {
+					List<Location> locations = dataService.getAllLocations(true,company.getId());
+					sideBarDTO.setLocations(locations);
+					sideBarDTO.setCompanies(companies);
+					sideBars.add(sideBarDTO);
+				}
+			}else{
 				sideBars.add(sideBarDTO);
 			}
+
 
 
 			//sideBarDTO.setGroupCompanyName(groupCompanyDTO.getGcName());
