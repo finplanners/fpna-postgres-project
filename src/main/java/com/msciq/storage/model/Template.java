@@ -51,12 +51,4 @@ public class Template extends BaseEntity {
     @Type(type = "jsonb")
     private String templateValue;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JsonIgnore
-    private Set<Department> department = new HashSet<>();
-
 }

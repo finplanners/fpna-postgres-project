@@ -1,8 +1,8 @@
 package com.msciq.storage.repository;
 
-import com.msciq.storage.common.entity.Currency;
 import com.msciq.storage.common.entity.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +14,11 @@ public interface LocationRepository extends JpaRepository<Location, String> {
 
     Location findByIdAndIsDeleted(Long id, boolean b);
 
+    Location findById(Long id);
+
     List<Location> findByIsActive(boolean isActive);
 
     List<Location> findByIsActiveAndCompany_id(boolean b, long companyId);
+
+    List<Location> findByIsActiveAndCompany_IdIn(boolean isActive, List<Long> companyIds);
 }

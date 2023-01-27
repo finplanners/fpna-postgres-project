@@ -83,4 +83,15 @@ public class GLAccountController {
                         HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get all GL by templateId.
+     *
+     * @param templateTypeId
+     * @return List of GLAccount
+     * @author Sivaranjani DS
+     */
+    @RequestMapping(value = "/{templateId}/list", method = RequestMethod.GET)
+    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(@PathVariable Long templateTypeId) {
+        return glAccountService.getGLAccountByTemplateType(templateTypeId);
+    }
 }
