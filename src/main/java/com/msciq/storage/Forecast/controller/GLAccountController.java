@@ -90,7 +90,7 @@ public class GLAccountController {
      * @return List of GLAccount
      * @author Sivaranjani DS
      */
-    @RequestMapping(value = "/{templateId}/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
     public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(@PathVariable Long templateTypeId) {
         return glAccountService.getGLAccountByTemplateType(templateTypeId);
     }

@@ -129,11 +129,11 @@ public class GLAccountServiceImpl implements GLAccountService {
 
     @Override
     public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(Long templateTypeId) {
-        List<BudgetCategory> budgetCategories = budgetCategoryRepository.findByTemplateTypesIn(Arrays.asList(templateTypeId));
+        List<BudgetCategory> budgetCategories = budgetCategoryRepository.findByTemplateTypes_IdIn(new ArrayList<>(Arrays.asList(templateTypeId)));
         List<Long> budgetCategoryIds = budgetCategories.stream().map(budgetCategory -> {
             return budgetCategory.getId();
         }).collect(Collectors.toList());
-        List<GLAccount> glAccounts = glAccountRepository.findByBudgetCategoryIn(budgetCategoryIds);
+        List<GLAccount> glAccounts = glAccountRepository.findByBudgetCategory_IdIn(budgetCategoryIds);
         return new SuccessResponse<List<GLAccount>>(Constants.SUCCESS, glAccounts, null, HttpStatus.OK);
     }
 
