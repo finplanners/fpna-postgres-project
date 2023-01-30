@@ -421,16 +421,24 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BusinessUnit addBU(BusinessUnitDTO businessUnitDTO) {
-		if (Objects.isNull(businessUnitDTO)) {
-			throw new BadRequestException(19011);
+	public List<BusinessUnit> addBU(List<BusinessUnitDTO> businessUnitDTOS) {
+
+		List<BusinessUnit> businessUnitList = new ArrayList<>();
+		for (BusinessUnitDTO businessUnitDTO:
+				businessUnitDTOS) {
+			if (Objects.isNull(businessUnitDTO)) {
+				throw new BadRequestException(19011);
+			}
+			BusinessUnit existingBU = businessUnitRepository.findByCode(businessUnitDTO.getCode());
+			if (!Objects.isNull(existingBU)) {
+				throw new DataConflictException(19064);
+			}
+			BusinessUnit businessUnit = modelMapper.map(businessUnitDTO, BusinessUnit.class);
+			businessUnitList.add(businessUnit);
+
 		}
-		BusinessUnit existingBU = businessUnitRepository.findByCode(businessUnitDTO.getCode());
-		if (!Objects.isNull(existingBU)) {
-			throw new DataConflictException(19064);
-		}
-		BusinessUnit businessUnit = modelMapper.map(businessUnitDTO, BusinessUnit.class);
-		return businessUnitRepository.save(businessUnit);
+		return businessUnitRepository.saveAll(businessUnitList);
+
 	}
 
 	/**

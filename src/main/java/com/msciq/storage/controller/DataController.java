@@ -493,28 +493,15 @@ public class DataController {
 	}
 
 	/**
-	 * Add a new company with company name, code, etc.
-	 *
-	 * @param companyDTO - company details
-	 * @return company Entity
-	 */
-//	@RequestMapping(method = RequestMethod.POST, value = "/combined-company")
-//	public SuccessResponse<Company> addCombinedCompany(@Valid @RequestBody CompanyDTO companyDTO) {
-//		Company company = dataService.addCompany(companyDTO);
-//		return new SuccessResponse<>(SuccessCode.COMPANY_SAVE, company, HttpStatus.CREATED);
-//	}
-
-
-	/**
 	 * Add a new business unit with name, code, etc.
 	 *
-	 * @param businessUnitDTO - business unit details
+	 * @param businessUnits- business unit details
 	 * @return business unit Entity
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/businessUnit")
-	public SuccessResponse<BusinessUnit> adBU(@Valid @RequestBody BusinessUnitDTO businessUnitDTO) {
-		BusinessUnit businessUnit = dataService.addBU(businessUnitDTO);
-		return new SuccessResponse<>(SuccessCode.BU_SAVE, businessUnit, HttpStatus.CREATED);
+	public SuccessResponse<BusinessUnit> adBU(@Valid @RequestBody List<BusinessUnitDTO> businessUnits) {
+		List<BusinessUnit> businessUnitList = dataService.addBU(businessUnits);
+		return new SuccessResponse<>(SuccessCode.BU_SAVE, businessUnitList, HttpStatus.CREATED);
 	}
 
 	/**

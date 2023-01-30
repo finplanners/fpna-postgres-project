@@ -2,6 +2,7 @@ package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.ResetPassword;
@@ -11,13 +12,11 @@ import com.msciq.storage.model.request.UserDTO;
 import com.msciq.storage.model.response.LoginResponse;
 import com.msciq.storage.model.response.ResponseDTO;
 import com.msciq.storage.model.response.SuccessResponse;
-import com.msciq.storage.model.response.UserViewResponse;
 import com.msciq.storage.service.UserService;
 import com.msciq.storage.service.impl.GCPStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,13 +29,11 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    GCPStorageServiceImpl gcpStorageService;
-
-    @Autowired
     UserService userService;
 
     /**
-     * This method is used to create a User in the respective Company
+     * Add a new User in the respective Company
+     *
      *
      * @param user - model
      * @return Successful message on creating the new User
@@ -73,23 +70,14 @@ public class UserController {
      * @return List of Users will be returned
      */
     @GetMapping("/get/user")
-    public SuccessResponse<List<User>> getUser(@RequestParam boolean isDeleted, @RequestParam String status) {
+    public SuccessResponse<List<User>> getUser(@RequestParam String status) {
 
-        if((status.equalsIgnoreCase("Deleted") && isDeleted) && !(status.equalsIgnoreCase("all") && !isDeleted)){
-            return new SuccessResponse<List<User>>
-                    (ErrorMessage.INVALID_REQUEST,
-                            null,
-                            null,
-                            HttpStatus.BAD_REQUEST);
+        if( status.equalsIgnoreCase("Deleted") && !status.equalsIgnoreCase("all") ){
+            return new SuccessResponse<>(ErrorMessage.INVALID_REQUEST, null,null,HttpStatus.BAD_REQUEST);
+        }else{
+            List<User> users = userService.getListofUsers(status);
+            return new SuccessResponse<>(SuccessCode.BU_SAVE, users, HttpStatus.OK);
         }
-
-        List<User> userViewResponses = userService.getListofUsers(isDeleted);
-
-        return new SuccessResponse<List<User>>
-                    (SuccessMessage.SUCCESS,
-                            userViewResponses,
-                            null,
-                            HttpStatus.OK);
     }
 
     /**

@@ -206,12 +206,12 @@ public interface DataService {
 	Company findCompanyById(Long companyId);
 
 	/**
-	 * This method is used to add a new business unit
-	 * 
-	 * @param businessUnitDTO - business unit details
-	 * @return BusinessUnit Entity
-	 */
-	BusinessUnit addBU(BusinessUnitDTO businessUnitDTO);
+     * This method is used to add a new business unit
+     *
+     * @param businessUnits - business unit details
+     * @return BusinessUnit Entity
+     */
+	List<BusinessUnit> addBU(List<BusinessUnitDTO> businessUnits);
 
 	/**
 	 * This method is used to update a business unit details.
