@@ -43,7 +43,7 @@ public class BusinessUnitDTO {
 	private Boolean isDeleted;
 
 
-	private String buOwner;
-	private String buOwnerEmail;
+	//private String buOwner;
+	//private String buOwnerEmail;
 				
 }

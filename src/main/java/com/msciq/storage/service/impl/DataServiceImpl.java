@@ -451,13 +451,9 @@ public class DataServiceImpl implements DataService {
 				businessUnitFromDB.setEndDate(businessUnitDTO.getEndDate());
 			if(businessUnitDTO.getActivationDate()!=null)
 				businessUnitFromDB.setActivationDate(businessUnitDTO.getActivationDate());
-			if(businessUnitDTO.getBuOwner()!=null)
-				businessUnitFromDB.setBuOwner(businessUnitDTO.getBuOwner());
 			if(businessUnitDTO.getGroupCompany()!=null){
 				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnitDTO.getGroupCompany().getId(),false));
 			}
-			if(businessUnitDTO.getBuOwnerEmail()!=null)
-				businessUnitFromDB.setBuOwnerEmail(businessUnitDTO.getBuOwnerEmail());
 			if(businessUnitDTO.getIsActive()!=null)
 				businessUnitFromDB.setActive(businessUnitDTO.getIsActive());
 			if(businessUnitDTO.getIsDeleted()!=null)

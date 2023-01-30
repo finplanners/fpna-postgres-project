@@ -42,11 +42,11 @@ public class BusinessUnit extends BaseEntity {
 	@Column(name = FieldConstants.END_DATE)
 	private Date endDate;
 	
-	@Column(name = FieldConstants.BU_OWNER)
-	private String buOwner;
-	
-	@Column(name = FieldConstants.BU_OWNER_EMAIL)
-	private String buOwnerEmail;
+//	@Column(name = FieldConstants.BU_OWNER)
+//	private String buOwner;
+//
+//	@Column(name = FieldConstants.BU_OWNER_EMAIL)
+//	private String buOwnerEmail;
 	
 	public Date getActivationDate() {
 		System.out.println("before===="+activationDate);
