@@ -216,10 +216,10 @@ public interface DataService {
 	/**
 	 * This method is used to update a business unit details.
 	 *
-	 * @param businessUnit - business unit details
+	 * @param businessUnitDTO - business unit details
 	 * @return BusinessUnit Entity
 	 */
-	BusinessUnit updateBU(BusinessUnit businessUnit);
+	BusinessUnit updateBU(BusinessUnitDTO businessUnitDTO);
 
 	/**
 	 * Get all active business unit using status active.

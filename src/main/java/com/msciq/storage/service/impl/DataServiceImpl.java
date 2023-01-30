@@ -437,18 +437,34 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BusinessUnit updateBU(BusinessUnit businessUnit) {
-		if (Objects.isNull(businessUnit)) {
+	public BusinessUnit updateBU(BusinessUnitDTO businessUnitDTO) {
+		if (Objects.isNull(businessUnitDTO)) {
 			throw new BadRequestException(19011);
 		} else {
-			if (Objects.isNull(businessUnitRepository.findByIdAndIsDeleted(businessUnit.getId(), false))) {
+			BusinessUnit businessUnitFromDB = businessUnitRepository.findByIdAndIsDeleted(businessUnitDTO.getId(), false);
+			if (Objects.isNull(businessUnitFromDB)) {
 				throw new DataNotFoundException(19065);
 			}
-			boolean isExists = businessUnitRepository.isBUExists(businessUnit.getId(), businessUnit.getCode());
-			if (isExists) {
-				throw new DataConflictException(19064);
+			if(businessUnitDTO.getName()!=null)
+				businessUnitFromDB.setName(businessUnitDTO.getName());
+			if(businessUnitDTO.getEndDate()!=null)
+				businessUnitFromDB.setEndDate(businessUnitDTO.getEndDate());
+			if(businessUnitDTO.getActivationDate()!=null)
+				businessUnitFromDB.setActivationDate(businessUnitDTO.getActivationDate());
+			if(businessUnitDTO.getBuOwner()!=null)
+				businessUnitFromDB.setBuOwner(businessUnitDTO.getBuOwner());
+			if(businessUnitDTO.getGroupCompany()!=null){
+				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnitDTO.getGroupCompany().getId(),false));
 			}
-			return businessUnitRepository.save(businessUnit);
+			if(businessUnitDTO.getBuOwnerEmail()!=null)
+				businessUnitFromDB.setBuOwnerEmail(businessUnitDTO.getBuOwnerEmail());
+			if(businessUnitDTO.getIsActive()!=null)
+				businessUnitFromDB.setActive(businessUnitDTO.getIsActive());
+			if(businessUnitDTO.getIsDeleted()!=null)
+				businessUnitFromDB.setDeleted(businessUnitDTO.getIsDeleted());
+
+			//BusinessUnit businessUnitModified = modelMapper.map(businessUnitDTO, BusinessUnit.class);
+			return businessUnitRepository.save(businessUnitFromDB);
 		}
 	}
 

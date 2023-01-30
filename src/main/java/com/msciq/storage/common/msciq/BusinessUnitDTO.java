@@ -37,8 +37,12 @@ public class BusinessUnitDTO {
 	
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date endDate;
-	
-	
+
+	private Boolean isActive;
+
+	private Boolean isDeleted;
+
+
 	private String buOwner;
 	private String buOwnerEmail;
 				
