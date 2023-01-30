@@ -511,9 +511,21 @@ public class DataController {
 	 * @return BusinessUnit - business unit Entity
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/businessUnit")
-	public SuccessResponse<BusinessUnit> updateBU(@Valid @RequestBody BusinessUnitDTO businessUnit) {
+	public SuccessResponse<BusinessUnit> updateBU(@Valid @RequestBody BusinessUnit businessUnit) {
 		BusinessUnit businessUnitModified = dataService.updateBU(businessUnit);
 		return new SuccessResponse<>(SuccessCode.BU_UPDATE, businessUnitModified, HttpStatus.OK);
+	}
+
+	/**
+	 * Update a business unit details like name, code, etc,
+	 *
+	 * @param lockDeleteDTO - business unit detail
+	 * @return BusinessUnit - business unit Entity
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/businessUnit/inActivateOrDelete")
+	public SuccessResponse<String> inActivateOrDeleteBU(@Valid @RequestBody LockDeleteDTO lockDeleteDTO) {
+		String message = dataService.inActivateOrDelete(lockDeleteDTO);
+		return new SuccessResponse<>(SuccessCode.BU_UPDATE, message, HttpStatus.OK);
 	}
 
 	/**

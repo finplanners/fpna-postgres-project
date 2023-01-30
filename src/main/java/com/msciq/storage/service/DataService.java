@@ -216,10 +216,10 @@ public interface DataService {
 	/**
 	 * This method is used to update a business unit details.
 	 *
-	 * @param businessUnitDTO - business unit details
+	 * @param businessUnit - business unit details
 	 * @return BusinessUnit Entity
 	 */
-	BusinessUnit updateBU(BusinessUnitDTO businessUnitDTO);
+	BusinessUnit updateBU(BusinessUnit businessUnit);
 
 	/**
 	 * Get all active business unit using status active.
@@ -248,4 +248,6 @@ public interface DataService {
 	State addState(StateDTO stateDTO);
 
 	List<Company> findCompanyByGroupCompanyId(long groupCompanyId);
+
+	String inActivateOrDelete(LockDeleteDTO lockDeleteDTO);
 }

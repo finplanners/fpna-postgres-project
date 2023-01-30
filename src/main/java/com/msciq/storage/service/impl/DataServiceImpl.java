@@ -1,11 +1,16 @@
 package com.msciq.storage.service.impl;
 
 import com.google.common.reflect.TypeToken;
+import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.ErrorConstants;
+import com.msciq.storage.common.ErrorMessage;
+import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.common.msciq.*;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.exception.DataConflictException;
 import com.msciq.storage.exception.DataNotFoundException;
+import com.msciq.storage.model.User;
 import com.msciq.storage.repository.*;
 import com.msciq.storage.service.DataService;
 import org.modelmapper.ModelMapper;
@@ -445,27 +450,31 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BusinessUnit updateBU(BusinessUnitDTO businessUnitDTO) {
-		if (Objects.isNull(businessUnitDTO)) {
+	public BusinessUnit updateBU(BusinessUnit businessUnit) {
+		if (Objects.isNull(businessUnit)) {
 			throw new BadRequestException(19011);
 		} else {
-			BusinessUnit businessUnitFromDB = businessUnitRepository.findByIdAndIsDeleted(businessUnitDTO.getId(), false);
+			BusinessUnit businessUnitFromDB = businessUnitRepository.findByIdAndIsDeleted(businessUnit.getId(), false);
 			if (Objects.isNull(businessUnitFromDB)) {
 				throw new DataNotFoundException(19065);
 			}
-			if(businessUnitDTO.getName()!=null)
-				businessUnitFromDB.setName(businessUnitDTO.getName());
-			if(businessUnitDTO.getEndDate()!=null)
-				businessUnitFromDB.setEndDate(businessUnitDTO.getEndDate());
-			if(businessUnitDTO.getActivationDate()!=null)
-				businessUnitFromDB.setActivationDate(businessUnitDTO.getActivationDate());
-			if(businessUnitDTO.getGroupCompany()!=null){
-				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnitDTO.getGroupCompany().getId(),false));
+			if(businessUnit.getName()!=null)
+				businessUnitFromDB.setName(businessUnit.getName());
+			if(businessUnit.getEndDate()!=null)
+				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
+			if(businessUnit.getActivationDate()!=null)
+				businessUnitFromDB.setActivationDate(businessUnit.getActivationDate());
+			if(businessUnit.getGroupCompany()!=null){
+				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnit.getGroupCompany().getId(),false));
 			}
-			if(businessUnitDTO.getIsActive()!=null)
-				businessUnitFromDB.setActive(businessUnitDTO.getIsActive());
-			if(businessUnitDTO.getIsDeleted()!=null)
-				businessUnitFromDB.setDeleted(businessUnitDTO.getIsDeleted());
+			if(businessUnit.isActive())
+				businessUnitFromDB.setActive(true);
+			else
+				businessUnitFromDB.setActive(false);
+
+			if(businessUnit.isDeleted())
+				businessUnitFromDB.setDeleted(true);
+
 
 			//BusinessUnit businessUnitModified = modelMapper.map(businessUnitDTO, BusinessUnit.class);
 			return businessUnitRepository.save(businessUnitFromDB);
@@ -561,6 +570,56 @@ public class DataServiceImpl implements DataService {
 			throw new DataNotFoundException(19065);
 		}
 		return companies;
+	}
+
+	@Override
+	public String inActivateOrDelete(LockDeleteDTO lockDeleteDTO) {
+		String message= "";
+		try{
+			List<BusinessUnit> businessUnits = businessUnitRepository.findByIdIn(lockDeleteDTO.getIds());
+			List<BusinessUnit> businessUnitListModified = new ArrayList<>();
+			if(businessUnits!=null && businessUnits.size() == 0){
+				message= ErrorConstants.INVALID_BUSINESS_UNITS;
+				return message;
+			}else {
+				if (lockDeleteDTO.getIsActive() != null) {
+					if (!lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_DEACTIVATED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setActive(false);
+							businessUnitListModified.add(businessUnit);
+						}
+					} else if (lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_ACTIVATED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setActive(true);
+							businessUnitListModified.add(businessUnit);
+						}
+					}
+
+				} else if (lockDeleteDTO.getIsDeleted() != null) {
+					if (lockDeleteDTO.getIsDeleted()) {
+						message = SuccessMessage.BUSINESS_UNIT_DELETED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setDeleted(true);
+							businessUnitListModified.add(businessUnit);
+						}
+					} else{
+						message = ErrorMessage.INVALID_ACTION;
+					}
+				}else{
+					message = ErrorMessage.INVALID_ACTION;
+				}
+				businessUnitRepository.saveAllAndFlush(businessUnitListModified);
+				return message;
+
+			}
+		}catch(Exception e){
+			return e.getMessage();
+		}
 	}
 
 }

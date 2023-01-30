@@ -20,10 +20,10 @@ public interface BusinessUnitRepository extends JpaRepository<BusinessUnit, Long
 	 * Retrieves an business unit based on its Id and IsDeleted fields.
 	 * 
 	 * @param id       - business unit id
-	 * @param isActive - active status
+	 * @param isDeleted - deleted status
 	 * @return BusinessUnit Entity.
 	 */
-	public BusinessUnit findByIdAndIsDeleted(Long id, Boolean isActive);
+	public BusinessUnit findByIdAndIsDeleted(Long id, Boolean isDeleted);
 
 	/**
 	 * Finds the business unit based on business unit code
@@ -51,4 +51,5 @@ public interface BusinessUnitRepository extends JpaRepository<BusinessUnit, Long
 	 */
 	public List<BusinessUnit> findByIsActive(Boolean isActive);
 
+	List<BusinessUnit> findByIdIn(List<Long> ids);
 }

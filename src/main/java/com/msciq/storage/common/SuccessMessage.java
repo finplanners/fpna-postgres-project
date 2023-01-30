@@ -5,6 +5,12 @@ public class SuccessMessage {
     public static final String RESET_PASSWORD_SUCCESS
             = "Your account password has been updated successfully";
 
+    public static final String BUSINESS_DEACTIVATED = "Business Unit(s) Deactivated";
+
+    public static final String BUSINESS_UNIT_DELETED = "Business Unit(s) Deleted";
+
+    public static final String BUSINESS_ACTIVATED = "Business Unit(s) Activated";
+
     public static final String PASSWORD_RESET_NOTIFICATION = "Password reset notification sent to your email";
 
     public static final String USER_INVITED_SUCCESS
