@@ -24,6 +24,7 @@ public class FieldConstants {
 
     public static final String FORECASTING_RELEVANT = "forecasting_relevant";
 
+    public static final String PHONE = "phone";
     public static final String FORECASTED_AT_HIGHER_GROUP = "forecasted_at_higher_group";
 
     public static final String FORECASTING_SPECIFIC_ACCOUNT = "forecasting_specific_account";

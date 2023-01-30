@@ -5,7 +5,6 @@ import com.msciq.storage.model.Organization;
 import com.msciq.storage.model.response.ResponseDTO;
 import com.msciq.storage.repository.OrganizationRepository;
 import com.msciq.storage.service.EmailService;
-import com.msciq.storage.service.GCPStorageService;
 import com.msciq.storage.service.OrganizationService;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
-
-    @Autowired
-    private GCPStorageService gcpStorageService;
 
     @Autowired
     private EmailService emailService;
@@ -34,10 +30,10 @@ public class OrganizationServiceImpl implements OrganizationService {
              * So we are adding a prefix to make sure the bucket name starts with a letter and converting the input
              * tenant name to lower case and replaced all the spaces with `_`
              */
-            String bucketName = Constants.ORGANIZATION_PREFIX + organization.getOrganizationName().toLowerCase().replaceAll("\\s", "_");
-////
-////            /* Creating bucket in google cloud */
-            gcpStorageService.createBucket(bucketName);
+//            String bucketName = Constants.ORGANIZATION_PREFIX + organization.getOrganizationName().toLowerCase().replaceAll("\\s", "_");
+//////
+//////            /* Creating bucket in google cloud */
+//            gcpStorageService.createBucket(bucketName);
 
             /* Create a namespace in google data store */
             //Datastore tenantDataStore = gcpStorageService.createOrGetNamespace(bucketName);

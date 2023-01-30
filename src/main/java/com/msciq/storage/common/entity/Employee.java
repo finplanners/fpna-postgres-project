@@ -1,7 +1,8 @@
-package com.msciq.storage.model;
+package com.msciq.storage.common.entity;
 
 import com.msciq.storage.common.FieldConstants;
 import com.msciq.storage.common.TableConstants;
+import com.msciq.storage.model.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -51,5 +52,9 @@ public class Employee extends BaseEntity {
 
     @Column(name = FieldConstants.TERMINATION_DATE)
     private LocalDate terminationDate;
+
+    @Column(name = FieldConstants.PHONE)
+    private String phoneNumber;
+
 
 }
