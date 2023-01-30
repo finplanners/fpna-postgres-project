@@ -1,14 +1,13 @@
 package com.msciq.storage.common.entity;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import com.msciq.storage.common.*;
 import com.msciq.storage.model.BaseEntity;
+import com.msciq.storage.model.Role;
 import com.msciq.storage.model.Template;
 import lombok.Data;
 
@@ -45,7 +44,11 @@ public class Department extends BaseEntity {
 	
 	@Column(name = FieldConstants.REPORT_OWNER)
 	private String reportOwner;
-	
+
+	@OneToMany
+	@JoinColumn(name = "dept_id")
+	private List<Company> companies = new ArrayList<>();
+
 	public Date getActivationDate() {
 		System.out.println("before===="+activationDate);
 		if(activationDate instanceof Date) {

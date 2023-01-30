@@ -18,10 +18,9 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * This controller class helps to perform actions on Country, Currency and meta
+ * This controller class helps to perform actions on Location, Country, Currency and meta
  * data Entities.
  *
  * @author Rajkumar
@@ -46,7 +45,7 @@ public class DataController {
 	 * Add a new country with details like location name, code.
 	 *
 	 * @param locationDTOS
-	 * @return Country Entity
+	 * @return List of Locations Entities
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/location")
 	public SuccessResponse<List<Location>> addLocation(@Valid @RequestBody List<LocationDTO> locationDTOS) {
