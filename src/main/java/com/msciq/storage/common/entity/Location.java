@@ -31,9 +31,8 @@ public class Location extends BaseEntity {
 	@Column(name = FieldConstants.CODE)
 	private String code;
 
-	@ManyToOne
-	@JoinColumn(name = FieldConstants.COMPANY_ID)
-	private Company company;
+	@Column(name = FieldConstants.COMPANY_ID)
+	private long companyId;
 
 	private String country;
 

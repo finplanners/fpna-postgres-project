@@ -34,8 +34,8 @@ public class CompanyDTO {
 	private FiscalCalendarDTO fiscalCalendar;
 	
 	@NotNull(message = ErrorConstants.GC_NAME_NOT_NULL)
-	private GroupCompanyDTO groupCompany;
-	
+	private long groupCompanyId;
+
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")

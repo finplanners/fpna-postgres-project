@@ -60,5 +60,5 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	 */
 	Company findByCodeAndName(String code, String name);
 
-	List<Company> findByGroupCompany_IdAndIsDeleted(long groupCompanyId, boolean b);
+	List<Company> findByGroupCompanyIdAndIsDeleted(long groupCompanyId, boolean b);
 }

@@ -24,6 +24,8 @@ public class LocationDTO {
 
 	private boolean isActive;
 
+	private long companyId;
+
 	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date activeFrom;
 

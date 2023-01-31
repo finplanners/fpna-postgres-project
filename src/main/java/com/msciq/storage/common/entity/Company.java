@@ -1,6 +1,7 @@
 package com.msciq.storage.common.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -37,9 +38,12 @@ public class Company extends BaseEntity {
 	private Currency currency;
 
 	//@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
-	@ManyToOne
-	@JoinColumn(name = FieldConstants.GC_ID)
-	private GroupCompany groupCompany;
+
+	@Column(name = "gc_id")
+	private long groupCompanyId;
+	@OneToMany(targetEntity = Location.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = FieldConstants.COMPANY_ID)
+	private List<Location> locations;
 	
 	
 	//@NotEmpty(message = ErrorConstants.FIS_CAL_KEY_NULL)

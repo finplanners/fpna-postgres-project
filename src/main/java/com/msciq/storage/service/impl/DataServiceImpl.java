@@ -542,7 +542,7 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public List<Location> getAllLocations(boolean b, long companyId) {
-		return locationRepository.findByIsActiveAndCompany_id(b, companyId);
+		return locationRepository.findByIsActiveAndCompanyId(b, companyId);
 	}
 
 	@Override
@@ -560,7 +560,7 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public List<Company> findCompanyByGroupCompanyId(long groupCompanyId) {
-		List<Company> companies = companyRepository.findByGroupCompany_IdAndIsDeleted(groupCompanyId, false);
+		List<Company> companies = companyRepository.findByGroupCompanyIdAndIsDeleted(groupCompanyId, false);
 		if (Objects.isNull(companies)) {
 			throw new DataNotFoundException(19065);
 		}

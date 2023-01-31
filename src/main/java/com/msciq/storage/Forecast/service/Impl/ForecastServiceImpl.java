@@ -1,4 +1,4 @@
-package com.msciq.storage.forecast.service.impl;
+package com.msciq.storage.Forecast.service.Impl;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.entity.*;
@@ -60,11 +60,11 @@ public class ForecastServiceImpl implements ForecastService {
             throw new DataNotFoundException(19082);
         }
         BusinessUnit businessUnit = businessUnitRepository.findById(buId).get();
-        List<Company> companies = companyRepository.findByGroupCompany_IdAndIsDeleted(businessUnit.getGroupCompany().getId(), false);
+        List<Company> companies = companyRepository.findByGroupCompanyIdAndIsDeleted(businessUnit.getGroupCompany().getId(), false);
         List<Long> companyIds = companies.stream().map(company -> {
             return company.getId();
         }).collect(Collectors.toList());
-        List<Location> locations = locationRepository.findByIsActiveAndCompany_IdIn(true, companyIds);
+        List<Location> locations = locationRepository.findByIsActiveAndCompanyIdIn(true, companyIds);
         if (locations.isEmpty()) {
             throw new DataNotFoundException(19083);
         }

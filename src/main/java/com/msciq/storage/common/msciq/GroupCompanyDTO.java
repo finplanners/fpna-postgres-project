@@ -9,6 +9,8 @@ import com.msciq.storage.common.entity.Country;
 import com.msciq.storage.common.entity.Currency;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GroupCompanyDTO {
 
@@ -25,6 +27,8 @@ public class GroupCompanyDTO {
 	@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@Pattern(regexp = "^[a-zA-Z\\d_]+$")
 	private String gcCode;
+
+	private List<CompanyDTO> companies;
 
 	//@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
 	@NotNull(message = "Currency Must Not be Null")

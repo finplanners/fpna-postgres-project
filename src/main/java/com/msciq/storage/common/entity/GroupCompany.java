@@ -1,10 +1,6 @@
 package com.msciq.storage.common.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import com.msciq.storage.common.ErrorConstants;
@@ -12,6 +8,9 @@ import com.msciq.storage.common.FieldConstants;
 import com.msciq.storage.common.TableConstants;
 import com.msciq.storage.model.BaseEntity;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -34,6 +33,10 @@ public class GroupCompany extends BaseEntity {
 	@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	@Column(name = FieldConstants.GC_CODE)
 	private String gcCode;
+
+	@OneToMany(targetEntity = Company.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = FieldConstants.GC_ID)
+	private List<Company> companies;
 
 //	@NotEmpty(message = ErrorConstants.CURRENCY_NOT_NULL)
 	@ManyToOne
