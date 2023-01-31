@@ -1,5 +1,6 @@
 package com.msciq.storage.controller;
 
+import com.google.common.reflect.TypeToken;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.entity.*;
@@ -389,22 +390,21 @@ public class DataController {
 			SideBarDTO sideBarDTO = new SideBarDTO();
 			sideBarDTO.setGroupCompany(groupCompanyDTO);
 			List<Company> companies = dataService.findCompanyByGroupCompanyId(groupCompanyDTO.getId());
+			List<CompanyDTO> companyDTOList = modelMapper.map(companies, new TypeToken<List<CompanyDTO>>() {
+			}.getType());
+			List<CompanyDTO> companyDTOListModified = new ArrayList<>();
 			if(companies.size()>0){
-				for (Company company:
-						companies) {
-					List<Location> locations = dataService.getAllLocations(true,company.getId());
-					sideBarDTO.setLocations(locations);
-					sideBarDTO.setCompanies(companies);
-					sideBars.add(sideBarDTO);
+				for (CompanyDTO companyDTO:
+						companyDTOList) {
+					List<Location> locations = dataService.getAllLocations(true,companyDTO.getId());
+					companyDTO.setLocations(locations);
+					companyDTOListModified.add(companyDTO);
 				}
+				sideBarDTO.setCompanies(companyDTOListModified);
+				sideBars.add(sideBarDTO);
 			}else{
 				sideBars.add(sideBarDTO);
 			}
-
-
-
-			//sideBarDTO.setGroupCompanyName(groupCompanyDTO.getGcName());
-			//sideBarDTO.setCompaniesName(companies.stream().map(s->s.getName()).collect(Collectors.toList()));
 
 		}
 		return new SuccessResponse<>(SuccessCode.GET_GC_SUCCESS, sideBars, HttpStatus.OK);

@@ -2,16 +2,14 @@ package com.msciq.storage.common.msciq;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.msciq.storage.common.ErrorConstants;
-import com.msciq.storage.common.entity.Country;
-import com.msciq.storage.common.entity.Currency;
-import com.msciq.storage.common.entity.FiscalCalendar;
-import com.msciq.storage.common.entity.GroupCompany;
+import com.msciq.storage.common.entity.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class CompanyDTO {
@@ -26,6 +24,8 @@ public class CompanyDTO {
 	@NotEmpty(message = ErrorConstants.COMPANY_CODE_NOT_NULL)
 	//@Pattern(regexp = "{A-Za-z0-9}*")
 	private String code;
+
+	private List<Location> locations;
 
 	@NotNull(message = ErrorConstants.CURRENCY_NOT_NULL)
 	private CurrencyDTO currency;

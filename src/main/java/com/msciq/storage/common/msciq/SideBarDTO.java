@@ -11,9 +11,9 @@ public class SideBarDTO {
 
 	private GroupCompanyDTO groupCompany;
 
-	private List<Company> companies;
+	private List<CompanyDTO> companies;
 
-	private List<Location> locations;
+	//private List<Location> locations;
 //
 //	private String groupCompanyName;
 //	private List<String> companiesName;
