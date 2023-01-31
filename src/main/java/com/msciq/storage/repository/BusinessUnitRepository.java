@@ -52,4 +52,6 @@ public interface BusinessUnitRepository extends JpaRepository<BusinessUnit, Long
 	public List<BusinessUnit> findByIsActive(Boolean isActive);
 
 	List<BusinessUnit> findByIdIn(List<Long> ids);
+
+	List<BusinessUnit> findByIsActiveAndIsDeleted(Boolean isActive, Boolean isDeleted);
 }

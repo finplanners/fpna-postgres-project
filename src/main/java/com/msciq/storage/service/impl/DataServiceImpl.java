@@ -485,8 +485,8 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<BusinessUnitDTO> getAllBU(Boolean isActive) {
-		List<BusinessUnit> businessUnits = businessUnitRepository.findByIsActive(isActive);
+	public List<BusinessUnitDTO> getAllBU(Boolean isActive, Boolean isDeleted) {
+		List<BusinessUnit> businessUnits = businessUnitRepository.findByIsActiveAndIsDeleted(isActive, isDeleted);
 		List<BusinessUnitDTO> businessUnitList = modelMapper.map(businessUnits, new TypeToken<List<BusinessUnitDTO>>() {
 		}.getType());
 		return businessUnitList;

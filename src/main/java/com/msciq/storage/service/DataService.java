@@ -227,7 +227,7 @@ public interface DataService {
 	 * @param isActive - active status
 	 * @return List of business unit entities.
 	 */
-	List<BusinessUnitDTO> getAllBU(Boolean isActive);
+	List<BusinessUnitDTO> getAllBU(Boolean isActive, Boolean isDeleted);
 
 	/**
 	 * Get business unit detail by Id.

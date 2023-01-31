@@ -547,7 +547,7 @@ public class DataController {
 	 */
 	@RequestMapping(value = "/businessUnits", method = RequestMethod.GET)
 	public SuccessResponse<List<BusinessUnitDTO>> getAllBU() {
-		List<BusinessUnitDTO> businessUnits = dataService.getAllBU(true);
+		List<BusinessUnitDTO> businessUnits = dataService.getAllBU(true, false);
 		return new SuccessResponse<List<BusinessUnitDTO>>(SuccessCode.GET_BU_LIST_SUCCESS, businessUnits,
 				HttpStatus.OK);
 	}
