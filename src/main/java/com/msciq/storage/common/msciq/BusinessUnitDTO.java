@@ -33,14 +33,12 @@ public class BusinessUnitDTO {
 	private GroupCompanyDTO groupCompany;
 	
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
-	private Date activeInactiveDate;
+	private Date activationDate;
 	
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
-//	private Date endDate;
-//
-//	private Date activeInactiveDate;
+	private Date endDate;
 
-	private boolean status;
+	private Boolean status;
 
 //	private boolean isActive;
 //

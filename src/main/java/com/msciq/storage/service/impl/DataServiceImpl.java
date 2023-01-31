@@ -460,17 +460,18 @@ public class DataServiceImpl implements DataService {
 			}
 			if(businessUnit.getName()!=null)
 				businessUnitFromDB.setName(businessUnit.getName());
-			if(businessUnit.isStatus()){
-				businessUnitFromDB.setStatus(true);
+			if(businessUnit.getStatus()!=null && businessUnit.getStatus()==true){
+				businessUnitFromDB.setActivationDate(businessUnit.getActivationDate());
+				businessUnitFromDB.setStatus(businessUnit.getStatus());
 			}
 
 			if(businessUnit.getGroupCompany()!=null){
 				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnit.getGroupCompany().getId(),false));
 			}
-			if(!businessUnit.isStatus()){
+			if(businessUnit.getStatus()!=null && businessUnit.getStatus()==false){
 				businessUnitFromDB.setStatus(false);
+				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
 			}
-			businessUnitFromDB.setActiveInactiveDate(businessUnit.getActiveInactiveDate());
 			return businessUnitRepository.save(businessUnitFromDB);
 		}
 	}
