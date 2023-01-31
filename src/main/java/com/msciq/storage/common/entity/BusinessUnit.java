@@ -38,44 +38,44 @@ public class BusinessUnit extends BaseEntity {
 
 	private boolean status;
 	
-	@Column(name = FieldConstants.ACTIVATION_DATE)
-	private Date activationDate;
-	
-	@Column(name = FieldConstants.END_DATE)
-	private Date endDate;
-
+	@Column(name = "active_inactive_date")
 	private Date activeInactiveDate;
-	
+//
+//	@Column(name = FieldConstants.END_DATE)
+//	private Date endDate;
+//
+//	private Date activeInactiveDate;
+//
 //	@Column(name = FieldConstants.BU_OWNER)
 //	private String buOwner;
 //
 //	@Column(name = FieldConstants.BU_OWNER_EMAIL)
 //	private String buOwnerEmail;
-	
-	public Date getActivationDate() {
-		System.out.println("before===="+activationDate);
-		if(activationDate instanceof Date) {
-			System.out.println("yes Date");
-		}else {
-			System.out.println("No Date");
-		}
-		//String dateString = !CommonUtil.isNull(activationDate) ? StringUtil.getDateString(activationDate,"dd/MM/yyyy"): null;
-		Date convertedDate = DateUtil.formatDate(activationDate, Constants.FORMAT_DDMMYYYY,false);
-		System.out.println("before===="+convertedDate);
-		return convertedDate;
-	}
-	
-	public Date getEndDate() {
-		System.out.println("before end date===="+endDate);
-		if(endDate instanceof Date) {
-			System.out.println("endDate yes Date");
-		}else {
-			System.out.println("endDate No Date");
-		}
-		Date convertedDate = DateUtil.formatDate(activationDate, Constants.FORMAT_DDMMYYYY,false);
-		System.out.println("before= end date==="+convertedDate);
-		return convertedDate;
-	}
+//
+//	public Date getActivationDate() {
+//		System.out.println("before===="+activationDate);
+//		if(activationDate instanceof Date) {
+//			System.out.println("yes Date");
+//		}else {
+//			System.out.println("No Date");
+//		}
+//		//String dateString = !CommonUtil.isNull(activationDate) ? StringUtil.getDateString(activationDate,"dd/MM/yyyy"): null;
+//		Date convertedDate = DateUtil.formatDate(activationDate, Constants.FORMAT_DDMMYYYY,false);
+//		System.out.println("before===="+convertedDate);
+//		return convertedDate;
+//	}
+//
+//	public Date getEndDate() {
+//		System.out.println("before end date===="+endDate);
+//		if(endDate instanceof Date) {
+//			System.out.println("endDate yes Date");
+//		}else {
+//			System.out.println("endDate No Date");
+//		}
+//		Date convertedDate = DateUtil.formatDate(activationDate, Constants.FORMAT_DDMMYYYY,false);
+//		System.out.println("before= end date==="+convertedDate);
+//		return convertedDate;
+//	}
 	
 
 }
