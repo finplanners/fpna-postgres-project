@@ -219,7 +219,7 @@ public interface DataService {
 	 * @param businessUnit - business unit details
 	 * @return BusinessUnit Entity
 	 */
-	BusinessUnit updateBU(BusinessUnit businessUnit);
+	BusinessUnit updateBU(BusinessUnitDTO businessUnit);
 
 	/**
 	 * Get all active business unit using status active.

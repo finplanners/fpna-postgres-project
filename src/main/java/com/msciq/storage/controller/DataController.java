@@ -511,7 +511,7 @@ public class DataController {
 	 * @return BusinessUnit - business unit Entity
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/businessUnit")
-	public SuccessResponse<BusinessUnit> updateBU(@Valid @RequestBody BusinessUnit businessUnit) {
+	public SuccessResponse<BusinessUnit> updateBU(@Valid @RequestBody BusinessUnitDTO businessUnit) {
 		BusinessUnit businessUnitModified = dataService.updateBU(businessUnit);
 		return new SuccessResponse<>(SuccessCode.BU_UPDATE, businessUnitModified, HttpStatus.OK);
 	}

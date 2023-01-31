@@ -450,7 +450,7 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BusinessUnit updateBU(BusinessUnit businessUnit) {
+	public BusinessUnit updateBU(BusinessUnitDTO businessUnit) {
 		if (Objects.isNull(businessUnit)) {
 			throw new BadRequestException(19011);
 		} else {
@@ -460,23 +460,18 @@ public class DataServiceImpl implements DataService {
 			}
 			if(businessUnit.getName()!=null)
 				businessUnitFromDB.setName(businessUnit.getName());
-			if(businessUnit.getEndDate()!=null)
-				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
-			if(businessUnit.getActivationDate()!=null)
+			if(businessUnit.isStatus()){
 				businessUnitFromDB.setActivationDate(businessUnit.getActivationDate());
+				businessUnitFromDB.setStatus(true);
+			}
+
 			if(businessUnit.getGroupCompany()!=null){
 				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnit.getGroupCompany().getId(),false));
 			}
-			if(businessUnit.isActive())
-				businessUnitFromDB.setActive(true);
-			else
-				businessUnitFromDB.setActive(false);
-
-			if(businessUnit.isDeleted())
-				businessUnitFromDB.setDeleted(true);
-
-
-			//BusinessUnit businessUnitModified = modelMapper.map(businessUnitDTO, BusinessUnit.class);
+			if(!businessUnit.isStatus()){
+				businessUnitFromDB.setStatus(false);
+				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
+			}
 			return businessUnitRepository.save(businessUnitFromDB);
 		}
 	}

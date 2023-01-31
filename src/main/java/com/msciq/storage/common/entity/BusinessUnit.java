@@ -35,6 +35,8 @@ public class BusinessUnit extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.GC_ID)
 	private GroupCompany groupCompany;
+
+	private boolean status;
 	
 	@Column(name = FieldConstants.ACTIVATION_DATE)
 	private Date activationDate;

@@ -38,6 +38,8 @@ public class BusinessUnitDTO {
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date endDate;
 
+	private boolean status;
+
 //	private boolean isActive;
 //
 //	private boolean isDeleted;
