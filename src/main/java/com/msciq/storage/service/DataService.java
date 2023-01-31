@@ -248,4 +248,12 @@ public interface DataService {
 	State addState(StateDTO stateDTO);
 
 	List<Company> findCompanyByGroupCompanyId(long groupCompanyId);
+
+	/**
+	 * Get all department based on the user email.
+	 *
+	 * @param email
+	 * @return List of Department entities.
+	 */
+	List<DepartmentDTO> getAllDepartmentByUser(String email);
 }

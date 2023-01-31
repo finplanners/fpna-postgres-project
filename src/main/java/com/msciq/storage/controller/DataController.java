@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This controller class helps to perform actions on Country, Currency and meta
@@ -567,4 +566,18 @@ public class DataController {
 		return new SuccessResponse<BusinessUnitPrerequisiteDTO>(SuccessCode.GET_BU_LIST_SUCCESS, businessUnitPrerequisiteDTO,
 				HttpStatus.OK);
 	}
+
+	/**
+	 * Get all department based on the user email id
+	 *
+	 * @return List - list of department entity
+	 */
+	@RequestMapping(value = "/department", method = RequestMethod.GET)
+	public SuccessResponse<List<DepartmentDTO>> getAllDepartmentByUser( @RequestParam String email) {
+		List<DepartmentDTO> departmentDTOS = dataService.getAllDepartmentByUser(email);
+		return new SuccessResponse<List<DepartmentDTO>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, departmentDTOS,
+				HttpStatus.OK);
+	}
+
+
 }

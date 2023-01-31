@@ -3,8 +3,10 @@ package com.msciq.storage.repository;
 import java.util.List;
 
 import com.msciq.storage.common.entity.Department;
+import com.msciq.storage.common.msciq.DepartmentDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  * This is the repository interface helps maintain the DB connection to perform
@@ -12,11 +14,15 @@ import org.springframework.data.jpa.repository.Query;
  *
  * @author Rajkumar
  */
+@Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
 	public static final String IS_DEPARTMENT_EXISTS = "select case when count(department) > 0 then true else false end from Department as department where department.id<>:id and (department.departName=:departName or department.departmentCode=:departmentCode) and department.isDeleted=false";
 
 	public static final String DEPARTMENT_BY_TEMPLATE_ID = "select * from department_template as dt, department d where dt.dept_id = d.id and dt.temp_id=:templateId and d.is_active=true";
+
+	public static final String USER_DEPARTMENT = "select d.id,d.name  from department d where d.id in ( select dept_id  from user_department ud  inner join user_tbl ut on ud.user_id = ut.id where ut.email =:email)  union  select dd.id,dd.name  from department dd inner join  employee e on dd.name = e.department  where e.email =:email order by name";
+
 
 
 	/**
@@ -61,4 +67,13 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	@Query(value = DEPARTMENT_BY_TEMPLATE_ID,
 	nativeQuery = true)
 	List<Department> findByTemplateId(Long templateId);
+
+	/**
+	 * To find all departments
+	 *
+	 * @param email - email
+	 * @return List of Department Entities
+	 */
+	@Query(value = USER_DEPARTMENT,nativeQuery = true)
+	List<DepartmentDTO> getAllDepartmentByUser(String email);
 }

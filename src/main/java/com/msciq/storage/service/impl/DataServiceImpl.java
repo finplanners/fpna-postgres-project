@@ -543,4 +543,13 @@ public class DataServiceImpl implements DataService {
 		return companies;
 	}
 
+	@Override
+	public List<DepartmentDTO> getAllDepartmentByUser(String email) {
+		List<DepartmentDTO> departmentDTOS = departmentRepository.getAllDepartmentByUser(email);
+		if (Objects.isNull(departmentDTOS)) {
+			throw new DataNotFoundException(19065);
+		}
+		return departmentDTOS;
+	}
+
 }
