@@ -119,4 +119,10 @@ public class FieldConstants {
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String TITLE = "title";
+    public static final String END_MONTH = "end_month";
+    public static final String START_YEAR = "start_year";
+    public static final String END_YEAR = "end_year";
+    public static final String IS_PARENT = "is_parent";
+    public static final String PARENT_GL_ACCOUNT = "parent_gl_account";
+    public static final String GL_ACCOUNT_CODE = "gl_account_code";
 }

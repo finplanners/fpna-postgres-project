@@ -32,20 +32,29 @@ public class FiscalCalendar extends BaseEntity {
 	@NotEmpty(message = ErrorConstants.FIS_CAL_DESCRIPTION_NULL)
 	@Column(name = FieldConstants.DESCRIPTION)
 	private String description;
-	
+
 	@Column(name = FieldConstants.START_MONTH)
 	private String startMonth;
-	
+
+	@Column(name = FieldConstants.END_MONTH)
+	private String endMonth;
+
+	@Column(name = FieldConstants.START_YEAR)
+	private String startYear;
+
+	@Column(name = FieldConstants.END_YEAR)
+	private String endYear;
+
 	@Column(name = FieldConstants.START_DAY)
 	private String startDay;
-	
+
 	@Column(name = FieldConstants.START_WEEK_DAY)
 	private String startWeekDay;
-	
+
 	@Column(name = FieldConstants.START_PERIOD_OF_YEAR)
 	private String startPeriodOfYear;
-	
+
 	@Column(name = FieldConstants.SEVENTH_YR_EXTRA_WEEK)
-	private String seventhYrExtraWeek;	
+	private String seventhYrExtraWeek;
 
 }

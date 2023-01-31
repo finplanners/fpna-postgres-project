@@ -63,35 +63,15 @@ public class GLAccountController {
                         HttpStatus.CREATED);
     }
 
-    /**
-     * This method is used to map BudgetCategory to GLAccount.
-     *
-     * @param budgetCategoryGLAccountMapping
-     * @return List of GLAccount
-     * @author Sivaranjani DS
-     */
-    @RequestMapping(value = "/assign-budgetCategory", method = RequestMethod.PUT)
-    public SuccessResponse<List<GLAccount>> mapBudgetCategoryToGLAccount(@RequestBody List<BudgetCategoryGLAccountMappingDTO> budgetCategoryGLAccountMapping) {
-        if (Objects.isNull(budgetCategoryGLAccountMapping)) {
-            throw new BadRequestException(19011);
-        }
-        List<GLAccount> savedGLAccounts = glAccountService.mapBudgetCategoryToGLAccount(budgetCategoryGLAccountMapping);
-        return new SuccessResponse<List<GLAccount>>
-                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.BUDGET_CATEGORY),
-                        savedGLAccounts,
-                        null,
-                        HttpStatus.OK);
-    }
-
-    /**
-     * This method is used to get all GL by templateId.
-     *
-     * @param templateTypeId
-     * @return List of GLAccount
-     * @author Sivaranjani DS
-     */
-    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
-    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(@PathVariable Long templateTypeId) {
-        return glAccountService.getGLAccountByTemplateType(templateTypeId);
-    }
+//    /**
+//     * This method is used to get all GL by templateId.
+//     *
+//     * @param templateTypeId
+//     * @return List of GLAccount
+//     * @author Sivaranjani DS
+//     */
+//    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
+//    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(@PathVariable Long templateTypeId) {
+//        return glAccountService.getGLAccountByTemplateType(templateTypeId);
+//    }
 }

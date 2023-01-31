@@ -37,7 +37,7 @@ public interface FiscalCalendarRepository extends JpaRepository<FiscalCalendar, 
 	 * Check the given fiscal calendar exists based on id, key
 	 *
 	 * @param id         - fiscal calendar id
-	 * @param name       - fiscal calendar key
+	 * @param key       - fiscal calendar key
 	 * @return boolean - true or false
 	 */
 	@Query(value = IS_FISCAL_CAL_EXISTS)

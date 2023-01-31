@@ -28,7 +28,4 @@ public interface GLAccountService {
      */
     public List<GLAccount> importGLAccountData(MultipartFile file) throws IOException;
 
-    List<GLAccount> mapBudgetCategoryToGLAccount(List<BudgetCategoryGLAccountMappingDTO> budgetCategoryGLAccountMapping);
-
-    SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(Long templateTypeId);
 }

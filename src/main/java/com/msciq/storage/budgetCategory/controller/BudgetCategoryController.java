@@ -2,6 +2,7 @@ package com.msciq.storage.budgetCategory.controller;
 
 import com.msciq.storage.budgetCategory.service.BudgetCategoryService;
 import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.model.BudgetCategory;
@@ -10,10 +11,7 @@ import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +73,21 @@ public class BudgetCategoryController {
                 (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.BUDGET_CATEGORY),
                         savedBudgetCategory,
                         null,
+                        HttpStatus.CREATED);
+    }
+
+    /**
+     * This method is used get list of budget categories by template type id
+     *
+     * @param templateTypeId
+     * @return List of budgetCategory
+     * @author Sivaranjani DS
+     */
+    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
+    public SuccessResponse<List<BudgetCategory>> getBudgetCategoriesByTemplateType(@PathVariable Long templateTypeId) {
+        return new SuccessResponse<List<BudgetCategory>>
+                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
+                        budgetCategoryService.getBudgetCategoriesByTemplateType(templateTypeId),
                         HttpStatus.CREATED);
     }
 

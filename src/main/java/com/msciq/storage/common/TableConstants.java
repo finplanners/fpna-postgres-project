@@ -36,4 +36,5 @@ public class TableConstants {
     public static final String BUDGET_CATEGRORY = "budget_category";
     public static final String TEMPLATE_TYPE = "template_type";
     public static final String EMPLOYEE = "employee";
+    public static final String TABLE_GL_ACCOUNT_GROUP = "gl_account_group";
 }

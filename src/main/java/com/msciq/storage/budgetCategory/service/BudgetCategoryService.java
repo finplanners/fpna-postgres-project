@@ -24,5 +24,21 @@ public interface BudgetCategoryService {
      */
     public List<BudgetCategory> addBudgetCategories(List<BudgetCategory> budgetCategories);
 
+    /**
+     * This method is used to map budget category and template types
+     *
+     * @param budgetCategoryTemplateTypeMapping
+     * @return BudgetCategory Entity
+     * @author Sivaranjani DS
+     */
     BudgetCategory mapTemplateTypesToBudgetCategory(BudgetCategoryTemplateTypeMappingDTO budgetCategoryTemplateTypeMapping);
+
+    /**
+     * This method is used to get budget categories by templateType
+     *
+     * @param templateTypeId
+     * @return List of budget categories
+     * @author Sivaranjani DS
+     */
+    List<BudgetCategory> getBudgetCategoriesByTemplateType(Long templateTypeId);
 }

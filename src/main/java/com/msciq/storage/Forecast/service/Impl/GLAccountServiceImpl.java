@@ -114,27 +114,4 @@ public class GLAccountServiceImpl implements GLAccountService {
         return glAccounts;
     }
 
-    @Override
-    public List<GLAccount> mapBudgetCategoryToGLAccount(List<BudgetCategoryGLAccountMappingDTO> budgetCategoryGLAccountMappingDTOS) {
-        List<GLAccount> glAccounts = new ArrayList<>();
-
-        budgetCategoryGLAccountMappingDTOS.stream().forEach(budgetCategoryGLAccountMappingDTO -> {
-            GLAccount glAccount = glAccountRepository.findById(budgetCategoryGLAccountMappingDTO.getGlAccountId()).get();
-            BudgetCategory budgetCategory = budgetCategoryRepository.findById(budgetCategoryGLAccountMappingDTO.getBudgetCategoryId()).get();
-            glAccount.setBudgetCategory(budgetCategory);
-            glAccounts.add(glAccount);
-        });
-        return glAccountRepository.saveAll(glAccounts);
-    }
-
-    @Override
-    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(Long templateTypeId) {
-        List<BudgetCategory> budgetCategories = budgetCategoryRepository.findByTemplateTypes_IdIn(new ArrayList<>(Arrays.asList(templateTypeId)));
-        List<Long> budgetCategoryIds = budgetCategories.stream().map(budgetCategory -> {
-            return budgetCategory.getId();
-        }).collect(Collectors.toList());
-        List<GLAccount> glAccounts = glAccountRepository.findByBudgetCategory_IdIn(budgetCategoryIds);
-        return new SuccessResponse<List<GLAccount>>(Constants.SUCCESS, glAccounts, null, HttpStatus.OK);
-    }
-
 }
