@@ -206,12 +206,12 @@ public interface DataService {
 	Company findCompanyById(Long companyId);
 
 	/**
-	 * This method is used to add a new business unit
-	 * 
-	 * @param businessUnitDTO - business unit details
-	 * @return BusinessUnit Entity
-	 */
-	BusinessUnit addBU(BusinessUnitDTO businessUnitDTO);
+     * This method is used to add a new business unit
+     *
+     * @param businessUnits - business unit details
+     * @return BusinessUnit Entity
+     */
+	List<BusinessUnit> addBU(List<BusinessUnitDTO> businessUnits);
 
 	/**
 	 * This method is used to update a business unit details.
@@ -248,6 +248,8 @@ public interface DataService {
 	State addState(StateDTO stateDTO);
 
 	List<Company> findCompanyByGroupCompanyId(long groupCompanyId);
+
+	String inActivateOrDelete(LockDeleteDTO lockDeleteDTO);
 
 	/**
 	 * Get all department based on the user email.

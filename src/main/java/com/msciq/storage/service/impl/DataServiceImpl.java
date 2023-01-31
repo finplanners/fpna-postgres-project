@@ -1,11 +1,16 @@
 package com.msciq.storage.service.impl;
 
 import com.google.common.reflect.TypeToken;
+import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.ErrorConstants;
+import com.msciq.storage.common.ErrorMessage;
+import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.common.msciq.*;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.exception.DataConflictException;
 import com.msciq.storage.exception.DataNotFoundException;
+import com.msciq.storage.model.User;
 import com.msciq.storage.repository.*;
 import com.msciq.storage.service.DataService;
 import org.modelmapper.ModelMapper;
@@ -421,16 +426,24 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BusinessUnit addBU(BusinessUnitDTO businessUnitDTO) {
-		if (Objects.isNull(businessUnitDTO)) {
-			throw new BadRequestException(19011);
+	public List<BusinessUnit> addBU(List<BusinessUnitDTO> businessUnitDTOS) {
+
+		List<BusinessUnit> businessUnitList = new ArrayList<>();
+		for (BusinessUnitDTO businessUnitDTO:
+				businessUnitDTOS) {
+			if (Objects.isNull(businessUnitDTO)) {
+				throw new BadRequestException(19011);
+			}
+			BusinessUnit existingBU = businessUnitRepository.findByCode(businessUnitDTO.getCode());
+			if (!Objects.isNull(existingBU)) {
+				throw new DataConflictException(19064);
+			}
+			BusinessUnit businessUnit = modelMapper.map(businessUnitDTO, BusinessUnit.class);
+			businessUnitList.add(businessUnit);
+
 		}
-		BusinessUnit existingBU = businessUnitRepository.findByCode(businessUnitDTO.getCode());
-		if (!Objects.isNull(existingBU)) {
-			throw new DataConflictException(19064);
-		}
-		BusinessUnit businessUnit = modelMapper.map(businessUnitDTO, BusinessUnit.class);
-		return businessUnitRepository.save(businessUnit);
+		return businessUnitRepository.saveAll(businessUnitList);
+
 	}
 
 	/**
@@ -441,14 +454,30 @@ public class DataServiceImpl implements DataService {
 		if (Objects.isNull(businessUnit)) {
 			throw new BadRequestException(19011);
 		} else {
-			if (Objects.isNull(businessUnitRepository.findByIdAndIsDeleted(businessUnit.getId(), false))) {
+			BusinessUnit businessUnitFromDB = businessUnitRepository.findByIdAndIsDeleted(businessUnit.getId(), false);
+			if (Objects.isNull(businessUnitFromDB)) {
 				throw new DataNotFoundException(19065);
 			}
-			boolean isExists = businessUnitRepository.isBUExists(businessUnit.getId(), businessUnit.getCode());
-			if (isExists) {
-				throw new DataConflictException(19064);
+			if(businessUnit.getName()!=null)
+				businessUnitFromDB.setName(businessUnit.getName());
+			if(businessUnit.getEndDate()!=null)
+				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
+			if(businessUnit.getActivationDate()!=null)
+				businessUnitFromDB.setActivationDate(businessUnit.getActivationDate());
+			if(businessUnit.getGroupCompany()!=null){
+				businessUnitFromDB.setGroupCompany(groupCompanyRepository.findByIdAndIsDeleted(businessUnit.getGroupCompany().getId(),false));
 			}
-			return businessUnitRepository.save(businessUnit);
+			if(businessUnit.isActive())
+				businessUnitFromDB.setActive(true);
+			else
+				businessUnitFromDB.setActive(false);
+
+			if(businessUnit.isDeleted())
+				businessUnitFromDB.setDeleted(true);
+
+
+			//BusinessUnit businessUnitModified = modelMapper.map(businessUnitDTO, BusinessUnit.class);
+			return businessUnitRepository.save(businessUnitFromDB);
 		}
 	}
 
@@ -541,6 +570,56 @@ public class DataServiceImpl implements DataService {
 			throw new DataNotFoundException(19065);
 		}
 		return companies;
+	}
+
+	@Override
+	public String inActivateOrDelete(LockDeleteDTO lockDeleteDTO) {
+		String message= "";
+		try{
+			List<BusinessUnit> businessUnits = businessUnitRepository.findByIdIn(lockDeleteDTO.getIds());
+			List<BusinessUnit> businessUnitListModified = new ArrayList<>();
+			if(businessUnits!=null && businessUnits.size() == 0){
+				message= ErrorConstants.INVALID_BUSINESS_UNITS;
+				return message;
+			}else {
+				if (lockDeleteDTO.getIsActive() != null) {
+					if (!lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_DEACTIVATED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setActive(false);
+							businessUnitListModified.add(businessUnit);
+						}
+					} else if (lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_ACTIVATED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setActive(true);
+							businessUnitListModified.add(businessUnit);
+						}
+					}
+
+				} else if (lockDeleteDTO.getIsDeleted() != null) {
+					if (lockDeleteDTO.getIsDeleted()) {
+						message = SuccessMessage.BUSINESS_UNIT_DELETED;
+						for (BusinessUnit businessUnit :
+								businessUnits) {
+							businessUnit.setDeleted(true);
+							businessUnitListModified.add(businessUnit);
+						}
+					} else{
+						message = ErrorMessage.INVALID_ACTION;
+					}
+				}else{
+					message = ErrorMessage.INVALID_ACTION;
+				}
+				businessUnitRepository.saveAllAndFlush(businessUnitListModified);
+				return message;
+
+			}
+		}catch(Exception e){
+			return e.getMessage();
+		}
 	}
 
 	@Override

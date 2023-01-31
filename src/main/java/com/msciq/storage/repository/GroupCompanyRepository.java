@@ -20,10 +20,10 @@ public interface GroupCompanyRepository extends JpaRepository<GroupCompany, Long
 	 * Retrieves an group company based on its Id and IsDeleted fields.
 	 * 
 	 * @param id       - group company id
-	 * @param isActive - active status
+	 * @param isDeleted - isDeleted status
 	 * @return group company unit Entity.
 	 */
-	public GroupCompany findByIdAndIsDeleted(Long id, Boolean isActive);
+	public GroupCompany findByIdAndIsDeleted(Long id, Boolean isDeleted);
 
 	/**
 	 * Finds the group company based on fiscal calendar key

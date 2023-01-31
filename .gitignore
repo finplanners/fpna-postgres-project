@@ -34,3 +34,4 @@ build/
 ### VS Code ###
 .vscode/
 /.idea/
+!/src/main/resources/steady-fin-373212-e5e26541cf59.json

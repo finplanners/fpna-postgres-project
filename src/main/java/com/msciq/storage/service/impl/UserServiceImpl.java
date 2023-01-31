@@ -85,27 +85,8 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
-    public List<User> getListofUsers(boolean isDeleted)  {
-        return userRepository.findByUserStatus(isDeleted);
-//        List<UserViewResponse> userViewResponses = new ArrayList<>();
-//        for (User user : users)
-//        {
-//            UserViewResponse userViewResponse =  new UserViewResponse();
-//            List<UserRoleMapping> userRoleMappings = userRoleMappingRepository.getAllRoleByUserId(user.getId());
-//            Set<String> userRoles =  userRoleMappings.stream().filter(v->!v.isDeleted() && v.isActive()).map(p->p.getRoleName()).collect(Collectors.toSet());
-//            userViewResponse.setUserRoles(userRoles);
-//            userViewResponse.setEmail(user.getEmail());
-//            userViewResponse.setFirstName(user.getFirstName());
-//            userViewResponse.setLastName(user.getLastName());
-//            userViewResponse.setActive(user.isActive());
-//            userViewResponse.setPhoneNumber(user.getPhoneNumber());
-//            userViewResponse.setId(user.getId());
-//            userViewResponse.setOrganizationName(user.getOrganizationName());
-//            userViewResponse.setStatus(user.getStatus());
-//            userViewResponse.setRoles(user.getRoles());
-//            userViewResponses.add(userViewResponse);
-//        }
-//        return userViewResponses;
+    public List<User> getListofUsers(String status)  {
+        return userRepository.findByStatusAndIsDeleted(status,false);
     }
     public List<User> updateUser(List<UserDTO> users) {
 

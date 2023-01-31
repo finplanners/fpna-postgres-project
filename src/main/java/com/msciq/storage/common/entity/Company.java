@@ -2,11 +2,7 @@ package com.msciq.storage.common.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import com.msciq.storage.common.*;
@@ -39,7 +35,7 @@ public class Company extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.CURRENCY_ID)
 	private Currency currency;
-	
+
 	//@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
 	@ManyToOne
 	@JoinColumn(name = FieldConstants.GC_ID)

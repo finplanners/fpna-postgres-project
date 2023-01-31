@@ -1,11 +1,11 @@
 package com.msciq.storage.common.msciq;
 
 import com.msciq.storage.common.ErrorConstants;
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class DepartmentDTO {
@@ -25,6 +25,8 @@ public class DepartmentDTO {
 
 	//@Pattern(regexp = "^[a-zA-Z\\d_]+$", message = ErrorConstants.DEPARTMENT_CODE_NOT_NULL)
 	private String departmentCode;
+
+	private List<CompanyDTO> companies;
 
 	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	//@JsonFormat(pattern = "dd/MM/yyyy")

@@ -92,6 +92,9 @@ public final class ErrorConstants {
 	public static final String INFO_USER_PASSWORD_NOT_MATCH = "Password doesn't match for the user : ";
 	public static final String EXCEPTION_TOKEN_UTILS = "Exception occured while loading token utills";
 	public static final String INVALID_USERS_ERROR = "Invalid Users";
+
+    public static final String INVALID_BUSINESS_UNITS = "Invalid Business Unit(s)";
+
 	public static final String LOGIN_ERROR = "Login Error ";
 	public static final String ERROR_JWE_TOKEN = "Error while creating jwe token ";
 	public static final String TOKEN_EXPIRED = "Token expired";
