@@ -43,6 +43,8 @@ public class BusinessUnit extends BaseEntity {
 	
 	@Column(name = FieldConstants.END_DATE)
 	private Date endDate;
+
+	private Date activeInactiveDate;
 	
 //	@Column(name = FieldConstants.BU_OWNER)
 //	private String buOwner;

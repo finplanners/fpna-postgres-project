@@ -461,7 +461,6 @@ public class DataServiceImpl implements DataService {
 			if(businessUnit.getName()!=null)
 				businessUnitFromDB.setName(businessUnit.getName());
 			if(businessUnit.isStatus()){
-				businessUnitFromDB.setActivationDate(businessUnit.getActivationDate());
 				businessUnitFromDB.setStatus(true);
 			}
 
@@ -470,8 +469,8 @@ public class DataServiceImpl implements DataService {
 			}
 			if(!businessUnit.isStatus()){
 				businessUnitFromDB.setStatus(false);
-				businessUnitFromDB.setEndDate(businessUnit.getEndDate());
 			}
+			businessUnitFromDB.setActiveInactiveDate(businessUnit.getActiveInactiveDate());
 			return businessUnitRepository.save(businessUnitFromDB);
 		}
 	}
