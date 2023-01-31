@@ -10,8 +10,6 @@ public class LocationDTO {
 
 	private Long id;
 
-	private CompanyDTO company;
-
 	private String code;
 
 	private String name;
