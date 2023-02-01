@@ -1,5 +1,6 @@
 package com.msciq.storage.model;
 
+import com.msciq.storage.common.TableConstants;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,12 +10,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(name = "USER_TBL")
+@Entity
 @ToString
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
+@Table(name = TableConstants.USER)
 public class User extends BaseEntity implements Serializable {
 
     @NotNull(message = "Organization name is mandatory")

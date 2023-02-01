@@ -125,4 +125,10 @@ public class FieldConstants {
     public static final String IS_PARENT = "is_parent";
     public static final String PARENT_GL_ACCOUNT = "parent_gl_account";
     public static final String GL_ACCOUNT_CODE = "gl_account_code";
+    public static final String  MONTH = "month";
+    public static final String  YEAR = "year";
+    public static final String  QUARTER = "quarter";
+    public static final String FC_KEY = "fc_key";
+
+
 }

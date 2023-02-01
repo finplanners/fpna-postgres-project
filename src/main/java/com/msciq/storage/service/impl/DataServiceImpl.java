@@ -1,7 +1,6 @@
 package com.msciq.storage.service.impl;
 
 import com.google.common.reflect.TypeToken;
-import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorConstants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
@@ -10,7 +9,6 @@ import com.msciq.storage.common.msciq.*;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.exception.DataConflictException;
 import com.msciq.storage.exception.DataNotFoundException;
-import com.msciq.storage.model.User;
 import com.msciq.storage.repository.*;
 import com.msciq.storage.service.DataService;
 import org.modelmapper.ModelMapper;
@@ -23,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * This class is responsible for performing business operations on Country, Currency, GC, Company and etc entities.
@@ -56,6 +58,9 @@ public class DataServiceImpl implements DataService {
 	LocationRepository locationRepository;
 	@Autowired
 	StateRepository stateRepository;
+
+	@Autowired
+	FiscalCalendarPeriodRepository fiscalCalendarPeriodRepository;
 
 	ModelMapper modelMapper = new ModelMapper();
 
@@ -617,6 +622,9 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<DepartmentDTO> getAllDepartmentByUser(String email) {
 		List<DepartmentDTO> departmentDTOS = departmentRepository.getAllDepartmentByUser(email);
@@ -626,4 +634,71 @@ public class DataServiceImpl implements DataService {
 		return departmentDTOS;
 	}
 
-}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<FiscalCalendarPeriod> addFiscalPeriodEntity(String fcKey){
+		try {
+		List<FiscalCalendarPeriod> fiscalCalendarPeriods = new ArrayList<>();
+		FiscalCalendar fiscalCalendars = fiscalCalendarRepository.findByKey(fcKey);
+		List<FiscalCalendarPeriod> fiscalCalendarPeriod = fiscalCalendarPeriodRepository.findByFcKey(fcKey);
+
+		if (Objects.isNull(fiscalCalendars)) {
+			throw new DataNotFoundException(19065);
+		}
+
+//		if(fiscalCalendarPeriod.size() != 0){
+//		fiscalCalendarPeriodRepository.deleteByFcKey(fcKey);
+//		}
+
+		String start = fiscalCalendars.getStartMonth()+"-"+fiscalCalendars.getStartYear();
+		String end = fiscalCalendars.getEndMonth()+"-"+fiscalCalendars.getEndYear();
+		DateFormat formater = new SimpleDateFormat("MMM-yyyy");
+
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+
+			startDate.setTime(formater.parse(start));
+			endDate.setTime(formater.parse(end));
+
+		int quaterIn =0;
+		while (startDate.before(endDate) || startDate.equals(endDate)) {
+			FiscalCalendarPeriod newFiscalCalendarPeriod = new FiscalCalendarPeriod();
+			newFiscalCalendarPeriod.setFcKey(fcKey);
+			// add one month to date per loop
+			String date = formater.format(startDate.getTime()).toUpperCase();
+			newFiscalCalendarPeriod.setMonth(date.split("-")[0]);
+			newFiscalCalendarPeriod.setYear(date.split("-")[1]);
+			System.out.println(date);
+			int quarter = (quaterIn/ 3) + 1;
+			System.out.println("quarter "+quarter);
+			quaterIn++;
+			startDate.add(Calendar.MONTH, 1);
+			newFiscalCalendarPeriod.setQuarter("Q"+quarter);
+			fiscalCalendarPeriods.add(newFiscalCalendarPeriod);
+		}
+		return  fiscalCalendarPeriodRepository.saveAllAndFlush(fiscalCalendarPeriods);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new DataNotFoundException(19065);
+		}
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<FiscalCalendarPeriod> getAllFiscalPeriodEntity(){
+		List<FiscalCalendarPeriod> fiscalCalendarPeriod = fiscalCalendarPeriodRepository.findAll();
+
+		if (Objects.isNull(fiscalCalendarPeriod)) {
+			throw new DataNotFoundException(19065);
+		}
+		return fiscalCalendarPeriod;
+	}
+
+
+	}

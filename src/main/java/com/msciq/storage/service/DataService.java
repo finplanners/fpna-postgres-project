@@ -3,6 +3,7 @@ package com.msciq.storage.service;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.common.msciq.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -254,8 +255,23 @@ public interface DataService {
 	/**
 	 * Get all department based on the user email.
 	 *
-	 * @param email
+	 * @param email - email id of user
 	 * @return List of Department entities.
 	 */
 	List<DepartmentDTO> getAllDepartmentByUser(String email);
+
+	/**
+	 * Add fiscal period.
+	 * @param fcKey - key of Fiscal Calendar
+	 *
+	 * @return list of fiscal period  entity.
+	 */
+	List<FiscalCalendarPeriod> addFiscalPeriodEntity(String fcKey);
+
+	/**
+	 * Get all fiscal period
+	 *
+	 * @return List - list of fiscal period  entity
+	 */
+	List<FiscalCalendarPeriod> getAllFiscalPeriodEntity();
 }

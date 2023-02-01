@@ -569,12 +569,49 @@ public class DataController {
 	/**
 	 * Get all department based on the user email id
 	 *
+	 * @param email - email id of the user
 	 * @return List - list of department entity
 	 */
-	@RequestMapping(value = "/department", method = RequestMethod.GET)
+	@RequestMapping(value = "/user-department", method = RequestMethod.GET)
 	public SuccessResponse<List<DepartmentDTO>> getAllDepartmentByUser( @RequestParam String email) {
 		List<DepartmentDTO> departmentDTOS = dataService.getAllDepartmentByUser(email);
 		return new SuccessResponse<List<DepartmentDTO>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, departmentDTOS,
+				HttpStatus.OK);
+	}
+
+	/**
+	 * Add fiscal period
+	 *
+	 * @param key - key of Fiscal Calendar
+	 *
+	 * @return List - list of fiscal period  entity
+	 */
+	@RequestMapping(value = "/fiscal-period", method = RequestMethod.POST)
+	public SuccessResponse<List<FiscalCalendarPeriod>> addFiscalPeriodEntity(@RequestParam String key) {
+		List<FiscalCalendarPeriod> fiscalCalendarPeriods = null;
+		try {
+			fiscalCalendarPeriods = dataService.addFiscalPeriodEntity(key);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return new SuccessResponse<List<FiscalCalendarPeriod>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, fiscalCalendarPeriods,
+				HttpStatus.OK);
+	}
+
+	/**
+	 * Get all fiscal period
+	 *
+	 * @return List - list of fiscal period  entity
+	 */
+	@RequestMapping(value = "/fiscal-period", method = RequestMethod.GET)
+	public SuccessResponse<List<FiscalCalendarPeriod>> getFiscalPeriodEntity() {
+		List<FiscalCalendarPeriod> fiscalCalendarPeriods = null;
+		try {
+			fiscalCalendarPeriods = dataService.getAllFiscalPeriodEntity();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return new SuccessResponse<List<FiscalCalendarPeriod>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, fiscalCalendarPeriods,
 				HttpStatus.OK);
 	}
 
