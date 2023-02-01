@@ -7,6 +7,8 @@ import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.GLAccountGroup;
 import com.msciq.storage.model.TemplateType;
 import com.msciq.storage.model.request.BudgetCategoryTemplateTypeMappingDTO;
+import com.msciq.storage.model.request.BudgetCategoryWithParentGLInfo;
+import com.msciq.storage.model.request.ParentGLAccount;
 import com.msciq.storage.templateType.repository.TemplateTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,15 +67,37 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
     @Override
     public List<BudgetCategory> getBudgetCategoriesByTemplateType(Long templateTypeId) {
         List<BudgetCategory> allBudgetCategories = budgetCategoryRepository.findByTemplateTypes_Id(templateTypeId);
-//        List<GLAccountGroup> accountGroups = new ArrayList<>();
-//        allBudgetCategories.stream().forEach(budgetCategory -> {
-//            budgetCategory.getGlAccountList().stream().forEach(glAccountGroup -> {
-//                if (Objects.isNull(glAccountGroup.getParentGlAccount())) {
-//                    accountGroups.add(glAccountGroup);
-//                }
-//            });
-//            budgetCategory.setGlAccountList(accountGroups);
-//        });
         return allBudgetCategories;
+    }
+
+    @Override
+    public List<BudgetCategoryWithParentGLInfo> getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(Long templateTypeId) {
+        List<BudgetCategory> allBudgetCategories = budgetCategoryRepository.findByTemplateTypes_Id(templateTypeId);
+        List<BudgetCategoryWithParentGLInfo> budgetCategoryWithParentGLInfoList = new ArrayList<>();
+
+        allBudgetCategories.stream().forEach(budgetCategory -> {
+            List<ParentGLAccount> parentGLAccounts = new ArrayList<>();
+            budgetCategory.getGlAccountList().stream().forEach(glAccountGroup -> {
+                if (Objects.isNull(glAccountGroup.getParentGlAccount())) {
+                    parentGLAccounts.add(ParentGLAccount.builder()
+                            .accountDescription(glAccountGroup.getAccountDescription())
+                            .accountType(glAccountGroup.getAccountType())
+                            .parentGlAccount(glAccountGroup.getParentGlAccount())
+                            .glAccountCode(glAccountGroup.getGlAccountCode())
+                            .glGroupCodeName(glAccountGroup.getGlGroupCodeName())
+                            .activeFromDate(glAccountGroup.getActiveFromDate())
+                            .inactiveDate(glAccountGroup.getInactiveDate())
+                            .accountDescription(glAccountGroup.getAccountDescription())
+                            .childGLAccounts(glAccountGroupRepository.findAllByParentGlAccount(glAccountGroup.getGlAccountCode()))
+                            .build()
+                    );
+                }
+            });
+            budgetCategoryWithParentGLInfoList.add(BudgetCategoryWithParentGLInfo.builder()
+                    .budgetCategoryId(budgetCategory.getId())
+                    .parentGLAccount(parentGLAccounts)
+                    .build());
+        });
+        return budgetCategoryWithParentGLInfoList;
     }
 }

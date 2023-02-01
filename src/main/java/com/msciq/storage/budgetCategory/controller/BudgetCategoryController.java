@@ -7,6 +7,7 @@ import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.request.BudgetCategoryTemplateTypeMappingDTO;
+import com.msciq.storage.model.request.BudgetCategoryWithParentGLInfo;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,6 +89,21 @@ public class BudgetCategoryController {
         return new SuccessResponse<List<BudgetCategory>>
                 (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
                         budgetCategoryService.getBudgetCategoriesByTemplateType(templateTypeId),
+                        HttpStatus.CREATED);
+    }
+
+    /**
+     * This method is used get list of budget categories by template type id
+     *
+     * @param templateTypeId
+     * @return List of budgetCategory with parent gl info
+     * @author Sivaranjani DS
+     */
+    @RequestMapping(value = "/{templateTypeId}/list-with-parent-glaccounts", method = RequestMethod.GET)
+    public SuccessResponse<List<BudgetCategoryWithParentGLInfo>> getBudgetCategoriesWIthParentChildGLByTemplateType(@PathVariable Long templateTypeId) {
+        return new SuccessResponse<List<BudgetCategoryWithParentGLInfo>>
+                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
+                        budgetCategoryService.getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(templateTypeId),
                         HttpStatus.CREATED);
     }
 

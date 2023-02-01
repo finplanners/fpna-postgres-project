@@ -44,6 +44,6 @@ public class GLAccountGroup extends BaseEntity {
     private Boolean isParent;
 
     @Column(name = FieldConstants.PARENT_GL_ACCOUNT)
-    private String parentGlAccount;
+    private Long parentGlAccount;
 
 }

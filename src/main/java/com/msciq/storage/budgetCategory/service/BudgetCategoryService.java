@@ -2,6 +2,7 @@ package com.msciq.storage.budgetCategory.service;
 
 import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.request.BudgetCategoryTemplateTypeMappingDTO;
+import com.msciq.storage.model.request.BudgetCategoryWithParentGLInfo;
 
 import java.util.List;
 
@@ -41,4 +42,13 @@ public interface BudgetCategoryService {
      * @author Sivaranjani DS
      */
     List<BudgetCategory> getBudgetCategoriesByTemplateType(Long templateTypeId);
+
+    /**
+     * This method returns list of Budget category with parent and child gl account details by templatetype
+     *
+     * @param templateTypeId
+     * @return List of budget categories with gl account group info
+     * @author Sivaranjani DS
+     */
+    List<BudgetCategoryWithParentGLInfo> getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(Long templateTypeId);
 }
