@@ -3,10 +3,8 @@ package com.msciq.storage.forecast.controller;
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
-import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.forecast.service.GLAccountService;
 import com.msciq.storage.model.GLAccount;
-import com.msciq.storage.model.request.BudgetCategoryGLAccountMappingDTO;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/glaccount")
@@ -63,15 +60,4 @@ public class GLAccountController {
                         HttpStatus.CREATED);
     }
 
-//    /**
-//     * This method is used to get all GL by templateId.
-//     *
-//     * @param templateTypeId
-//     * @return List of GLAccount
-//     * @author Sivaranjani DS
-//     */
-//    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
-//    public SuccessResponse<List<GLAccount>> getGLAccountByTemplateType(@PathVariable Long templateTypeId) {
-//        return glAccountService.getGLAccountByTemplateType(templateTypeId);
-//    }
 }
