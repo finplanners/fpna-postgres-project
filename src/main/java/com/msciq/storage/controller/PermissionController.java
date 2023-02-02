@@ -1,6 +1,7 @@
 package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.model.PermissionObject;
 import com.msciq.storage.model.response.SuccessResponse;
@@ -27,8 +28,7 @@ public class PermissionController {
     @GetMapping
     public ResponseEntity getAllPermissions() {
         List<PermissionObject> permissionObjectList = permissionService.getAllPermissions();
-        return new SuccessResponse<List<PermissionObject>>(String.format(SuccessMessage.SUCCESS, Constants.PERMISSION)
-                , permissionObjectList, null, HttpStatus.OK);
+        return new SuccessResponse<>(SuccessCode.SUCCESS, permissionObjectList, HttpStatus.OK);
     }
 
     /**
@@ -41,10 +41,11 @@ public class PermissionController {
      */
     @PostMapping
     public SuccessResponse<List<PermissionObject>> saveAllPermissions(@RequestBody List<PermissionObject> permissionObjects) {
-        return new SuccessResponse<List<PermissionObject>>
-                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.PERMISSION),
-                        permissionService.saveAllPermissions(permissionObjects),
-                        null,
-                        HttpStatus.CREATED);
+        return new SuccessResponse<List<PermissionObject>>(SuccessCode.SUCCESS, permissionService.saveAllPermissions(permissionObjects), HttpStatus.CREATED);
+//        return new SuccessResponse<List<PermissionObject>>
+//                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.PERMISSION),
+//                        permissionService.saveAllPermissions(permissionObjects),
+//                        null,
+//                        HttpStatus.CREATED);
     }
 }

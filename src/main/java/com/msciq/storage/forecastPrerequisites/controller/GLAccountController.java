@@ -1,9 +1,9 @@
-package com.msciq.storage.forecast.controller;
+package com.msciq.storage.forecastPrerequisites.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
 import com.msciq.storage.common.SuccessMessage;
-import com.msciq.storage.forecast.service.GLAccountService;
+import com.msciq.storage.forecastPrerequisites.service.GLAccountService;
 import com.msciq.storage.model.GLAccount;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;

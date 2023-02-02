@@ -2,7 +2,7 @@ package com.msciq.storage.budgetCategory.service.Impl;
 
 import com.msciq.storage.budgetCategory.repository.BudgetCategoryRepository;
 import com.msciq.storage.budgetCategory.service.BudgetCategoryService;
-import com.msciq.storage.forecast.repository.GLAccountGroupRepository;
+import com.msciq.storage.forecastPrerequisites.repository.GLAccountGroupRepository;
 import com.msciq.storage.model.BudgetCategory;
 import com.msciq.storage.model.GLAccountGroup;
 import com.msciq.storage.model.TemplateType;

@@ -1,7 +1,9 @@
 package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
+import com.msciq.storage.common.entity.Location;
 import com.msciq.storage.model.Company;
 import com.msciq.storage.model.Role;
 import com.msciq.storage.model.response.SuccessResponse;
@@ -36,11 +38,7 @@ public class RoleController {
     //@PreAuthorize("hasAuthority('Role_Admin:CREATE')")
     public SuccessResponse<List<Role>> addRole(@RequestBody List<Role> roles) {
         validateRoleRequest(roles);
-        return new SuccessResponse<List<Role>>
-                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.ROLE),
-                        roleService.addRole(roles),
-                        null,
-                        HttpStatus.CREATED);
+        return new SuccessResponse<List<Role>>(SuccessCode.SUCCESS, roleService.addRole(roles), HttpStatus.CREATED);
     }
 
     /**
@@ -54,8 +52,7 @@ public class RoleController {
     //@PreAuthorize("hasAuthority('Role_Admin:READ') or hasAuthority('User_Role_Admin:READ')")
     public SuccessResponse<List<Role>> getAllRoles() {
         List<Role> roleList =  roleService.getAllRoles();
-        return new SuccessResponse<List<Role>>(String.format(SuccessMessage.SUCCESS, Constants.ROLE)
-                , roleList, null, HttpStatus.OK);
+        return new SuccessResponse<List<Role>>(SuccessCode.SUCCESS, roleList, HttpStatus.CREATED);
     }
     private void validateRoleRequest(List<Role> roles) {
         for (Role role:roles) {

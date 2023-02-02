@@ -39,8 +39,11 @@ public class Company extends BaseEntity {
 
 	//@NotEmpty(message = ErrorConstants.GC_NAME_NOT_NULL)
 
-	@Column(name = "gc_id")
+	@Column(name = FieldConstants.GC_ID)
 	private long groupCompanyId;
+
+//	@Column(name = "dept_id")
+//	private long departmentId;
 	@OneToMany(targetEntity = Location.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = FieldConstants.COMPANY_ID)
 	private List<Location> locations;

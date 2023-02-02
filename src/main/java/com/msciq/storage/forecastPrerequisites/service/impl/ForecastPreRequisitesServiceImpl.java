@@ -1,9 +1,9 @@
-package com.msciq.storage.Forecast.service.Impl;
+package com.msciq.storage.forecastPrerequisites.service.impl;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.exception.DataNotFoundException;
-import com.msciq.storage.forecast.service.ForecastService;
+import com.msciq.storage.forecastPrerequisites.service.ForecastPreRequisitesService;
 import com.msciq.storage.model.Project;
 import com.msciq.storage.model.response.BusinessUnitDetails;
 import com.msciq.storage.model.response.ForecastingPrerequisites;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ForecastServiceImpl implements ForecastService {
+public class ForecastPreRequisitesServiceImpl implements ForecastPreRequisitesService {
     @Autowired
     private DepartmentRepository departmentRepository;
 

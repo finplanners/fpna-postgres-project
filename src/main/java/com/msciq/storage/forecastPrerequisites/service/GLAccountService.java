@@ -1,4 +1,4 @@
-package com.msciq.storage.forecast.service;
+package com.msciq.storage.forecastPrerequisites.service;
 
 import com.msciq.storage.model.GLAccount;
 import org.springframework.web.multipart.MultipartFile;

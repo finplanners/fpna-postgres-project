@@ -1,11 +1,10 @@
-package com.msciq.storage.forecast.service;
+package com.msciq.storage.forecastPrerequisites.service;
 
 import com.msciq.storage.model.response.BusinessUnitDetails;
 import com.msciq.storage.model.response.ForecastingPrerequisites;
 import com.msciq.storage.model.response.SuccessResponse;
-import org.springframework.stereotype.Service;
 
-public interface ForecastService {
+public interface ForecastPreRequisitesService {
 
     /**
      * Gets prerequisites for forecasting.

@@ -58,6 +58,8 @@ public class UserDTO {
     
     private long tenantId;
 
+	private long departmentId;
+
 	public Set<Role> getRoles() {
 		return roles.stream().map(role -> new ModelMapper().map(role, Role.class)).collect(Collectors.toSet());
 	}

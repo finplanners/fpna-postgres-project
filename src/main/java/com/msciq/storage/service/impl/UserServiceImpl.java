@@ -221,13 +221,13 @@ public class UserServiceImpl implements UserService {
                 User userCreated =  userRepository.save(userToBeSaved);
                 loginResponse.setUser(userCreated);
 
-                UserRoleMapping userRoleMapping = UserRoleMapping.builder()
-                        .userId(userCreated.getId())
-                        .roleName(Constants.SIGN_UP_USER_DEFAULT_TYPE)
-                        .build();
-
-                // map user and roles in user role mapping table
-                 userRoleMappingRepository.save(userRoleMapping);
+//                UserRoleMapping userRoleMapping = UserRoleMapping.builder()
+//                        .userId(userCreated.getId())
+//                        .roleName(Constants.SIGN_UP_USER_DEFAULT_TYPE)
+//                        .build();
+//
+//                // map user and roles in user role mapping table
+//                 userRoleMappingRepository.save(userRoleMapping);
                  // set claims
                 String jwtToken = jwtUtil.generateToken(user.getEmail());
                 loginResponse.setIdToken(jwtToken);

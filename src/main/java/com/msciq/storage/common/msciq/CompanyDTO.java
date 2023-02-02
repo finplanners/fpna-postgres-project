@@ -6,6 +6,7 @@ import com.msciq.storage.common.entity.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -35,6 +36,9 @@ public class CompanyDTO {
 	
 	@NotNull(message = ErrorConstants.GC_NAME_NOT_NULL)
 	private long groupCompanyId;
+
+	@NotNull(message = ErrorConstants.DEPARTMENT_NAME_NOT_NULL)
+	private long departmentId;
 
 	//@NotEmpty(message = ErrorConstants.GC_CODE_NOT_NULL)
 	//@DateTimeFormat(pattern = "dd/mm/yyyy")
