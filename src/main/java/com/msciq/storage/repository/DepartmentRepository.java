@@ -21,7 +21,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
 	public static final String DEPARTMENT_BY_TEMPLATE_ID = "select * from department_template as dt, department d where dt.dept_id = d.id and dt.temp_id=:templateId and d.is_active=true";
 
-	public static final String USER_DEPARTMENT = "select d.* from user_department ud inner join department d on ud.department_code = d.depart_code where e.email =:email order by name";
+	public static final String USER_DEPARTMENT = "select d.* from user_department ud inner join department d on ud.department_code = d.depart_code where ud.email =:email order by name";
 
 
 
@@ -75,5 +75,5 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	 * @return List of Department Entities
 	 */
 	@Query(value = USER_DEPARTMENT,nativeQuery = true)
-	List<DepartmentDTO> getAllDepartmentByUser(String email);
+	List<Department> getAllDepartmentByUser(String email);
 }

@@ -626,12 +626,12 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<DepartmentDTO> getAllDepartmentByUser(String email) {
-		List<DepartmentDTO> departmentDTOS = departmentRepository.getAllDepartmentByUser(email);
-		if (Objects.isNull(departmentDTOS)) {
+	public List<Department> getAllDepartmentByUser(String email) {
+		List<Department> department = departmentRepository.getAllDepartmentByUser(email);
+		if (Objects.isNull(department)) {
 			throw new DataNotFoundException(19065);
 		}
-		return departmentDTOS;
+		return department;
 	}
 
 

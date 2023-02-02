@@ -573,9 +573,9 @@ public class DataController {
 	 * @return List - list of department entity
 	 */
 	@RequestMapping(value = "/user-department", method = RequestMethod.GET)
-	public SuccessResponse<List<DepartmentDTO>> getAllDepartmentByUser( @RequestParam String email) {
-		List<DepartmentDTO> departmentDTOS = dataService.getAllDepartmentByUser(email);
-		return new SuccessResponse<List<DepartmentDTO>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, departmentDTOS,
+	public SuccessResponse<List<Department>> getAllDepartmentByUser( @RequestParam String email) {
+		List<Department> department = dataService.getAllDepartmentByUser(email);
+		return new SuccessResponse<List<Department>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, department,
 				HttpStatus.OK);
 	}
 

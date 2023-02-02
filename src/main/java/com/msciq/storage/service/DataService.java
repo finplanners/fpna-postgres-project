@@ -258,7 +258,7 @@ public interface DataService {
 	 * @param email - email id of user
 	 * @return List of Department entities.
 	 */
-	List<DepartmentDTO> getAllDepartmentByUser(String email);
+	List<Department> getAllDepartmentByUser(String email);
 
 	/**
 	 * Add fiscal period.
