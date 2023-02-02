@@ -43,45 +43,55 @@ public class ForecastServiceImpl implements ForecastService {
             ForecastLineItem forecastLineItem = new ForecastLineItem();
             forecastLineItem.setForecastId(savedForecastData.getId());
             forecastLineItem.setUserEmail(savedForecastData.getUserEmail());
-            forecastLineItem.setBu(data.getString("BU"));
-            forecastLineItem.setLocation(data.getString("Location"));
-            forecastLineItem.setAmount(data.getString("Amount"));
+            forecastLineItem.setTemplateType(savedForecastData.getTemplateType());
+            forecastLineItem.setBu(getStringValueFromJsonObject(data, "BU"));
+            forecastLineItem.setLocation(getStringValueFromJsonObject(data, "Location"));
+            forecastLineItem.setAmount(getStringValueFromJsonObject(data, "Amount"));
             switch (templateType) {
                 case "One-Time":
-                    forecastLineItem.setGlAccount(data.getString("GL Account"));
-                    forecastLineItem.setProjectCode(data.getString("ProjectCode"));
-                    forecastLineItem.setYear(data.getString("YEAR"));
-                    forecastLineItem.setMonth(data.getString("MON"));
+                    forecastLineItem.setGlAccount(getStringValueFromJsonObject(data, "GL Account"));
+                    forecastLineItem.setDepartment(getStringValueFromJsonObject(data, "Department"));
+                    forecastLineItem.setProjectCode(getStringValueFromJsonObject(data, "ProjectCode"));
+                    forecastLineItem.setYear(getStringValueFromJsonObject(data, "YEAR"));
+                    forecastLineItem.setMonth(getStringValueFromJsonObject(data, "MON"));
                     break;
                 case "Trend":
-                    forecastLineItem.setGlAccount(data.getString("Account"));
+                    forecastLineItem.setGlAccount(getStringValueFromJsonObject(data, "Account"));
                     break;
                 case "CAPEX":
-                    forecastLineItem.setProjectCode(data.getString("ProjectCode"));
-                    forecastLineItem.setGlAccount(data.getString("Equipment Type"));
-                    forecastLineItem.setMonth(data.getString("In Service month"));
-                    forecastLineItem.setYear(data.getString("In Service Year"));
+                    forecastLineItem.setProjectCode(getStringValueFromJsonObject(data, "ProjectCode"));
+                    forecastLineItem.setGlAccount(getStringValueFromJsonObject(data, "Equipment Type"));
+                    forecastLineItem.setMonth(getStringValueFromJsonObject(data, "In Service month"));
+                    forecastLineItem.setYear(getStringValueFromJsonObject(data, "In Service Year"));
                     break;
                 case "Amortized":
-                    forecastLineItem.setGlAccount(data.getString("Type"));
-                    forecastLineItem.setMonth(data.getString("Start month"));
-                    forecastLineItem.setYear(data.getString("Year"));
-                    forecastLineItem.setNoOfMonthsToAmortize(data.getInt("Length(Mons)"));
+                    forecastLineItem.setGlAccount(getStringValueFromJsonObject(data, "Type"));
+                    forecastLineItem.setMonth(getStringValueFromJsonObject(data, "Start month"));
+                    forecastLineItem.setYear(getStringValueFromJsonObject(data, "Year"));
+                    forecastLineItem.setNoOfMonthsToAmortize(getIntValueFromJsonObject(data, "Length(Mons)"));
                     break;
                 case "Recurring Expenses":
-                    forecastLineItem.setMonth(data.getString("Hire month"));
-                    forecastLineItem.setYear(data.getString("Hire Year"));
+                    forecastLineItem.setMonth(getStringValueFromJsonObject(data, "Hire month"));
+                    forecastLineItem.setYear(getStringValueFromJsonObject(data, "Hire Year"));
                     break;
                 case "Recurring Time Bound Expenses":
-                    forecastLineItem.setGlAccount(data.getString("Consultant type"));
-                    forecastLineItem.setMonth(data.getString("Start month"));
-                    forecastLineItem.setYear(data.getString("Year"));
-                    forecastLineItem.setNoOfRecurringExpenseMonths(data.getInt("Length(Mons)"));
+                    forecastLineItem.setGlAccount(getStringValueFromJsonObject(data, "Consultant type"));
+                    forecastLineItem.setMonth(getStringValueFromJsonObject(data, "Start month"));
+                    forecastLineItem.setYear(getStringValueFromJsonObject(data, "Year"));
+                    forecastLineItem.setNoOfRecurringExpenseMonths(getIntValueFromJsonObject(data, "Length(Mons)"));
                     break;
             }
             forecastLineItems.add(forecastLineItem);
         }
         return forecastLineItems;
+    }
+
+    private static String getStringValueFromJsonObject(JSONObject data, String key) {
+        return data.isNull(key) ? "" : data.getString(key);
+    }
+
+    private static int getIntValueFromJsonObject(JSONObject data, String key) {
+        return data.isNull(key) ? null : data.getInt(key);
     }
 }
 

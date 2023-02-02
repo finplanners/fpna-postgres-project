@@ -55,6 +55,9 @@ public  class ForecastLineItem extends BaseEntity {
     @Column(name = FieldConstants.BU)
     private String bu;
 
+    @Column(name = FieldConstants.DEPARTMENT)
+    private String department;
+
     @Column(name = FieldConstants.PROJECT_CODE)
     private String projectCode;
 
