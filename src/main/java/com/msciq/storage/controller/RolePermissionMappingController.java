@@ -1,7 +1,9 @@
 package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
+import com.msciq.storage.model.PermissionObject;
 import com.msciq.storage.model.RolePermissionMapping;
 import com.msciq.storage.model.response.RolePermissionViewResponse;
 import com.msciq.storage.model.response.SuccessResponse;
@@ -29,8 +31,7 @@ public class RolePermissionMappingController {
     //@PreAuthorize("hasAuthority('User_Role_Admin:READ')")
     public SuccessResponse<List<RolePermissionMapping>> getAllMapping() {
         List<RolePermissionMapping> rolePermissionMappingList = rolePermissionMappingService.getRolePermissionMappings();
-        return new SuccessResponse<List<RolePermissionMapping>>(String.format(SuccessMessage.SUCCESS, Constants.ROLE_PERMISSION)
-                , rolePermissionMappingList, null, HttpStatus.OK);
+        return new SuccessResponse<List<RolePermissionMapping>>(SuccessCode.SUCCESS,rolePermissionMappingList, HttpStatus.OK);
     }
 
     /**
@@ -44,11 +45,8 @@ public class RolePermissionMappingController {
     @PostMapping
     //@PreAuthorize("hasAuthority('User_Role_Admin:CREATE')")
     public SuccessResponse<List<RolePermissionMapping>> saveAllMapping(@RequestBody List<RolePermissionMapping> rolePermissionMappingList) {
-        return new SuccessResponse<List<RolePermissionMapping>>
-                (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.ROLE_PERMISSION),
-                        rolePermissionMappingService.saveAllRolePermissionMappings(rolePermissionMappingList),
-                        null,
-                        HttpStatus.CREATED);
+        return new SuccessResponse<List<RolePermissionMapping>>(SuccessCode.SUCCESS,rolePermissionMappingService.saveAllRolePermissionMappings(rolePermissionMappingList), HttpStatus.CREATED);
+
     }
 
     /**
@@ -60,8 +58,8 @@ public class RolePermissionMappingController {
     @GetMapping("/role-permission")
     public SuccessResponse<List<RolePermissionViewResponse>> getAllRolePermission(@RequestParam boolean status) {
         List<RolePermissionViewResponse> rolePermissionMappingList = rolePermissionMappingService.getAllRolePermission(status);
-        return new SuccessResponse<List<RolePermissionViewResponse>>(String.format(SuccessMessage.SUCCESS, Constants.ROLE_PERMISSION)
-                , rolePermissionMappingList, null, HttpStatus.OK);
+        return new SuccessResponse<List<RolePermissionViewResponse>>(SuccessCode.SUCCESS,rolePermissionMappingList, HttpStatus.OK);
+
     }
 
 }

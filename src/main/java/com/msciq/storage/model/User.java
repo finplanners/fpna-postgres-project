@@ -1,6 +1,8 @@
 package com.msciq.storage.model;
 
+import com.msciq.storage.common.FieldConstants;
 import com.msciq.storage.common.TableConstants;
+import com.msciq.storage.common.entity.Department;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,5 +48,11 @@ public class User extends BaseEntity implements Serializable {
             joinColumns = { @JoinColumn(name = "user_id",referencedColumnName="id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id",referencedColumnName="id") })
     private List<Role> roles;
+
+//    @OneToOne(mappedBy = "departHeadGlobal", cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY, optional = false)
+    @OneToOne
+    @JoinColumn(name = FieldConstants.DEPART_HEAD_GLOBAL)
+    private Department department;
 
 }

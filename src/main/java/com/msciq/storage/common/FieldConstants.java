@@ -71,7 +71,8 @@ public class FieldConstants {
 
     public static final String DEPARTMENT_CODE = "depart_code";
     public static final String ACTIVATION_DATE = "activation_date";
-    public static final String DEPART_HEAD_NAME = "dept_head_name";
+    public static final String DEPART_HEAD = "dept_head";
+    public static final String DEPART_HEAD_GLOBAL = "dept_head_global";
     public static final String REPORT_OWNER = "report_owner";
 
     public static final String BU_OWNER = "bu_owner";
@@ -115,6 +116,8 @@ public class FieldConstants {
     public static final String COUNTRY = "country";
     public static final String COST_CENTER = "cost_center";
     public static final String DEPARTMENT = "department";
+
+    public static final String DEPARTMENT_ID = "department_id";
     public static final String EMPLOYEE_ID = "employee_id";
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
@@ -129,6 +132,20 @@ public class FieldConstants {
     public static final String  YEAR = "year";
     public static final String  QUARTER = "quarter";
     public static final String FC_KEY = "fc_key";
-
-
+    public static final String DEPT_ID = "dept_id";
+    public static final String DEPT_CODE = "dept_code";
+    public static final String DEPT_NAME = "dept_name";
+    public static final String BUSINESS_UNIT_ID = "bu_id";
+    public static final String BUSINESS_UNIT_CODE = "bu_code";
+    public static final String BUSINESS_UNIT_NAME = "bu_name";
+    public static final String PROJECT_ID = "project_id";
+    public static final String PROJECT_CODE = "project_code";
+    public static final String PROJECT_NAME = "project_name";
+    public static final String VENDOR = "vendor";
+    public static final String ITEM_DESCRIPTION = "item_description";
+    public static final String BUSINESS_JUSTIFICATION = "business_justification";
+    public static final String AMOUNT = "amount";
+    public static final String LOCATION_CODE = "location_code";
+    public static final String LOCATION_NAME = "location_name";
+    public static final String GL_ACCOUNT_DESCRIPTION = "gl_Account_description";
 }

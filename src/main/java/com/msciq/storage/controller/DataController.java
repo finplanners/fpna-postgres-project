@@ -51,7 +51,7 @@ public class DataController {
 	@RequestMapping(method = RequestMethod.POST, value = "/location")
 	public SuccessResponse<List<Location>> addLocation(@Valid @RequestBody List<LocationDTO> locationDTOS) {
 		List<Location> locations = dataService.addLocations(locationDTOS);
-		return new SuccessResponse<>(SuccessCode.LOCATION_SAVE, locations, HttpStatus.CREATED);
+		return new SuccessResponse<List<Location>>(SuccessCode.LOCATION_SAVE, locations, HttpStatus.CREATED);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class DataController {
 	@RequestMapping(method = RequestMethod.PUT, value = "/location")
 	public SuccessResponse<List<Location>> updateLocation(@Valid @RequestBody List<Location> locations) {
 		locations = dataService.updateLocation(locations);
-		return new SuccessResponse<>(SuccessCode.LOCATION_UPDATE, locations, HttpStatus.OK);
+		return new SuccessResponse<List<Location>>(SuccessCode.LOCATION_UPDATE, locations, HttpStatus.OK);
 	}
 
 	/**
@@ -217,13 +217,13 @@ public class DataController {
 	/**
 	 * Add a new Department with name, short code, etc.
 	 *
-	 * @param departmentDTO- Department details
+	 * @param departmentDTOS- Departments details
 	 * @return Department Entity
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/department")
-	public SuccessResponse<Department> addDepartment(@Valid @RequestBody DepartmentDTO departmentDTO) {
-		Department department = dataService.addDepartment(departmentDTO);
-		return new SuccessResponse<>(SuccessCode.DEPARTMENT_SAVE, department, HttpStatus.CREATED);
+	public SuccessResponse<List<Department>> addDepartment(@Valid @RequestBody List<DepartmentDTO> departmentDTOS) {
+		List<Department> departments = dataService.addDepartment(departmentDTOS);
+		return new SuccessResponse<List<Department>>(SuccessCode.DEPARTMENT_SAVE, departments, HttpStatus.CREATED);
 	}
 
 	/**
@@ -236,6 +236,18 @@ public class DataController {
 	public SuccessResponse<Department> updateDepartment(@Valid @RequestBody Department department) {
 		department = dataService.updateDepartment(department);
 		return new SuccessResponse<>(SuccessCode.DEPARTMENT_UPDATE, department, HttpStatus.OK);
+	}
+
+	/**
+	 * Update a department details like name, code, etc,
+	 *
+	 * @param lockDeleteDTO - department detail
+	 * @return BusinessUnit - department Entity
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/department/inActivateOrDelete")
+	public SuccessResponse<String> inActivateOrDeleteDept(@Valid @RequestBody LockDeleteDTO lockDeleteDTO) {
+		String message = dataService.inActivateOrDeleteDept(lockDeleteDTO);
+		return new SuccessResponse<>(SuccessCode.BU_UPDATE, message, HttpStatus.OK);
 	}
 
 	/**
@@ -257,7 +269,7 @@ public class DataController {
 	 */
 	@RequestMapping(value = "/departments", method = RequestMethod.GET)
 	public SuccessResponse<List<DepartmentDTO>> getAllDepartment() {
-		List<DepartmentDTO> departments = dataService.getAllDepartment(true);
+		List<DepartmentDTO> departments = dataService.getAllDepartment(true, false);
 		return new SuccessResponse<List<DepartmentDTO>>(SuccessCode.GET_DEPARTMENTS_SUCCESS, departments,
 				HttpStatus.OK);
 	}
@@ -407,7 +419,7 @@ public class DataController {
 			}
 
 		}
-		return new SuccessResponse<>(SuccessCode.GET_GC_SUCCESS, sideBars, HttpStatus.OK);
+		return new SuccessResponse<List<SideBarDTO>>(SuccessCode.GET_GC_SUCCESS, sideBars, HttpStatus.OK);
 	}
 
 	/**
@@ -419,7 +431,7 @@ public class DataController {
 	@RequestMapping(method = RequestMethod.POST, value = "/company")
 	public SuccessResponse<List<Company>> addCompany(@Valid @RequestBody List<CompanyDTO> companies) {
 		List<Company> companyList = dataService.addCompany(companies);
-		return new SuccessResponse<>(SuccessCode.COMPANY_SAVE, companyList, HttpStatus.CREATED);
+		return new SuccessResponse<List<Company>>(SuccessCode.COMPANY_SAVE, companyList, HttpStatus.CREATED);
 	}
 
 	/**
@@ -455,7 +467,7 @@ public class DataController {
 	@GetMapping(value = "/company")
 	public SuccessResponse<List<Company>> getCompanyByGroupCompanyId(@RequestParam long groupCompanyId) {
 		List<Company> companies = dataService.findCompanyByGroupCompanyId(groupCompanyId);
-		return new SuccessResponse<>(SuccessCode.GET_COMPANY_SUCCESS, companies, HttpStatus.OK);
+		return new SuccessResponse<List<Company>>(SuccessCode.GET_COMPANY_SUCCESS, companies, HttpStatus.OK);
 	}
 
 	/**
@@ -524,7 +536,7 @@ public class DataController {
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/businessUnit/inActivateOrDelete")
 	public SuccessResponse<String> inActivateOrDeleteBU(@Valid @RequestBody LockDeleteDTO lockDeleteDTO) {
-		String message = dataService.inActivateOrDelete(lockDeleteDTO);
+		String message = dataService.inActivateOrDeleteBU(lockDeleteDTO);
 		return new SuccessResponse<>(SuccessCode.BU_UPDATE, message, HttpStatus.OK);
 	}
 

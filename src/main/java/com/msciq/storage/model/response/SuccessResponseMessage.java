@@ -1,5 +1,8 @@
 package com.msciq.storage.model.response;
 
+import com.msciq.storage.common.Constants;
+import com.msciq.storage.common.MessageValidator;
+import com.msciq.storage.common.SuccessCode;
 import lombok.Data;
 
 import java.util.List;
@@ -33,5 +36,12 @@ public class SuccessResponseMessage<T> {
 		this.setData(entity);
 		this.setResponseCode(responseCode);
 		this.setEntityValue(entityValue);
+	}
+
+	public SuccessResponseMessage(SuccessCode successCode, Object entity, Integer responseCode) {
+		this.setMessage(MessageValidator.getInstance().getMessage(Integer.toString(successCode.getKey()),
+				Constants.SUCCESS));
+		this.setData(entity);
+		this.setResponseCode(responseCode);
 	}
 }

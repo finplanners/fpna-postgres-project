@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
-	public static final String IS_DEPARTMENT_EXISTS = "select case when count(department) > 0 then true else false end from Department as department where department.id<>:id and (department.departName=:departName or department.departmentCode=:departmentCode) and department.isDeleted=false";
+	public static final String IS_DEPARTMENT_EXISTS = "select case when count(department) > 0 then true else false end from Department as department where department.id<>:id and (department.name=:departName or department.code=:departmentCode) and department.isDeleted=false";
 
 	public static final String DEPARTMENT_BY_TEMPLATE_ID = "select * from department_template as dt, department d where dt.dept_id = d.id and dt.temp_id=:templateId and d.is_active=true";
 
@@ -33,15 +33,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	 * @return Department Entity.
 	 */
 	public Department findByIdAndIsDeleted(long id, boolean isActive);
-
-	/**
-	 * Finds the department based on department code and name
-	 *
-	 * @param departmentCode - department code
-	 * @param departName     - department name
-	 * @return Department
-	 */
-	public Department findByDepartNameAndDepartmentCode(String departName, String departmentCode);
 
 	/**
 	 * Check the given department exists based on id, name and department code
@@ -62,7 +53,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	 */
 	public List<Department> findByIsActive(Boolean isActive);
 
-	public Department findByDepartmentCode(String departmentCode);
+	public Department findByCode(String departmentCode);
 
 	@Query(value = DEPARTMENT_BY_TEMPLATE_ID,
 	nativeQuery = true)
@@ -76,4 +67,10 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	 */
 	@Query(value = USER_DEPARTMENT,nativeQuery = true)
 	List<Department> getAllDepartmentByUser(String email);
+
+    Department findByCodeAndName(String departmentCode, String departName);
+
+	List<Department> findByIdIn(List<Long> ids);
+
+	List<Department> findByIsActiveAndIsDeleted(Boolean isActive, Boolean isDeleted);
 }

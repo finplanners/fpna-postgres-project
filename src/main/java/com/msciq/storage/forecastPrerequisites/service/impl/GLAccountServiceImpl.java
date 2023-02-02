@@ -1,8 +1,8 @@
-package com.msciq.storage.forecast.service.impl;
+package com.msciq.storage.forecastPrerequisites.service.impl;
 
 import com.msciq.storage.budgetCategory.repository.BudgetCategoryRepository;
-import com.msciq.storage.forecast.repository.GLAccountRepository;
-import com.msciq.storage.forecast.service.GLAccountService;
+import com.msciq.storage.forecastPrerequisites.repository.GLAccountRepository;
+import com.msciq.storage.forecastPrerequisites.service.GLAccountService;
 import com.msciq.storage.model.GLAccount;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

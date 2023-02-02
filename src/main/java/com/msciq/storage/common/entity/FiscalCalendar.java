@@ -39,9 +39,6 @@ public class FiscalCalendar extends BaseEntity {
 	@Column(name = FieldConstants.END_MONTH)
 	private String endMonth;
 
-	@Column(name = FieldConstants.START_YEAR)
-	private String startYear;
-
 	@Column(name = FieldConstants.END_YEAR)
 	private String endYear;
 

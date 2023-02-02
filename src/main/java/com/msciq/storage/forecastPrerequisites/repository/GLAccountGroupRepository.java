@@ -1,4 +1,4 @@
-package com.msciq.storage.forecast.repository;
+package com.msciq.storage.forecastPrerequisites.repository;
 
 import com.msciq.storage.model.GLAccountGroup;
 import org.springframework.data.jpa.repository.JpaRepository;

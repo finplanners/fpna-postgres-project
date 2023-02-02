@@ -3,6 +3,7 @@ package com.msciq.storage.service;
 import com.msciq.storage.common.entity.*;
 import com.msciq.storage.common.msciq.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public interface DataService {
 	 * @param departmentDTO - department details
 	 * @return Department Entity
 	 */
-	Department addDepartment(DepartmentDTO departmentDTO);
+	List<Department> addDepartment(@Valid List<DepartmentDTO> departmentDTO);
 
 	/**
 	 * This method is used to update a department details.
@@ -100,7 +101,7 @@ public interface DataService {
 	 * @param isActive - active status
 	 * @return List of Department entities.
 	 */
-	List<DepartmentDTO> getAllDepartment(Boolean isActive);
+	List<DepartmentDTO> getAllDepartment(Boolean isActive, Boolean isDeleted);
 
 	/**
 	 * Get department detail by Id.
@@ -250,7 +251,7 @@ public interface DataService {
 
 	List<Company> findCompanyByGroupCompanyId(long groupCompanyId);
 
-	String inActivateOrDelete(LockDeleteDTO lockDeleteDTO);
+	String inActivateOrDeleteBU(LockDeleteDTO lockDeleteDTO);
 
 	/**
 	 * Get all department based on the user email.
@@ -274,4 +275,6 @@ public interface DataService {
 	 * @return List - list of fiscal period  entity
 	 */
 	List<FiscalCalendarPeriod> getAllFiscalPeriodEntity();
+
+	String inActivateOrDeleteDept(LockDeleteDTO lockDeleteDTO);
 }

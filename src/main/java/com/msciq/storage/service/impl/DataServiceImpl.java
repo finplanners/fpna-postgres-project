@@ -183,18 +183,23 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Department addDepartment(DepartmentDTO departmentDTO) {
-		if (Objects.isNull(departmentDTO)) {
-			throw new BadRequestException(19011);
-		}
-		Department existingDepartment = departmentRepository
-				.findByDepartNameAndDepartmentCode(departmentDTO.getDepartName(), departmentDTO.getDepartmentCode());
-		if (!Objects.isNull(existingDepartment)) {
-			throw new DataConflictException(19024);
-		}
+	public List<Department> addDepartment(@Valid List<DepartmentDTO> departmentDTOS) {
 
-		Department department = modelMapper.map(departmentDTO, Department.class);
-		return departmentRepository.save(department);
+		List<Department> departmentList = new ArrayList<>();
+		for (DepartmentDTO departmentDTO:
+				departmentDTOS) {
+			if (Objects.isNull(departmentDTO)) {
+				throw new BadRequestException(19011);
+			}
+			Department existingDepartment = departmentRepository.findByCodeAndName(departmentDTO.getCode(), departmentDTO.getName());
+			if (!Objects.isNull(existingDepartment)) {
+				throw new DataConflictException(19057);
+			}
+			Department department = modelMapper.map(departmentDTO, Department.class);
+			departmentList.add(department);
+
+		}
+		return departmentRepository.saveAll(departmentList);
 	}
 
 	/**
@@ -208,8 +213,8 @@ public class DataServiceImpl implements DataService {
 			if (Objects.isNull(departmentRepository.findByIdAndIsDeleted(department.getId(), false))) {
 				throw new DataNotFoundException(19025);
 			}
-			boolean isExists = departmentRepository.isDepartmentExists(department.getId(), department.getDepartName(),
-					department.getDepartmentCode());
+			boolean isExists = departmentRepository.isDepartmentExists(department.getId(), department.getName(),
+					department.getCode());
 			if (isExists) {
 				throw new DataConflictException(19024);
 			}
@@ -221,8 +226,8 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<DepartmentDTO> getAllDepartment(Boolean isActive) {
-		List<Department> departments = departmentRepository.findByIsActive(isActive);
+	public List<DepartmentDTO> getAllDepartment(Boolean isActive,Boolean isDeleted) {
+		List<Department> departments = departmentRepository.findByIsActiveAndIsDeleted(isActive,isDeleted);
 		List<DepartmentDTO> departmentList = modelMapper.map(departments, new TypeToken<List<DepartmentDTO>>() {
 		}.getType());
 		return departmentList;
@@ -573,7 +578,7 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public String inActivateOrDelete(LockDeleteDTO lockDeleteDTO) {
+	public String inActivateOrDeleteBU(LockDeleteDTO lockDeleteDTO) {
 		String message= "";
 		try{
 			List<BusinessUnit> businessUnits = businessUnitRepository.findByIdIn(lockDeleteDTO.getIds());
@@ -626,6 +631,56 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String inActivateOrDeleteDept(LockDeleteDTO lockDeleteDTO) {
+		String message= "";
+		try{
+			List<Department> departments = departmentRepository.findByIdIn(lockDeleteDTO.getIds());
+			List<Department> departmentsModified = new ArrayList<>();
+			if(departments!=null && departments.size() == 0){
+				message= ErrorConstants.INVALID_DEPARTMENTS;
+				return message;
+			}else {
+				if (lockDeleteDTO.getIsActive() != null) {
+					if (!lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_DEACTIVATED;
+						for (Department department :
+								departments) {
+							department.setActive(false);
+							departmentsModified.add(department);
+						}
+					} else if (lockDeleteDTO.getIsActive()) {
+						message = SuccessMessage.BUSINESS_ACTIVATED;
+						for (Department department :
+								departments) {
+							department.setActive(true);
+							departmentsModified.add(department);
+						}
+					}
+
+				} else if (lockDeleteDTO.getIsDeleted() != null) {
+					if (lockDeleteDTO.getIsDeleted()) {
+						message = SuccessMessage.BUSINESS_UNIT_DELETED;
+						for (Department department :
+								departments) {
+							department.setDeleted(true);
+							departmentsModified.add(department);
+						}
+					} else{
+						message = ErrorMessage.INVALID_ACTION;
+					}
+				}else{
+					message = ErrorMessage.INVALID_ACTION;
+				}
+				departmentRepository.saveAllAndFlush(departmentsModified);
+				return message;
+
+			}
+		}catch(Exception e){
+			return e.getMessage();
+		}
+	}
+
+	@Override
 	public List<Department> getAllDepartmentByUser(String email) {
 		List<Department> department = departmentRepository.getAllDepartmentByUser(email);
 		if (Objects.isNull(department)) {
@@ -641,45 +696,45 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public List<FiscalCalendarPeriod> addFiscalPeriodEntity(String fcKey){
 		try {
-		List<FiscalCalendarPeriod> fiscalCalendarPeriods = new ArrayList<>();
-		FiscalCalendar fiscalCalendars = fiscalCalendarRepository.findByKey(fcKey);
-		List<FiscalCalendarPeriod> fiscalCalendarPeriod = fiscalCalendarPeriodRepository.findByFcKey(fcKey);
+			List<FiscalCalendarPeriod> fiscalCalendarPeriods = new ArrayList<>();
+			FiscalCalendar fiscalCalendars = fiscalCalendarRepository.findByKey(fcKey);
+			List<FiscalCalendarPeriod> fiscalCalendarPeriod = fiscalCalendarPeriodRepository.findByFcKey(fcKey);
 
-		if (Objects.isNull(fiscalCalendars)) {
-			throw new DataNotFoundException(19065);
-		}
+			if (Objects.isNull(fiscalCalendars)) {
+				throw new DataNotFoundException(19084);
+			}
 
-//		if(fiscalCalendarPeriod.size() != 0){
-//		fiscalCalendarPeriodRepository.deleteByFcKey(fcKey);
-//		}
+	//		if(fiscalCalendarPeriod.size() != 0){
+	//		fiscalCalendarPeriodRepository.deleteByFcKey(fcKey);
+	//		}
 
-		String start = fiscalCalendars.getStartMonth()+"-"+fiscalCalendars.getStartYear();
-		String end = fiscalCalendars.getEndMonth()+"-"+fiscalCalendars.getEndYear();
-		DateFormat formater = new SimpleDateFormat("MMM-yyyy");
+			String start = fiscalCalendars.getStartMonth()+"-"+fiscalCalendars.getStartPeriodOfYear();
+			String end = fiscalCalendars.getEndMonth()+"-"+fiscalCalendars.getEndYear();
+			DateFormat formater = new SimpleDateFormat("MMM-yyyy");
 
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
+			Calendar startDate = Calendar.getInstance();
+			Calendar endDate = Calendar.getInstance();
 
 			startDate.setTime(formater.parse(start));
 			endDate.setTime(formater.parse(end));
 
-		int quaterIn =0;
-		while (startDate.before(endDate) || startDate.equals(endDate)) {
-			FiscalCalendarPeriod newFiscalCalendarPeriod = new FiscalCalendarPeriod();
-			newFiscalCalendarPeriod.setFcKey(fcKey);
-			// add one month to date per loop
-			String date = formater.format(startDate.getTime()).toUpperCase();
-			newFiscalCalendarPeriod.setMonth(date.split("-")[0]);
-			newFiscalCalendarPeriod.setYear(date.split("-")[1]);
-			System.out.println(date);
-			int quarter = (quaterIn/ 3) + 1;
-			System.out.println("quarter "+quarter);
-			quaterIn++;
-			startDate.add(Calendar.MONTH, 1);
-			newFiscalCalendarPeriod.setQuarter("Q"+quarter);
-			fiscalCalendarPeriods.add(newFiscalCalendarPeriod);
-		}
-		return  fiscalCalendarPeriodRepository.saveAllAndFlush(fiscalCalendarPeriods);
+			int quaterIn =0;
+			while (startDate.before(endDate) || startDate.equals(endDate)) {
+				FiscalCalendarPeriod newFiscalCalendarPeriod = new FiscalCalendarPeriod();
+				newFiscalCalendarPeriod.setFcKey(fcKey);
+				// add one month to date per loop
+				String date = formater.format(startDate.getTime()).toUpperCase();
+				newFiscalCalendarPeriod.setMonth(date.split("-")[0]);
+				newFiscalCalendarPeriod.setYear(date.split("-")[1]);
+				System.out.println(date);
+				int quarter = (quaterIn/ 3) + 1;
+				System.out.println("quarter "+quarter);
+				quaterIn++;
+				startDate.add(Calendar.MONTH, 1);
+				newFiscalCalendarPeriod.setQuarter("Q"+quarter);
+				fiscalCalendarPeriods.add(newFiscalCalendarPeriod);
+			}
+			return  fiscalCalendarPeriodRepository.saveAllAndFlush(fiscalCalendarPeriods);
 
 		} catch (ParseException e) {
 			e.printStackTrace();

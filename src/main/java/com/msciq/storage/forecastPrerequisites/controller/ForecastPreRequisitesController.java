@@ -1,6 +1,6 @@
-package com.msciq.storage.forecast.controller;
+package com.msciq.storage.forecastPrerequisites.controller;
 
-import com.msciq.storage.forecast.service.ForecastService;
+import com.msciq.storage.forecastPrerequisites.service.ForecastPreRequisitesService;
 import com.msciq.storage.model.response.BusinessUnitDetails;
 import com.msciq.storage.model.response.ForecastingPrerequisites;
 import com.msciq.storage.model.response.SuccessResponse;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/forecast")
+@RequestMapping(value = "/forecast-pre-requisites")
 @Validated
-public class ForecastController {
+public class ForecastPreRequisitesController {
 
     @Autowired
-    ForecastService forecastService;
+    ForecastPreRequisitesService forecastService;
 
     /**
      * Gets prerequisites for forecasting.
@@ -26,7 +26,7 @@ public class ForecastController {
      * @return forecasting prerequisites
      * @author Sivaranjani DS
      */
-    @RequestMapping(value = "/pre-requisites/{templateId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{templateId}", method = RequestMethod.GET)
     public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(
             @PathVariable Long templateId
     ) {
@@ -40,7 +40,7 @@ public class ForecastController {
      * @return forecasting prerequisites
      * @author Sivaranjani DS
      */
-    @RequestMapping(value = "/bu-details/{buId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{buId}/bu-details", method = RequestMethod.GET)
     public SuccessResponse<BusinessUnitDetails> getBusinessUnitRelatedDetailsForForecasting(
             @PathVariable Long buId
     ) {

@@ -25,6 +25,8 @@ public class UserDTO {
     private String lastName;
     private String phoneNumber;
 
+    private long departmentId;
+
     @NotEmpty(message = "Roles is mandatory")
     private List<String> userRoles;
 

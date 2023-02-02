@@ -9,6 +9,7 @@ import com.msciq.storage.common.*;
 import com.msciq.storage.model.BaseEntity;
 import com.msciq.storage.model.Role;
 import com.msciq.storage.model.Template;
+import com.msciq.storage.model.User;
 import lombok.Data;
 
 /**
@@ -27,27 +28,37 @@ public class Department extends BaseEntity {
 
 	@NotEmpty(message = ErrorConstants.DEPARTMENT_NAME_NOT_NULL)
 	@Column(name = FieldConstants.NAME,unique = true)
-	private String departName;
+	private String name;
 
 	@NotEmpty(message = ErrorConstants.DEPARTMENT_CODE_NOT_NULL)
 	@Column(name = FieldConstants.DEPARTMENT_CODE)
-	private String departmentCode;
+	private String code;
 	
 	@Column(name = FieldConstants.ACTIVATION_DATE)
 	private Date activationDate;
 	
 	@Column(name = FieldConstants.END_DATE)
 	private Date endDate;
+
+	private boolean status = true;
+
+	private boolean acquiredEntity = false;
 	
-	@Column(name = FieldConstants.DEPART_HEAD_NAME)
-	private String departHeadName;
+	@Column(name = FieldConstants.DEPART_HEAD)
+	private String departHead;
+
+//	@OneToOne(targetEntity = User.class, cascade = { CascadeType.ALL })
+//	@JoinColumn(name = FieldConstants.DEPART_HEAD_GLOBAL)
+	@OneToOne
+	@JoinColumn(name = FieldConstants.DEPART_HEAD_GLOBAL)
+	private User departHeadGlobal;
 	
 	@Column(name = FieldConstants.REPORT_OWNER)
 	private String reportOwner;
 
-	@OneToMany
-	@JoinColumn(name = "dept_id")
-	private List<Company> companies = new ArrayList<>();
+//	@OneToMany(targetEntity = Company.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+//	@JoinColumn(name = "dept_id")
+//	private List<Company> companies;
 
 	public Date getActivationDate() {
 		System.out.println("before===="+activationDate);

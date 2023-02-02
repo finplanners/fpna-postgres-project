@@ -95,6 +95,8 @@ public final class ErrorConstants {
 
     public static final String INVALID_BUSINESS_UNITS = "Invalid Business Unit(s)";
 
+    public static final String INVALID_DEPARTMENTS = "Invalid Department(s)";
+
 	public static final String LOGIN_ERROR = "Login Error ";
 	public static final String ERROR_JWE_TOKEN = "Error while creating jwe token ";
 	public static final String TOKEN_EXPIRED = "Token expired";
@@ -127,4 +129,13 @@ public final class ErrorConstants {
 	 
 	 public static final String FIS_CAL_KEY_NULL = "Fiscal calendar key should not be empty";
 	 public static final String FIS_CAL_DESCRIPTION_NULL = "Fiscal calendar description should not be empty";
+
+    public static final String DEPT_ID_NOT_NULL = "Department Id should not be null";
+    public static final String DEPT_CODE_NOT_NULL = "Department code should not be null";
+    public static final String DEPT_NAME_NOT_NULL = "Department name should not be null";
+    public static final String BU_ID_NOT_NULL = "BU id should not be null";
+    public static final String PROJECT_ID_NOT_NULL = "Project Id should not be null";
+    public static final String PROJECT_CODE_NOT_NULL = "Project code should not be null";
+
+    public static final String GL_ACCOUNT_NOT_NULL = "GL Account should not be null";
 }

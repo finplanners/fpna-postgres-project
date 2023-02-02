@@ -22,7 +22,7 @@ public class DepartmentTemplateServiceImpl implements DepartmentTemplateService 
 
     @Override
     public Department mapDepartmentTemplate(DepartmentTemplateDTO departmentTemplateDTO) {
-        Optional<Department> department = Optional.ofNullable(departmentRepository.findByDepartmentCode(departmentTemplateDTO.getDepartmentCode()));
+        Optional<Department> department = Optional.ofNullable(departmentRepository.findByCode(departmentTemplateDTO.getDepartmentCode()));
         if (department.isPresent()) {
             Set<Template> templates = new HashSet<>();
             departmentTemplateDTO.getTemplates().stream().forEach(template -> {

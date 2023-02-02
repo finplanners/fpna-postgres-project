@@ -2,7 +2,6 @@ package com.msciq.storage.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
-import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.common.msciq.LockDeleteDTO;
 import com.msciq.storage.model.ResetPassword;
@@ -73,11 +72,20 @@ public class UserController {
     public SuccessResponse<List<User>> getUser(@RequestParam String status) {
 
         if( status.equalsIgnoreCase("Deleted") && !status.equalsIgnoreCase("all") ){
-            return new SuccessResponse<>(ErrorMessage.INVALID_REQUEST, null,null,HttpStatus.BAD_REQUEST);
-        }else{
-            List<User> users = userService.getListofUsers(status);
-            return new SuccessResponse<>(SuccessCode.BU_SAVE, users, HttpStatus.OK);
+            return new SuccessResponse<List<User>>
+                    (ErrorMessage.INVALID_REQUEST,
+                            null,
+                            null,
+                            HttpStatus.BAD_REQUEST);
         }
+
+        List<User> userViewResponses = userService.getListofUsers(status);
+
+        return new SuccessResponse<List<User>>
+                    (SuccessMessage.SUCCESS,
+                            userViewResponses,
+                            null,
+                            HttpStatus.OK);
     }
 
     /**
