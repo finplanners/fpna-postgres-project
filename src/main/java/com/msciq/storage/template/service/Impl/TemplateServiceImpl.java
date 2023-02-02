@@ -7,7 +7,9 @@ import com.msciq.storage.model.Template;
 import com.msciq.storage.repository.FiscalCalendarPeriodRepository;
 import com.msciq.storage.template.repository.TemplateRepository;
 import com.msciq.storage.template.service.TemplateService;
-import org.json.JSONObject;
+import com.nimbusds.jose.shaded.json.JSONArray;
+import com.nimbusds.jose.shaded.json.JSONObject;
+import com.nimbusds.jose.shaded.json.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +40,13 @@ class TemplateServiceImpl implements TemplateService {
             for(Template template : templateRepositoryList) {
                 if (template.getType().equals("Trend")) {
                     List<FiscalCalendarPeriod> fiscalCalendarPeriods = fiscalCalendarPeriodRepository.findAll();
-                    List<JSONObject> templateObject = new ArrayList<>();
+                    List<Object> templateObject = new ArrayList<>();
                     List<String> findFirstQuarter = new ArrayList<>();
+                    Object obj = new JSONParser().parse(template.getTemplateValue());
+                    JSONArray jo = (JSONArray) obj;
+//                    templateObject.add((JSONObject) jo.get(0));
+//                    templateObject.add((JSONObject) jo.get(1));
+                    templateObject.addAll(jo);
                     for (FiscalCalendarPeriod fiscalCalendarPeriod : fiscalCalendarPeriods) {
                         if (findFirstQuarter.size() == 0 || !findFirstQuarter.contains(fiscalCalendarPeriod.getQuarter())) {
                             JSONObject trendObject = new JSONObject();
