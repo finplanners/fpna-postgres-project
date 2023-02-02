@@ -148,4 +148,11 @@ public class FieldConstants {
     public static final String LOCATION_CODE = "location_code";
     public static final String LOCATION_NAME = "location_name";
     public static final String GL_ACCOUNT_DESCRIPTION = "gl_Account_description";
+    public static final String MONTHS_TO_AMORTIZE = "no_of_months_to_amortize";
+    public static final String RECURRING_EXPENSE_MONTHS = "no_of_recurring_expense_months";
+    public static final String FORECAST_ID = "forecast_id";
+    public static final String USER_EMAIL = "user_email";
+    public static final String FORECAST_DATA = "forecast_data";
+    public static final String BU = "bu";
+    public static final String LOCATION = "location";
 }
