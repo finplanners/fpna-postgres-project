@@ -23,4 +23,14 @@ public interface TemplateService {
      */
     public Template addForecastingTemplate(Template templates);
 
+    /**
+     * This method returns list of all forecasting templates of department
+     * @param departId - id of department table
+     *
+     * @return List of ForecastingTemplate Entity
+     *
+     */
+    public List<Template> getAllForecastingTemplatesByDepart(List<Long> departId);
+
+
 }

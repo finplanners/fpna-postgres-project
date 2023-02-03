@@ -44,8 +44,6 @@ class TemplateServiceImpl implements TemplateService {
                     List<String> findFirstQuarter = new ArrayList<>();
                     Object obj = new JSONParser().parse(template.getTemplateValue());
                     JSONArray jo = (JSONArray) obj;
-//                    templateObject.add((JSONObject) jo.get(0));
-//                    templateObject.add((JSONObject) jo.get(1));
                     templateObject.addAll(jo);
                     for (FiscalCalendarPeriod fiscalCalendarPeriod : fiscalCalendarPeriods) {
                         if (findFirstQuarter.size() == 0 || !findFirstQuarter.contains(fiscalCalendarPeriod.getQuarter())) {
@@ -80,5 +78,45 @@ class TemplateServiceImpl implements TemplateService {
             throw new DataConflictException(19070);
         }
         return templateRepository.save(templates);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Template> getAllForecastingTemplatesByDepart(List<Long> departId) {
+        List<Template> templateRepositoryList =  templateRepository.getAllForecastingTemplatesByDepart(departId);
+        if (Objects.isNull(templateRepositoryList)) {
+            throw new BadRequestException(19084);
+        }
+        try{
+            List<Template> templates = new ArrayList<>();
+
+            for(Template template : templateRepositoryList) {
+                if (template.getType().equals("Trend")) {
+                    List<FiscalCalendarPeriod> fiscalCalendarPeriods = fiscalCalendarPeriodRepository.findAll();
+                    List<Object> templateObject = new ArrayList<>();
+                    List<String> findFirstQuarter = new ArrayList<>();
+                    Object obj = new JSONParser().parse(template.getTemplateValue());
+                    JSONArray jo = (JSONArray) obj;
+                    templateObject.addAll(jo);
+                    for (FiscalCalendarPeriod fiscalCalendarPeriod : fiscalCalendarPeriods) {
+                        if (findFirstQuarter.size() == 0 || !findFirstQuarter.contains(fiscalCalendarPeriod.getQuarter())) {
+                            JSONObject trendObject = new JSONObject();
+                            trendObject.put("name", fiscalCalendarPeriod.getQuarter() + fiscalCalendarPeriod.getYear());
+                            trendObject.put("type", "String");
+                            templateObject.add(trendObject);
+                            findFirstQuarter.add(fiscalCalendarPeriod.getQuarter());
+                        }
+                        template.setTemplateValue(templateObject.toString());
+                    }
+                }
+                templates.add(template);
+            }
+            return templates;
+
+        }catch (Exception e){
+            return null;
+        }
     }
 }
