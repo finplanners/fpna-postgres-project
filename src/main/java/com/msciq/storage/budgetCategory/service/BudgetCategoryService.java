@@ -43,12 +43,12 @@ public interface BudgetCategoryService {
      */
     List<BudgetCategory> getBudgetCategoriesByTemplate(Long templateId);
 
-    /**
-     * This method returns list of Budget category with parent and child gl account details by template
-     *
-     * @param templateId
-     * @return List of budget categories with gl account group info
-     * @author Sivaranjani DS
-     */
-    List<BudgetCategoryWithParentGLInfo> getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(Long templateId);
+//    /**
+//     * This method returns list of Budget category with parent and child gl account details by template
+//     *
+//     * @param templateId
+//     * @return List of budget categories with gl account group info
+//     * @author Sivaranjani DS
+//     */
+//    List<BudgetCategoryWithParentGLInfo> getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(Long templateId);
 }

@@ -2,6 +2,7 @@ package com.msciq.storage.forecastPrerequisites.controller;
 
 import com.msciq.storage.common.Constants;
 import com.msciq.storage.common.ErrorMessage;
+import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.forecastPrerequisites.service.GLAccountService;
 import com.msciq.storage.model.GLAccount;
@@ -37,6 +38,18 @@ public class GLAccountController {
         List<GLAccount> glAccounts = glAccountService.getAllGLAccountData();
         return new SuccessResponse<List<GLAccount>>(String.format(SuccessMessage.SUCCESS, Constants.TEMPLATE)
                 , null, Collections.singletonList(glAccounts), HttpStatus.OK);
+    }
+
+    /**
+     * Gets all GL Account relevant for forecasting.
+     *
+     * @return List of GLAccount entity
+     * @author Sivaranjani DS
+     */
+    @RequestMapping(value = "/forecast-relevant-gl-accounts", method = RequestMethod.GET)
+    public SuccessResponse<List<GLAccount>> getAllForecastRelevantGLAccounts() {
+        List<GLAccount> glAccounts = glAccountService.getAllGLAccountRelevantForForecasting();
+        return new SuccessResponse<List<GLAccount>>(SuccessCode.SUCCESS, glAccounts, HttpStatus.OK);
     }
 
     /**

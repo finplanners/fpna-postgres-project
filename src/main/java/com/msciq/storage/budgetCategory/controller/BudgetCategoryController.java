@@ -92,19 +92,20 @@ public class BudgetCategoryController {
                         HttpStatus.CREATED);
     }
 
-    /**
-     * This method is used get list of budget categories by template  id
-     *
-     * @param templateId
-     * @return List of budgetCategory with parent gl info
-     * @author Sivaranjani DS
-     */
-    @RequestMapping(value = "/{templateTypeId}/list-with-parent-glaccounts", method = RequestMethod.GET)
-    public SuccessResponse<List<BudgetCategoryWithParentGLInfo>> getBudgetCategoriesWIthParentChildGLByTemplateType(@PathVariable Long templateId) {
-        return new SuccessResponse<List<BudgetCategoryWithParentGLInfo>>
-                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
-                        budgetCategoryService.getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(templateId),
-                        HttpStatus.CREATED);
-    }
+//
+//    /**
+//     * This method is used get list of budget categories by template  id
+//     *
+//     * @param templateId
+//     * @return List of budgetCategory with parent gl info
+//     * @author Sivaranjani DS
+//     */
+//    @RequestMapping(value = "/{templateTypeId}/list-with-parent-glaccounts", method = RequestMethod.GET)
+//    public SuccessResponse<List<BudgetCategoryWithParentGLInfo>> getBudgetCategoriesWIthParentChildGLByTemplateType(@PathVariable Long templateId) {
+//        return new SuccessResponse<List<BudgetCategoryWithParentGLInfo>>
+//                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
+//                        budgetCategoryService.getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(templateId),
+//                        HttpStatus.CREATED);
+//    }
 
 }

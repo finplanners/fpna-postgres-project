@@ -25,4 +25,6 @@ public interface GLAccountService {
      */
     public List<GLAccount> importGLAccountData(MultipartFile file) throws IOException;
 
+    public List<GLAccount> getAllGLAccountRelevantForForecasting();
+
 }

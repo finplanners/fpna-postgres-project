@@ -156,4 +156,5 @@ public class FieldConstants {
     public static final String BU = "bu";
     public static final String LOCATION = "location";
     public static final String TEMPLATE_ID = "template_Id";
+    public static final String GL_ACCOUNT_ID = "gl_account_id";
 }

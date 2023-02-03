@@ -107,4 +107,9 @@ public class GLAccountServiceImpl implements GLAccountService {
         return glAccounts;
     }
 
+    @Override
+    public List<GLAccount> getAllGLAccountRelevantForForecasting() {
+        return glAccountRepository.findAllByForecastingRelevant(true);
+    }
+
 }
