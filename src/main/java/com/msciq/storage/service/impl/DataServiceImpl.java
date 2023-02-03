@@ -551,8 +551,8 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public List<Location> getAllLocations(boolean b, long companyId) {
-		return locationRepository.findByIsActiveAndCompanyId(b, companyId);
+	public List<Location> getAllLocations(boolean isActive, boolean isDeleted) {
+		return locationRepository.findByIsActiveAndIsDeleted(isActive, isDeleted);
 	}
 
 	@Override
