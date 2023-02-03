@@ -21,7 +21,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
 	public static final String DEPARTMENT_BY_TEMPLATE_ID = "select * from department_template as dt, department d where dt.dept_id = d.id and dt.temp_id=:templateId and d.is_active=true";
 
-	public static final String USER_DEPARTMENT = "select d.* from user_department ud inner join department d on ud.department_code = d.depart_code where ud.email =:email order by name";
+	public static final String USER_DEPARTMENT = "select d.* from user_department ud inner join department d on ud.department_id = d.id where ud.email =:email order by name";
 
 
 

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class UserDepartment extends BaseEntity {
     private String email;
 
-    private String departmentCode;
+    private Long departmentId;
 
     private boolean isActual;
 
