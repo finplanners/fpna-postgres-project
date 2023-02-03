@@ -155,4 +155,5 @@ public class FieldConstants {
     public static final String FORECAST_DATA = "forecast_data";
     public static final String BU = "bu";
     public static final String LOCATION = "location";
+    public static final String TEMPLATE_ID = "template_Id";
 }
