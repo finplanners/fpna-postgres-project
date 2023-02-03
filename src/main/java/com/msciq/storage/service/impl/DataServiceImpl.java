@@ -547,7 +547,11 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public Location findLocationById(long locationId) {
-		return null;
+		Location location = locationRepository.findByIdAndIsDeleted(locationId, false);
+		if (Objects.isNull(location)) {
+			throw new DataNotFoundException(19065);
+		}
+		return location;
 	}
 
 	@Override
