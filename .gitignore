@@ -35,3 +35,5 @@ build/
 .vscode/
 /.idea/
 !/src/main/resources/steady-fin-373212-e5e26541cf59.json
+/infra/plan/.terraform.lock.hcl
+/infra/plan/.terraform/

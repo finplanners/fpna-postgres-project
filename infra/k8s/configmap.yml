@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msciq-backend-config
+  namespace: msciq-backend-gke
+data:
+  DB_SERVER: "pgsql-msciq-be-dev"
+  DB_PORT: "5432"
+  DB_NAME: "msciq-backend"

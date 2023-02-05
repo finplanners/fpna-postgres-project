@@ -10,6 +10,7 @@
 # RUN mvn -X -f /usr/src/app/pom.xml clean package
 
 FROM openjdk:17
-COPY /target/storage*.jar  /usr/app/app.jar
+LABEL maintainer="msciq"
+COPY target/storage*.jar  /usr/app/app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "/usr/app/app.jar"]

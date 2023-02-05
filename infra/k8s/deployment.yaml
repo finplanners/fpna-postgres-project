@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msciq-backend-app
+  namespace: msciq-backend-gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msciq-backend-app
+  template:
+    metadata:
+      labels:
+        app: msciq-backend-app
+    spec:
+      serviceAccountName: msciq-be-id
+      containers:
+      - name: msciq-backend-app
+        image: "gcr.io/msciq-dev/msciq-backend-app:v1"
+        env:
+          - name: db-server
+            valueFrom:
+              configMapKeyRef:
+               name: msciq-backend-config
+               key: DB_SERVER
+          - name: db-port
+            valueFrom:
+              configMapKeyRef:
+                name: msciq-backend-config
+                key: DB_PORT
+          - name: db-name
+            valueFrom:
+              configMapKeyRef:
+                 name: msciq-backend-config
+                 key: DB_NAME
+          - name: db-username
+            valueFrom:
+              secretKeyRef:
+                 name: dbusername
+                 key: "db_username"
+          - name: db-password
+            valueFrom:
+              secretKeyRef:
+                 name: dbpassword
+                 key: "db_password"
+        ports:
+            - containerPort: 8080
