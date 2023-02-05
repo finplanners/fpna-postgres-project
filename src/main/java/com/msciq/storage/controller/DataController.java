@@ -85,8 +85,8 @@ public class DataController {
 	 * @return List - list of Country entity
 	 */
 	@RequestMapping(value = "/locations", method = RequestMethod.GET)
-	public SuccessResponse<List<LocationDTO>> getLocations(@RequestParam long companyId) {
-		List<Location> locations = dataService.getAllLocations(true, companyId);
+	public SuccessResponse<List<LocationDTO>> getLocations() {
+		List<Location> locations = dataService.getAllLocations(true, false);
 		return new SuccessResponse<List<LocationDTO>>(SuccessCode.GET_LOCATIONS_SUCCESS, locations, HttpStatus.OK);
 	}
 
@@ -408,7 +408,7 @@ public class DataController {
 			if(companies.size()>0){
 				for (CompanyDTO companyDTO:
 						companyDTOList) {
-					List<Location> locations = dataService.getAllLocations(true,companyDTO.getId());
+					List<Location> locations = dataService.getAllLocations(true,false);
 					companyDTO.setLocations(locations);
 					companyDTOListModified.add(companyDTO);
 				}

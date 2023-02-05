@@ -30,11 +30,14 @@ public class BudgetCategory extends BaseEntity {
     @ManyToMany
     @JoinTable(name = "budget_categories_template_types",
             joinColumns = { @JoinColumn(name = FieldConstants.BUDGET_CATEGORY) },
-            inverseJoinColumns = { @JoinColumn(name = FieldConstants.TEMPLATE_TYPE) })
-    private Set<TemplateType> templateTypes = new HashSet<TemplateType>();
+            inverseJoinColumns = { @JoinColumn(name = FieldConstants.TEMPLATE_ID) })
+    private Set<Template> templates = new HashSet<Template>();
 
-    @OneToMany(targetEntity= GLAccountGroup.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = Constants.BUDGET_CATEGORY_CODE, referencedColumnName = "id")
-    private List<GLAccountGroup> glAccountList;
+
+    @ManyToMany
+    @JoinTable(name = "budget_categories_gl_accounts",
+            joinColumns = { @JoinColumn(name = FieldConstants.BUDGET_CATEGORY) },
+            inverseJoinColumns = { @JoinColumn(name = FieldConstants.GL_ACCOUNT_ID) })
+    private List<GLAccount> glAccountList;
 
 }

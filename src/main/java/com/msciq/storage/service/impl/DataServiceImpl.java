@@ -547,12 +547,16 @@ public class DataServiceImpl implements DataService {
 
 	@Override
 	public Location findLocationById(long locationId) {
-		return null;
+		Location location = locationRepository.findByIdAndIsDeleted(locationId, false);
+		if (Objects.isNull(location)) {
+			throw new DataNotFoundException(19065);
+		}
+		return location;
 	}
 
 	@Override
-	public List<Location> getAllLocations(boolean b, long companyId) {
-		return locationRepository.findByIsActiveAndCompanyId(b, companyId);
+	public List<Location> getAllLocations(boolean isActive, boolean isDeleted) {
+		return locationRepository.findByIsActiveAndIsDeleted(isActive, isDeleted);
 	}
 
 	@Override

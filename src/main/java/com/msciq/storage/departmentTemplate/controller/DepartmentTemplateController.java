@@ -5,8 +5,6 @@ import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.common.entity.Department;
 import com.msciq.storage.departmentTemplate.service.DepartmentTemplateService;
 import com.msciq.storage.exception.BadRequestException;
-import com.msciq.storage.model.BudgetCategory;
-import com.msciq.storage.model.request.BudgetCategoryTemplateTypeMappingDTO;
 import com.msciq.storage.model.request.DepartmentTemplateDTO;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;

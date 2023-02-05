@@ -37,7 +37,7 @@ public class GLAccount extends BaseEntity {
     private Timestamp inactiveDate;
 
     @Column(name = FieldConstants.FORECASTING_RELEVANT)
-    private boolean forecastingRelevant = false;
+    private boolean forecastingRelevant = true;
 
     @Column(name = FieldConstants.FORECASTED_AT_HIGHER_GROUP)
     private boolean forecastedAtHigherGroup = false;

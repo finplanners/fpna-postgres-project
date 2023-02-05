@@ -6,7 +6,7 @@ import com.msciq.storage.common.SuccessCode;
 import com.msciq.storage.common.SuccessMessage;
 import com.msciq.storage.exception.BadRequestException;
 import com.msciq.storage.model.BudgetCategory;
-import com.msciq.storage.model.request.BudgetCategoryTemplateTypeMappingDTO;
+import com.msciq.storage.model.request.BudgetCategoryTemplateMappingDTO;
 import com.msciq.storage.model.request.BudgetCategoryWithParentGLInfo;
 import com.msciq.storage.model.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,18 +58,18 @@ public class BudgetCategoryController {
     }
 
     /**
-     * This method is used to map TemplateType to BudgetCategory.
+     * This method is used to map Template to BudgetCategory.
      *
-     * @param budgetCategoryTemplateTypeMapping
+     * @param budgetCategoryTemplateMapping
      * @return List of budgetCategory
      * @author Sivaranjani DS
      */
     @RequestMapping(value = "/assign-templates", method = RequestMethod.PUT)
-    public SuccessResponse<BudgetCategory> mapTemplateTypesToBudgetCategory(@RequestBody BudgetCategoryTemplateTypeMappingDTO budgetCategoryTemplateTypeMapping) {
-        if (Objects.isNull(budgetCategoryTemplateTypeMapping)) {
+    public SuccessResponse<BudgetCategory> mapTemplateToBudgetCategory(@RequestBody BudgetCategoryTemplateMappingDTO budgetCategoryTemplateMapping) {
+        if (Objects.isNull(budgetCategoryTemplateMapping)) {
             throw new BadRequestException(19011);
         }
-        BudgetCategory savedBudgetCategory = budgetCategoryService.mapTemplateTypesToBudgetCategory(budgetCategoryTemplateTypeMapping);
+        BudgetCategory savedBudgetCategory = budgetCategoryService.mapTemplateToBudgetCategory(budgetCategoryTemplateMapping);
         return new SuccessResponse<BudgetCategory>
                 (String.format(SuccessMessage.SUCCESSFULLY_SAVED, Constants.BUDGET_CATEGORY),
                         savedBudgetCategory,
@@ -78,33 +78,34 @@ public class BudgetCategoryController {
     }
 
     /**
-     * This method is used get list of budget categories by template type id
+     * This method is used get list of budget categories by template id
      *
-     * @param templateTypeId
+     * @param templateId
      * @return List of budgetCategory
      * @author Sivaranjani DS
      */
     @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
-    public SuccessResponse<List<BudgetCategory>> getBudgetCategoriesByTemplateType(@PathVariable Long templateTypeId) {
+    public SuccessResponse<List<BudgetCategory>> getBudgetCategoriesByTemplateType(@PathVariable Long templateId) {
         return new SuccessResponse<List<BudgetCategory>>
                 (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
-                        budgetCategoryService.getBudgetCategoriesByTemplateType(templateTypeId),
+                        budgetCategoryService.getBudgetCategoriesByTemplate(templateId),
                         HttpStatus.CREATED);
     }
 
-    /**
-     * This method is used get list of budget categories by template type id
-     *
-     * @param templateTypeId
-     * @return List of budgetCategory with parent gl info
-     * @author Sivaranjani DS
-     */
-    @RequestMapping(value = "/{templateTypeId}/list-with-parent-glaccounts", method = RequestMethod.GET)
-    public SuccessResponse<List<BudgetCategoryWithParentGLInfo>> getBudgetCategoriesWIthParentChildGLByTemplateType(@PathVariable Long templateTypeId) {
-        return new SuccessResponse<List<BudgetCategoryWithParentGLInfo>>
-                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
-                        budgetCategoryService.getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(templateTypeId),
-                        HttpStatus.CREATED);
-    }
+//
+//    /**
+//     * This method is used get list of budget categories by template  id
+//     *
+//     * @param templateId
+//     * @return List of budgetCategory with parent gl info
+//     * @author Sivaranjani DS
+//     */
+//    @RequestMapping(value = "/{templateTypeId}/list-with-parent-glaccounts", method = RequestMethod.GET)
+//    public SuccessResponse<List<BudgetCategoryWithParentGLInfo>> getBudgetCategoriesWIthParentChildGLByTemplateType(@PathVariable Long templateId) {
+//        return new SuccessResponse<List<BudgetCategoryWithParentGLInfo>>
+//                (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,
+//                        budgetCategoryService.getBudgetCategoriesWithParentAndChildGLInfoByTemplateType(templateId),
+//                        HttpStatus.CREATED);
+//    }
 
 }

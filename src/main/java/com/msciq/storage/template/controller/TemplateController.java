@@ -8,10 +8,7 @@ import com.msciq.storage.template.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,6 +49,20 @@ public class TemplateController {
                         templateService.addForecastingTemplate(templates),
                         null,
                         HttpStatus.CREATED);
+    }
+
+    /**
+     * Gets all forecasting templates.
+     * @param departId - id of department table
+     *
+     * @return List of ForecastingTemplate entity
+     *
+     */
+    @RequestMapping(value = "/depart-template",method = RequestMethod.POST)
+    public SuccessResponse<List<Template>> getAllForecastingTemplatesByDepart(@RequestBody List<Long> departId) {
+        List<Template> forecastingTemplates = templateService.getAllForecastingTemplatesByDepart(departId);
+        return new SuccessResponse<List<Template>>(String.format(SuccessMessage.SUCCESS, Constants.TEMPLATE)
+                , forecastingTemplates, null, HttpStatus.OK);
     }
 
 }

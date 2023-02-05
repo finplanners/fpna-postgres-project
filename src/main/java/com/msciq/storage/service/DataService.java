@@ -245,7 +245,7 @@ public interface DataService {
 
 	Location findLocationById(long locationId);
 
-	List<Location> getAllLocations(boolean b, long companyId);
+	List<Location> getAllLocations(boolean isActive, boolean isDeleted);
 
 	State addState(StateDTO stateDTO);
 
