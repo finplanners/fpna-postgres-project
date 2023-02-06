@@ -9,4 +9,5 @@ public class ControlData implements Serializable {
 
     private String bu;
     private String location;
+    private String department;
 }
