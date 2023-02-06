@@ -50,7 +50,7 @@ public class CompanyDTO {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date endDate;
 
-	private boolean isActive;
-	private boolean isDeleted;
+	private boolean isActive = true;
+	private boolean isDeleted = false;
 
 }
