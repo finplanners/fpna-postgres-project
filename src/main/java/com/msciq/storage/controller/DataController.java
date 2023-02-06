@@ -383,7 +383,7 @@ public class DataController {
 	 */
 	@RequestMapping(value = "/groupCompanies", method = RequestMethod.GET)
 	public SuccessResponse<List<GroupCompanyDTO>> getAllGroupCompany() {
-		List<GroupCompanyDTO> GroupCompanys = dataService.getAllGroupCompany(true);
+		List<GroupCompanyDTO> GroupCompanys = dataService.getAllGroupCompany(true, false);
 		return new SuccessResponse<List<GroupCompanyDTO>>(SuccessCode.GET_GC_LIST_SUCCESS, GroupCompanys, HttpStatus.OK);
 	}
 
@@ -396,7 +396,7 @@ public class DataController {
 	public SuccessResponse<List<SideBarDTO>> getGroupCompany() {
 		List<SideBarDTO> sideBars = new ArrayList<>();
 
-		List<GroupCompanyDTO>  groupCompanyDTOS = dataService.getAllGroupCompany(true);
+		List<GroupCompanyDTO>  groupCompanyDTOS = dataService.getAllGroupCompany(true, false);
 		for (GroupCompanyDTO groupCompanyDTO:
 		groupCompanyDTOS) {
 			SideBarDTO sideBarDTO = new SideBarDTO();
@@ -491,7 +491,7 @@ public class DataController {
 	public SuccessResponse<CompanyPrerequisiteDTO> getPrerequisiteCompanies() {
 		List<CurrencyDTO> currencies = dataService.getAllCurrencies(true);
 		List<FiscalCalendarDTO> fiscalCalendars = dataService.getAllFiscalCalendar(true);
-		List<GroupCompanyDTO> groupCompanies = dataService.getAllGroupCompany(true);
+		List<GroupCompanyDTO> groupCompanies = dataService.getAllGroupCompany(true, false);
 		List<CountryDTO> countries = dataService.getAllCountries(true);
 
 		CompanyPrerequisiteDTO companyPrerequisiteDTO = new CompanyPrerequisiteDTO();
@@ -572,7 +572,7 @@ public class DataController {
 	@RequestMapping(value = "/businessUnit/prerequisites", method = RequestMethod.GET)
 	public SuccessResponse<BusinessUnitPrerequisiteDTO> getAllBUPrerequisites() {
 		BusinessUnitPrerequisiteDTO businessUnitPrerequisiteDTO = new BusinessUnitPrerequisiteDTO();
-		businessUnitPrerequisiteDTO.setGroupCompanies(dataService.getAllGroupCompany(true));
+		businessUnitPrerequisiteDTO.setGroupCompanies(dataService.getAllGroupCompany(true, false));
 		businessUnitPrerequisiteDTO.setUsers(userRepository.findByStatus("Active"));
 		return new SuccessResponse<BusinessUnitPrerequisiteDTO>(SuccessCode.GET_BU_LIST_SUCCESS, businessUnitPrerequisiteDTO,
 				HttpStatus.OK);

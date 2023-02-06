@@ -346,8 +346,8 @@ public class DataServiceImpl implements DataService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<GroupCompanyDTO> getAllGroupCompany(Boolean isActive) {
-		List<GroupCompany> GroupCompanies = groupCompanyRepository.findByIsActive(isActive);
+	public List<GroupCompanyDTO> getAllGroupCompany(Boolean isActive, Boolean isDeleted) {
+		List<GroupCompany> GroupCompanies = groupCompanyRepository.findByIsActiveAndIsDeleted(isActive, isDeleted);
 		List<GroupCompanyDTO> GroupCompanyList = modelMapper.map(GroupCompanies,
 				new TypeToken<List<GroupCompanyDTO>>() {
 				}.getType());
