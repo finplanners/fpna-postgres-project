@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface BudgetCategoryRepository extends JpaRepository<BudgetCategory, Long> {
 
-    List<BudgetCategory> findByTemplates_Id(Long templateId);
+    List<BudgetCategory> findAllByTemplates_Id(Long templateId);
 
 }

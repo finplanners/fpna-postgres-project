@@ -21,18 +21,15 @@ import javax.persistence.Table;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = TableConstants.FORECASTING_LINE_ITEM)
-public  class ForecastLineItem extends BaseEntity {
+@Table(name = TableConstants.FORECAST_DETAILS)
+public  class ForecastDetails extends BaseEntity {
     private static final Long serialVersionUID = 1L;
 
-    @Column(name = FieldConstants.USER_EMAIL)
-    private String userEmail;
+    @Column(name = FieldConstants.USER_ID)
+    private String userId;
 
     @Column(name = FieldConstants.FORECAST_ID)
     private Long forecastId;
-
-    @Column(name = FieldConstants.TEMPLATE_TYPE)
-    private String templateType;
 
     @Column(name = FieldConstants.GL_ACCOUNT)
     private String glAccount;
@@ -63,5 +60,11 @@ public  class ForecastLineItem extends BaseEntity {
 
     @Column(name = FieldConstants.LOCATION)
     private String location;
+
+    @Column(name = FieldConstants.HIRING_MANAGER)
+    private String hiringManager;
+
+    @Column(name = FieldConstants.JOB_TITLE)
+    private String jobTitle;
 
 }

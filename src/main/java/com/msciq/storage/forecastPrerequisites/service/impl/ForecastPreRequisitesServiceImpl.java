@@ -37,8 +37,8 @@ public class ForecastPreRequisitesServiceImpl implements ForecastPreRequisitesSe
     @Autowired
     private GroupCompanyRepository groupCompanyRepository;
 
-    public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(Long templateId) {
-        List<Department> departments = departmentRepository.findByTemplateId(templateId);
+    public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(Long templateId, String userEmail) {
+        List<Department> departments = departmentRepository.getAllDepartmentByUser(userEmail);
         List<BusinessUnit> businessUnits = businessUnitRepository.findAll();
         if (businessUnits.isEmpty()) {
             throw new DataNotFoundException(19080);

@@ -27,10 +27,6 @@ public class Template extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = com.msciq.storage.common.FieldConstants.ID)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = FieldConstants.TEMPLATE_CODE)
     private String templateCode;
 

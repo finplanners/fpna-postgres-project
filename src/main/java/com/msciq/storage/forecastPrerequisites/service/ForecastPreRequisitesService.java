@@ -13,7 +13,7 @@ public interface ForecastPreRequisitesService {
      * @return forecasting prerequisites
      * @author Sivaranjani DS
      */
-    public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(Long templateId);
+    public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(Long templateId, String userEmail);
 
     SuccessResponse<BusinessUnitDetails> getBusinessUnitRelatedDetailsForForecasting(Long buId);
 }

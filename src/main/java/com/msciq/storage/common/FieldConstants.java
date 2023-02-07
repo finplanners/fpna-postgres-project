@@ -148,7 +148,7 @@ public class FieldConstants {
     public static final String LOCATION_CODE = "location_code";
     public static final String LOCATION_NAME = "location_name";
     public static final String GL_ACCOUNT_DESCRIPTION = "gl_Account_description";
-    public static final String MONTHS_TO_AMORTIZE = "no_of_months_to_amortize";
+    public static final String MONTHS_TO_AMORTIZE = "no_of_amortization_months";
     public static final String RECURRING_EXPENSE_MONTHS = "no_of_recurring_expense_months";
     public static final String FORECAST_ID = "forecast_id";
     public static final String USER_EMAIL = "user_email";
@@ -157,4 +157,7 @@ public class FieldConstants {
     public static final String LOCATION = "location";
     public static final String TEMPLATE_ID = "template_Id";
     public static final String GL_ACCOUNT_ID = "gl_account_id";
+    public static final String USER_ID = "user_id";
+    public static final String HIRING_MANAGER = "hiring_manager";
+    public static final String JOB_TITLE = "job_title";
 }

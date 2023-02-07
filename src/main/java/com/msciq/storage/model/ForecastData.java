@@ -31,8 +31,8 @@ public  class ForecastData extends BaseEntity {
     @Column(name = FieldConstants.TEMPLATE_TYPE)
     private String templateType;
 
-    @Column(name = FieldConstants.USER_EMAIL)
-    private String userEmail;
+    @Column(name = FieldConstants.USER_ID)
+    private Long userId;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")

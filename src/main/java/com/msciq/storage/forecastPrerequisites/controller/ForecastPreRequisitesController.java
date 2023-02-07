@@ -26,11 +26,12 @@ public class ForecastPreRequisitesController {
      * @return forecasting prerequisites
      * @author Sivaranjani DS
      */
-    @RequestMapping(value = "/{templateId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userEmail}/{templateId}", method = RequestMethod.GET)
     public SuccessResponse<ForecastingPrerequisites> getForecastingPrerequisites(
-            @PathVariable Long templateId
+            @PathVariable Long templateId,
+            @PathVariable String userEmail
     ) {
-        return forecastService.getForecastingPrerequisites(templateId);
+        return forecastService.getForecastingPrerequisites(templateId, userEmail);
     }
 
     /**

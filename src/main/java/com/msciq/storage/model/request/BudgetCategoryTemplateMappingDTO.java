@@ -10,6 +10,6 @@ public class BudgetCategoryTemplateMappingDTO {
 
     private Long budgetCategoryId;
 
-    private List<Template> templateTypes;
+    private List<Template> templates;
 
 }

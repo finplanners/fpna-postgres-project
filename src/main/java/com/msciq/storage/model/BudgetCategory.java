@@ -28,7 +28,7 @@ public class BudgetCategory extends BaseEntity {
     private LocalDate activeFromDate;
 
     @ManyToMany
-    @JoinTable(name = "budget_categories_template_types",
+    @JoinTable(name = "budget_categories_templates",
             joinColumns = { @JoinColumn(name = FieldConstants.BUDGET_CATEGORY) },
             inverseJoinColumns = { @JoinColumn(name = FieldConstants.TEMPLATE_ID) })
     private Set<Template> templates = new HashSet<Template>();

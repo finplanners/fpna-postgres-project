@@ -40,9 +40,9 @@ public class Department extends BaseEntity {
 	@Column(name = FieldConstants.END_DATE)
 	private Date endDate;
 
-	private boolean status = true;
+//	private boolean status = true;
 
-	private boolean acquiredEntity = false;
+//	private boolean acquiredEntity = false;
 	
 	@Column(name = FieldConstants.DEPART_HEAD)
 	private String departHead;
