@@ -11,7 +11,7 @@ import java.util.List;
 public interface TemplateRepository extends JpaRepository<Template, Long> {
 
     public static final String GET_ALL_FORECASTING_TEMPLATES = " select templates from Template templates";
-    public static final String GET_ALL_FORECASTING_TEMPLATES_DEPART = "select t.* from template t  inner join template_department td  on t.id  = td.template_id where td.department_id  in (:departId) and t.is_active = true";
+    public static final String GET_ALL_FORECASTING_TEMPLATES_DEPART = "select distinct(t.*) from template t  inner join department_template td  on t.id  = td.temp_id where td.dept_id  in (:departId) and t.is_active = true";
 
 
     @Query(value = GET_ALL_FORECASTING_TEMPLATES)

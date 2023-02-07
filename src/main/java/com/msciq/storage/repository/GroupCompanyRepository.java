@@ -49,7 +49,7 @@ public interface GroupCompanyRepository extends JpaRepository<GroupCompany, Long
 	 * @param isActive - active status
 	 * @return List of group company Entities
 	 */
-	public List<GroupCompany> findByIsActive(Boolean isActive);
+	public List<GroupCompany> findByIsActiveAndIsDeleted(Boolean isActive, Boolean isDeleted);
 
 	/**
 	 * To find all active group companies

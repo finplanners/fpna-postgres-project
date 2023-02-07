@@ -53,7 +53,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
         Optional<BudgetCategory> budgetCategory = budgetCategoryRepository.findById(budgetCategoryTemplateMapping.getBudgetCategoryId());
         if (budgetCategory.isPresent()) {
             Set<Template> templates = new HashSet<>();
-            budgetCategoryTemplateMapping.getTemplateTypes().stream().forEach(budgetCategoryTemplate -> {
+            budgetCategoryTemplateMapping.getTemplates().stream().forEach(budgetCategoryTemplate -> {
                 templates.add(templateRepository.findById(budgetCategoryTemplate.getId()).get());
             });
             budgetCategory.get().setTemplates(templates);
@@ -64,7 +64,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
 
     @Override
     public List<BudgetCategory> getBudgetCategoriesByTemplate(Long templateId) {
-        List<BudgetCategory> allBudgetCategories = budgetCategoryRepository.findByTemplates_Id(templateId);
+        List<BudgetCategory> allBudgetCategories = budgetCategoryRepository.findAllByTemplates_Id(templateId);
         return allBudgetCategories;
     }
 

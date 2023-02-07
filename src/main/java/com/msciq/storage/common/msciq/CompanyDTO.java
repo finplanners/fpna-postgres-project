@@ -2,11 +2,9 @@ package com.msciq.storage.common.msciq;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.msciq.storage.common.ErrorConstants;
-import com.msciq.storage.common.entity.*;
+import com.msciq.storage.common.entity.Location;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -52,6 +50,7 @@ public class CompanyDTO {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date endDate;
 
-	private boolean status;
-	
+	private boolean isActive = true;
+	private boolean isDeleted = false;
+
 }

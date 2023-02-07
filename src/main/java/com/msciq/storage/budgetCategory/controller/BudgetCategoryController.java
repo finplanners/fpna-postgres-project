@@ -84,7 +84,7 @@ public class BudgetCategoryController {
      * @return List of budgetCategory
      * @author Sivaranjani DS
      */
-    @RequestMapping(value = "/{templateTypeId}/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/{templateId}/list", method = RequestMethod.GET)
     public SuccessResponse<List<BudgetCategory>> getBudgetCategoriesByTemplateType(@PathVariable Long templateId) {
         return new SuccessResponse<List<BudgetCategory>>
                 (SuccessCode.GET_BUDGET_CATEGORIES_SUCCESS,

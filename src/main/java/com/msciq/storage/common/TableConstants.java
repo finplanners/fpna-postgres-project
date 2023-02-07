@@ -44,6 +44,6 @@ public class TableConstants {
     public static final String TABLE_GL_ACCOUNT_GROUP = "gl_account_group";
 
     public static final String TABLE_FISCAL_CALENDAR_PERIOD = "Fiscal_Calendar_Period";
-    public static final String FORECASTING_LINE_ITEM = "forecasting_line_item";
+    public static final String FORECAST_DETAILS = "forecast_details";
     public static final String FORECAST_DATA = "forecast_data";
 }

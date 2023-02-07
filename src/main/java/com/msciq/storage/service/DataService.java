@@ -165,7 +165,7 @@ public interface DataService {
 	 * @param isActive - active status
 	 * @return List of group company entities.
 	 */
-	List<GroupCompanyDTO> getAllGroupCompany(Boolean isActive);
+	List<GroupCompanyDTO> getAllGroupCompany(Boolean isActive, Boolean isDeleted);
 
 	/**
 	 * Get group company detail by Id.
