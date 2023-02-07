@@ -8,9 +8,19 @@
 # COPY src /usr/src/app/src
 # COPY pom.xml /usr/src/app
 # RUN mvn -X -f /usr/src/app/pom.xml clean package
+FROM maven:3.8.6-eclipse-temurin-17-alpine AS builder
+WORKDIR /build
+COPY . .
+RUN mvn clean package -DskipTests
 
-FROM openjdk:17
+FROM eclipse-temurin:17.0.5_8-jre-alpine
+WORKDIR /opt/app
+RUN addgroup --system msciq-be-id && adduser -S -s /usr/sbin/nologin -G msciq-be-id msciq-be-id
+#FROM openjdk:17
 LABEL maintainer="msciq"
-COPY target/storage*.jar  /usr/app/app.jar
+COPY --from=builder /build/target/storage-0.0.1-SNAPSHOT.jar app.jar
+RUN chown -R msciq-be-id:msciq-be-id .
+USER msciq-be-id
+#COPY target/storage*.jar  /usr/app/app.jar
 EXPOSE 8080
-CMD ["java", "-jar", "/usr/app/app.jar"]
+CMD ["java", "-jar", "app.jar"]

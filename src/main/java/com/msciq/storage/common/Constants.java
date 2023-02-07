@@ -19,6 +19,7 @@ public class Constants {
 
     public static final int WELCOME_EMAIL_TEMPLATE=4430212;
 
+
     public static final String UI_BASE_URL="http://localhost:3000";
 
     public static final int THREE=3;
