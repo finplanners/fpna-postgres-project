@@ -1,14 +1,10 @@
 package com.msciq.storage.common.msciq;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import com.msciq.storage.common.ErrorConstants;
-import com.msciq.storage.common.entity.Country;
-import com.msciq.storage.common.entity.Currency;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data

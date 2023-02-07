@@ -1,15 +1,15 @@
 package com.msciq.storage.common.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-
 import com.msciq.storage.common.ErrorConstants;
 import com.msciq.storage.common.FieldConstants;
 import com.msciq.storage.common.TableConstants;
 import com.msciq.storage.model.BaseEntity;
 import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * <p>
