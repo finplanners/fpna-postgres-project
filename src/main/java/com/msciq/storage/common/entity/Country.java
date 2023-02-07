@@ -1,13 +1,14 @@
 package com.msciq.storage.common.entity;
 
-import com.msciq.storage.common.*;
+import com.msciq.storage.common.ErrorConstants;
+import com.msciq.storage.common.FieldConstants;
+import com.msciq.storage.common.TableConstants;
 import com.msciq.storage.model.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
