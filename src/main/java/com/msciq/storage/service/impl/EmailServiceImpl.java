@@ -28,8 +28,8 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${msciq.base.url}")
-    private String MSCIQ_BASE_URL;
+  /*  @Value("${msciq.base.url}")
+    private String msciq_base_url;*/
 
     public String sendSimpleMail(EmailTemplate details) {
         try {
@@ -43,8 +43,8 @@ public class EmailServiceImpl implements EmailService {
             jsonObject.put("firstName",details.getFirstName());
             jsonObject.put("lastName",details.getLastName());
             String emailLink
-                    // =Constants.UI_BASE_URL+"/signup/"+ Base64.getEncoder()
-                    =MSCIQ_BASE_URL+"/signup/"+ Base64.getEncoder()
+                     =Constants.UI_BASE_URL+"/signup/"+ Base64.getEncoder()
+                    //=msciq_base_url+"/signup/"+ Base64.getEncoder()
                     .encodeToString(String.valueOf(jsonObject).getBytes());
 
             log.info(emailLink);
@@ -117,8 +117,8 @@ public class EmailServiceImpl implements EmailService {
             jsonObject.put("organizationName",emailTemplate.getTenantName());
             jsonObject.put("email",emailTemplate.getRecipient());
             String emailLink
-                    //=Constants.UI_BASE_URL+"/reset-password/"+ Base64.getEncoder()
-                    =MSCIQ_BASE_URL+"/reset-password/"+ Base64.getEncoder()
+                    =Constants.UI_BASE_URL+"/reset-password/"+ Base64.getEncoder()
+                    //=msciq_base_url+"/reset-password/"+ Base64.getEncoder()
                     .encodeToString(String.valueOf(jsonObject).getBytes());
 
             log.info(emailLink);
@@ -156,8 +156,8 @@ public class EmailServiceImpl implements EmailService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("email",emailTemplate.getRecipient());
             String emailLink
-                    //=Constants.UI_BASE_URL+"/reset-password/"+ Base64.getEncoder()
-                    =MSCIQ_BASE_URL+"/reset-password/"+ Base64.getEncoder()
+                    =Constants.UI_BASE_URL+"/reset-password/"+ Base64.getEncoder()
+                    //=msciq_base_url+"/reset-password/"+ Base64.getEncoder()
                     .encodeToString(String.valueOf(jsonObject).getBytes());
 
             log.info(emailLink);
